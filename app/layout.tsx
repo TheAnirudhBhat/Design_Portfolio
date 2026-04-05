@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
+import NoiseBackground from "@/components/canvas/NoiseBackground";
+import CustomCursor from "@/components/ui/CustomCursor";
+import Nav from "@/components/layout/Nav";
+import SmoothScroll from "@/components/layout/SmoothScroll";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -28,7 +32,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={spaceGrotesk.variable}>
       <body className="font-display bg-bg text-text-primary antialiased">
-        {children}
+        <NoiseBackground />
+        <CustomCursor />
+        <Nav />
+        <SmoothScroll>
+          <main className="relative z-10">{children}</main>
+        </SmoothScroll>
       </body>
     </html>
   );
