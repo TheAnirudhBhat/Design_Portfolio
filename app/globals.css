@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @config "../tailwind.config.ts";
+@plugin "@tailwindcss/typography";
 
 :root {
   --color-bg: #0A0A0F;
