@@ -78,7 +78,7 @@ export default function Identity() {
       {/* Mobile: stacked layout */}
       <div className="flex flex-col gap-8 md:hidden">
         {signals.map((signal, i) => (
-          <div key={i} className="signal-mobile text-center text-text-secondary">
+          <div key={i} className="signal-mobile text-center text-dw-muted">
             <p className="text-sm font-light tracking-wider">{signal.text}</p>
           </div>
         ))}
@@ -89,7 +89,7 @@ export default function Identity() {
         {signals.map((signal, i) => (
           <div
             key={i}
-            className="signal-desktop absolute text-text-secondary"
+            className="signal-desktop absolute text-dw-muted"
             style={{ left: signal.x, top: signal.y }}
           >
             <p className="text-base font-light tracking-wider">{signal.text}</p>

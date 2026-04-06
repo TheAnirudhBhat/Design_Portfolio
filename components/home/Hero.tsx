@@ -40,18 +40,18 @@ export default function Hero() {
       ref={containerRef}
       className="relative flex h-screen flex-col items-center justify-center px-6"
     >
-      <h1 className="hero-title text-hero font-bold leading-[0.9] tracking-tighter text-text-primary">
+      <h1 className="hero-title text-hero font-bold leading-[0.9] tracking-tighter text-dw-text">
         dawave
       </h1>
-      <p className="hero-subtitle mt-4 text-lg font-light tracking-wide text-text-secondary md:text-xl">
+      <p className="hero-subtitle mt-4 text-lg font-light tracking-wide text-dw-muted md:text-xl">
         product designer
       </p>
-      <p className="hero-name mt-2 text-sm font-light text-text-secondary/60">
+      <p className="hero-name mt-2 text-sm font-light text-dw-muted/60">
         Anirudh Bhat
       </p>
 
       <div className="hero-scroll absolute bottom-10 flex flex-col items-center gap-2">
-        <span className="text-xs font-light uppercase tracking-[0.3em] text-text-secondary/50">
+        <span className="text-xs font-light uppercase tracking-[0.3em] text-dw-muted/50">
           scroll
         </span>
         <div className="h-8 w-[1px] animate-pulse bg-text-secondary/30" />

@@ -51,7 +51,7 @@ export default function AboutPage() {
       <div className="mt-12 space-y-6">
         <TextReveal
           as="p"
-          className="text-lg font-light leading-relaxed text-text-secondary"
+          className="text-lg font-light leading-relaxed text-dw-muted"
           delay={0.2}
         >
           I think in systems, not screens. Every interaction is part of a larger flow — and every flow should reduce friction, not add it.
@@ -59,7 +59,7 @@ export default function AboutPage() {
 
         <TextReveal
           as="p"
-          className="text-lg font-light leading-relaxed text-text-secondary"
+          className="text-lg font-light leading-relaxed text-dw-muted"
           delay={0.4}
         >
           Over the past 4 years, I have designed payment experiences, investing journeys, and personal finance tools used by millions. I combine product thinking with interaction design to ship work that moves real metrics.
@@ -67,7 +67,7 @@ export default function AboutPage() {
 
         <TextReveal
           as="p"
-          className="text-lg font-light leading-relaxed text-text-secondary"
+          className="text-lg font-light leading-relaxed text-dw-muted"
           delay={0.6}
         >
           Currently at slice, previously at Mobikwik. Based between Gurgaon and Bangalore.
@@ -75,14 +75,14 @@ export default function AboutPage() {
       </div>
 
       <div ref={toolsRef} className="mt-20">
-        <p className="mb-6 text-xs font-light uppercase tracking-[0.3em] text-text-secondary/50">
+        <p className="mb-6 text-xs font-light uppercase tracking-[0.3em] text-dw-muted/50">
           Tools & Technologies
         </p>
         <div className="flex flex-wrap gap-3">
           {tools.map((tool) => (
             <span
               key={tool}
-              className="tool-tag rounded-full border border-white/10 px-4 py-2 text-sm text-text-secondary transition-colors duration-300 hover:border-accent/30 hover:text-text-primary"
+              className="tool-tag rounded-full border border-white/10 px-4 py-2 text-sm text-dw-muted transition-colors duration-300 hover:border-dw-accent/30 hover:text-dw-text"
             >
               {tool}
             </span>

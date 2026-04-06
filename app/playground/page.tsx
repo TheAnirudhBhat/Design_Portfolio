@@ -45,7 +45,7 @@ export default function PlaygroundPage() {
       </TextReveal>
       <TextReveal
         as="p"
-        className="mt-4 text-lg font-light text-text-secondary"
+        className="mt-4 text-lg font-light text-dw-muted"
         delay={0.2}
       >
         Visual experiments, motion studies, and things I build for fun.
@@ -58,15 +58,15 @@ export default function PlaygroundPage() {
             href={exp.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="playground-card group relative flex aspect-square flex-col justify-end overflow-hidden rounded-lg bg-surface p-6 transition-shadow duration-400 hover:shadow-[0_0_30px_rgba(255,214,10,0.08)]"
+            className="playground-card group relative flex aspect-square flex-col justify-end overflow-hidden rounded-lg bg-dw-surface p-6 transition-shadow duration-400 hover:shadow-[0_0_30px_rgba(255,214,10,0.08)]"
           >
-            <span className="mb-2 text-xs font-light uppercase tracking-[0.2em] text-accent">
+            <span className="mb-2 text-xs font-light uppercase tracking-[0.2em] text-dw-accent">
               {exp.tag}
             </span>
-            <h3 className="text-lg font-medium text-text-primary">
+            <h3 className="text-lg font-medium text-dw-text">
               {exp.title}
             </h3>
-            <span className="mt-2 text-sm text-text-secondary opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <span className="mt-2 text-sm text-dw-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               View on Dribbble &rarr;
             </span>
           </a>

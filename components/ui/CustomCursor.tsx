@@ -46,7 +46,7 @@ export default function CustomCursor() {
     <>
       <div
         ref={dotRef}
-        className="pointer-events-none fixed top-0 left-0 z-[9999] h-[6px] w-[6px] rounded-full bg-accent"
+        className="pointer-events-none fixed top-0 left-0 z-[9999] h-[6px] w-[6px] rounded-full bg-dw-accent"
         style={{ willChange: "transform" }}
       />
       <div

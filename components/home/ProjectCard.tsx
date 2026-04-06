@@ -27,7 +27,7 @@ export default function ProjectCard({
     <Link
       ref={cardRef}
       href={`/work/${slug}`}
-      className="group relative block overflow-hidden rounded-lg bg-surface transition-shadow duration-400"
+      className="group relative block overflow-hidden rounded-lg bg-dw-surface transition-shadow duration-400"
       style={{
         transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
       }}
@@ -42,21 +42,21 @@ export default function ProjectCard({
             sizes="(max-width: 768px) 100vw, 50vw"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-surface text-text-secondary/30 text-sm">
+          <div className="flex h-full w-full items-center justify-center bg-dw-surface text-dw-muted/30 text-sm">
             {title}
           </div>
         )}
-        <div className="absolute inset-0 bg-bg/40 opacity-0 transition-opacity duration-400 group-hover:opacity-100" />
+        <div className="absolute inset-0 bg-dw-bg/40 opacity-0 transition-opacity duration-400 group-hover:opacity-100" />
       </div>
 
       <div className="p-5">
         <div className="flex items-start justify-between gap-4">
-          <h3 className="text-lg font-medium text-text-primary">{title}</h3>
-          <span className="shrink-0 text-sm font-medium text-accent">
+          <h3 className="text-lg font-medium text-dw-text">{title}</h3>
+          <span className="shrink-0 text-sm font-medium text-dw-accent">
             {metric}
           </span>
         </div>
-        <p className="mt-2 text-xs font-light tracking-wider text-text-secondary">
+        <p className="mt-2 text-xs font-light tracking-wider text-dw-muted">
           {tags}
         </p>
       </div>

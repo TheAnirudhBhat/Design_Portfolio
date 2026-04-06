@@ -9,12 +9,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#0A0A0F",
-        surface: "#12121A",
-        "text-primary": "#E8E8ED",
-        "text-secondary": "#6B6B7B",
-        accent: "#FFD60A",
-        "accent-muted": "rgba(255,214,10,0.2)",
+        "dw-bg": "#0A0A0F",
+        "dw-surface": "#12121A",
+        "dw-text": "#E8E8ED",
+        "dw-muted": "#6B6B7B",
+        "dw-accent": "#FFD60A",
+        "dw-accent-muted": "rgba(255,214,10,0.2)",
       },
       fontFamily: {
         display: ["var(--font-display)", "sans-serif"],

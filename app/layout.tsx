@@ -32,7 +32,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={spaceGrotesk.variable}>
-      <body className="font-display bg-bg text-text-primary antialiased">
+      <body className="font-display bg-dw-bg text-dw-text antialiased">
         <NoiseBackground />
         <CustomCursor />
         <Nav />

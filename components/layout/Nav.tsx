@@ -16,7 +16,7 @@ export default function Nav() {
     <nav className="fixed top-0 left-0 z-50 flex w-full items-center justify-between px-6 py-5 md:px-10">
       <Link
         href="/"
-        className="text-lg font-semibold tracking-tight text-text-primary"
+        className="text-lg font-semibold tracking-tight text-dw-text"
       >
         dawave
       </Link>
@@ -32,11 +32,11 @@ export default function Nav() {
             <Link
               key={link.href}
               href={link.href}
-              className="nav-link group relative text-sm font-medium text-text-secondary transition-colors duration-300 hover:text-text-primary"
+              className="nav-link group relative text-sm font-medium text-dw-muted transition-colors duration-300 hover:text-dw-text"
             >
               {link.label}
               <span
-                className={`absolute -bottom-1 left-0 h-[2px] bg-accent transition-all duration-300 ${
+                className={`absolute -bottom-1 left-0 h-[2px] bg-dw-accent transition-all duration-300 ${
                   isActive ? "w-full" : "w-0 group-hover:w-full"
                 }`}
               />

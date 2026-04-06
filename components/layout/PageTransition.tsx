@@ -54,7 +54,7 @@ export default function PageTransition({
     <>
       <div
         ref={overlayRef}
-        className="pointer-events-none fixed inset-0 z-[100] origin-left scale-x-0 bg-accent/10 backdrop-blur-sm"
+        className="pointer-events-none fixed inset-0 z-[100] origin-left scale-x-0 bg-dw-accent/10 backdrop-blur-sm"
       />
       <div ref={contentRef}>{children}</div>
     </>

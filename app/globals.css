@@ -2,13 +2,13 @@
 @config "../tailwind.config.ts";
 @plugin "@tailwindcss/typography";
 
-:root {
-  --color-bg: #0A0A0F;
-  --color-surface: #12121A;
-  --color-text-primary: #E8E8ED;
-  --color-text-secondary: #6B6B7B;
-  --color-accent: #FFD60A;
-  --color-accent-muted: rgba(255, 214, 10, 0.2);
+@theme {
+  --color-dw-bg: #0A0A0F;
+  --color-dw-surface: #12121A;
+  --color-dw-text: #E8E8ED;
+  --color-dw-muted: #6B6B7B;
+  --color-dw-accent: #FFD60A;
+  --color-dw-accent-muted: rgba(255, 214, 10, 0.2);
 }
 
 * {
@@ -18,8 +18,8 @@
 }
 
 html {
-  background-color: var(--color-bg);
-  color: var(--color-text-primary);
+  background-color: var(--color-dw-bg);
+  color: var(--color-dw-text);
 }
 
 body {
@@ -28,8 +28,8 @@ body {
 }
 
 ::selection {
-  background-color: var(--color-accent);
-  color: var(--color-bg);
+  background-color: var(--color-dw-accent);
+  color: var(--color-dw-bg);
 }
 
 a {

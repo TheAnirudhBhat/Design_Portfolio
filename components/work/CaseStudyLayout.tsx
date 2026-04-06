@@ -46,7 +46,7 @@ export default function CaseStudyLayout({
       <div ref={heroRef} className="mx-auto max-w-4xl px-6 py-16">
         <Link
           href="/"
-          className="mb-12 inline-flex items-center gap-2 text-sm text-text-secondary transition-colors hover:text-accent"
+          className="mb-12 inline-flex items-center gap-2 text-sm text-dw-muted transition-colors hover:text-dw-accent"
         >
           <span>&larr;</span> Back
         </Link>
@@ -54,26 +54,26 @@ export default function CaseStudyLayout({
         <h1 className="cs-title text-4xl font-bold tracking-tight md:text-6xl">
           {frontmatter.title}
         </h1>
-        <p className="cs-subtitle mt-4 text-lg text-text-secondary md:text-xl">
+        <p className="cs-subtitle mt-4 text-lg text-dw-muted md:text-xl">
           {frontmatter.subtitle}
         </p>
 
-        <div className="cs-meta mt-8 flex flex-wrap gap-6 text-sm text-text-secondary">
+        <div className="cs-meta mt-8 flex flex-wrap gap-6 text-sm text-dw-muted">
           <div>
-            <span className="text-text-secondary/50">Role</span>
-            <p className="mt-1 text-text-primary">{frontmatter.role}</p>
+            <span className="text-dw-muted/50">Role</span>
+            <p className="mt-1 text-dw-text">{frontmatter.role}</p>
           </div>
           <div>
-            <span className="text-text-secondary/50">Company</span>
-            <p className="mt-1 text-text-primary">{frontmatter.company}</p>
+            <span className="text-dw-muted/50">Company</span>
+            <p className="mt-1 text-dw-text">{frontmatter.company}</p>
           </div>
           <div>
-            <span className="text-text-secondary/50">Timeline</span>
-            <p className="mt-1 text-text-primary">{frontmatter.timeline}</p>
+            <span className="text-dw-muted/50">Timeline</span>
+            <p className="mt-1 text-dw-text">{frontmatter.timeline}</p>
           </div>
           <div>
-            <span className="text-text-secondary/50">Impact</span>
-            <p className="mt-1 font-medium text-accent">
+            <span className="text-dw-muted/50">Impact</span>
+            <p className="mt-1 font-medium text-dw-accent">
               {frontmatter.metric}
             </p>
           </div>
@@ -95,7 +95,7 @@ export default function CaseStudyLayout({
       )}
 
       <div className="mx-auto max-w-4xl px-6 py-16">
-        <div className="prose prose-invert prose-lg max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-h2:text-2xl prose-h2:mt-16 prose-h2:mb-6 prose-p:text-text-secondary prose-p:font-light prose-p:leading-relaxed prose-strong:text-text-primary prose-a:text-accent prose-a:no-underline hover:prose-a:underline">
+        <div className="prose prose-invert prose-lg max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-h2:text-2xl prose-h2:mt-16 prose-h2:mb-6 prose-p:text-dw-muted prose-p:font-light prose-p:leading-relaxed prose-strong:text-dw-text prose-a:text-dw-accent prose-a:no-underline hover:prose-a:underline">
           {children}
         </div>
       </div>
@@ -105,7 +105,7 @@ export default function CaseStudyLayout({
           {frontmatter.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full bg-surface px-3 py-1 text-xs text-text-secondary"
+              className="rounded-full bg-dw-surface px-3 py-1 text-xs text-dw-muted"
             >
               {tag}
             </span>

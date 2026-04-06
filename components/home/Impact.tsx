@@ -12,7 +12,7 @@ const metrics = [
 
 export default function Impact() {
   return (
-    <section className="bg-surface py-32">
+    <section className="bg-dw-surface py-32">
       <div className="mx-auto max-w-6xl px-6">
         <TextReveal
           as="h2"
@@ -26,9 +26,9 @@ export default function Impact() {
             <div key={metric.label} className="text-center md:text-left">
               <CountUp
                 value={metric.value}
-                className="block text-4xl font-bold text-accent md:text-5xl lg:text-6xl"
+                className="block text-4xl font-bold text-dw-accent md:text-5xl lg:text-6xl"
               />
-              <p className="mt-3 text-sm font-light text-text-secondary">
+              <p className="mt-3 text-sm font-light text-dw-muted">
                 {metric.label}
               </p>
             </div>
