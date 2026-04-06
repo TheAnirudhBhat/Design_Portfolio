@@ -7,9 +7,11 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Identity />
-      <SelectedWork />
-      <Footer />
+      <div className="relative z-10 bg-dw-bg">
+        <Identity />
+        <SelectedWork />
+        <Footer />
+      </div>
     </>
   );
 }
