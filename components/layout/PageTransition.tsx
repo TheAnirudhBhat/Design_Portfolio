@@ -10,7 +10,6 @@ export default function PageTransition({
   children: ReactNode;
 }) {
   const pathname = usePathname();
-  const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
 
@@ -20,43 +19,28 @@ export default function PageTransition({
       return;
     }
 
-    const overlay = overlayRef.current;
     const content = contentRef.current;
-    if (!overlay || !content) return;
+    if (!content) return;
 
+    // Simple, fluid fade + subtle lift — like a wave receding and returning
     const tl = gsap.timeline();
 
-    tl.set(overlay, { scaleX: 0, transformOrigin: "left center" })
-      .to(overlay, {
-        scaleX: 1,
-        duration: 0.4,
-        ease: "power3.inOut",
-      })
-      .set(content, { opacity: 0 })
-      .to(overlay, {
-        scaleX: 0,
-        transformOrigin: "right center",
-        duration: 0.4,
-        ease: "power3.inOut",
-      })
-      .to(
-        content,
-        {
-          opacity: 1,
-          duration: 0.3,
-          ease: "power2.out",
-        },
-        "-=0.3"
-      );
+    tl.to(content, {
+      opacity: 0,
+      y: -20,
+      duration: 0.25,
+      ease: "power2.in",
+    }).fromTo(
+      content,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: "power2.out",
+      }
+    );
   }, [pathname]);
 
-  return (
-    <>
-      <div
-        ref={overlayRef}
-        className="pointer-events-none fixed inset-0 z-[100] origin-left scale-x-0 bg-dw-accent/10 backdrop-blur-sm"
-      />
-      <div ref={contentRef}>{children}</div>
-    </>
-  );
+  return <div ref={contentRef}>{children}</div>;
 }
