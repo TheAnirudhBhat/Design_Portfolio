@@ -108,7 +108,7 @@ export default function AboutPage() {
       <div className="relative mx-auto max-w-5xl px-6 pt-52 pb-32">
         {/* ─── HERO HEADING ─── */}
         <h1
-          className="about-heading max-w-4xl text-[clamp(2.5rem,6vw,5.5rem)] font-bold leading-[1.05] tracking-tight text-white"
+          className="about-heading max-w-2xl text-[clamp(2.5rem,5vw,4rem)] font-bold leading-[1.1] tracking-tight text-white"
         >
           I design for clarity, trust, and flow.
         </h1>
