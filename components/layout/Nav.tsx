@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LiquidGlass } from "@liquidglass/react";
+import { useEffect, useState } from "react";
 
 const links = [
   { href: "/", label: "Work" },
@@ -12,40 +12,35 @@ const links = [
 
 export default function Nav() {
   const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div
       className="fixed top-0 left-0 right-0 z-50"
-      style={{
-        padding: "clamp(16px, 3vw, 44px)",
-        paddingBottom: 0,
-      }}
+      style={{ padding: "clamp(16px, 3vw, 44px)", paddingBottom: 0 }}
     >
-      <LiquidGlass
-        borderRadius={100}
-        blur={0.5}
-        contrast={1.05}
-        saturation={1.3}
-        brightness={1.1}
-        shadowIntensity={0.15}
-        displacementScale={10}
-        elasticity={0.3}
-        className="w-full"
+      <nav
+        className={`w-full rounded-full border transition-all duration-500 ${
+          scrolled
+            ? "bg-black/50 backdrop-blur-2xl border-white/[0.1] shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+            : "bg-white/[0.06] backdrop-blur-xl border-white/[0.08]"
+        }`}
       >
-        <div
-          className="flex items-center justify-between"
-          style={{
-            padding: "clamp(10px, 1.2vw, 14px) clamp(20px, 2.5vw, 32px)",
-          }}
-        >
-          {/* Logo — left */}
+        <div className="flex items-center justify-between px-8 py-3">
+          {/* Logo */}
           <Link href="/" className="shrink-0">
             <span className="text-base font-extrabold tracking-tight text-white">
               DaW4ve
             </span>
           </Link>
 
-          {/* Nav Links — center */}
+          {/* Center Links */}
           <div className="flex items-center gap-8">
             {links.map((link) => {
               const isActive =
@@ -57,10 +52,8 @@ export default function Nav() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-[14px] font-medium transition-colors duration-300 ${
-                    isActive
-                      ? "text-white"
-                      : "text-white/60 hover:text-white"
+                  className={`text-sm font-medium transition-colors duration-300 ${
+                    isActive ? "text-white" : "text-white/50 hover:text-white"
                   }`}
                 >
                   {link.label}
@@ -69,16 +62,16 @@ export default function Nav() {
             })}
           </div>
 
-          {/* CTA — right */}
-          <Link
-            href="/about"
-            className="shrink-0 flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2 text-[14px] font-medium text-white transition-all duration-300 hover:bg-white/20"
+          {/* CTA */}
+          <a
+            href="mailto:coolanirudh3@gmail.com"
+            className="shrink-0 flex items-center gap-2 rounded-full border border-white/20 px-5 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-white/10 hover:border-white/30"
           >
             Say Hello
-            <span className="text-sm">→</span>
-          </Link>
+            <span>→</span>
+          </a>
         </div>
-      </LiquidGlass>
+      </nav>
     </div>
   );
 }
