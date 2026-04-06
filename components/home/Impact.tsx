@@ -12,7 +12,7 @@ const metrics = [
 
 export default function Impact() {
   return (
-    <section className="bg-dw-surface py-32">
+    <section className="bg-black/30 backdrop-blur-sm py-32">
       <div className="mx-auto max-w-6xl px-6">
         <TextReveal
           as="h2"

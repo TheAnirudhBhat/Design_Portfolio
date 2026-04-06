@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps) {
   if (!project) return {};
 
   return {
-    title: `${project.frontmatter.title} — dawave`,
+    title: `${project.frontmatter.title} — DaW4ve`,
     description: project.frontmatter.subtitle,
   };
 }

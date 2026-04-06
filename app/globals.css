@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@config "../tailwind.config.ts";
 @plugin "@tailwindcss/typography";
 
 @theme {
@@ -9,6 +8,12 @@
   --color-dw-muted: #6B6B7B;
   --color-dw-accent: #FFD60A;
   --color-dw-accent-muted: rgba(255, 214, 10, 0.2);
+
+  --font-display: "Figtree", sans-serif;
+  --font-body: "Figtree", sans-serif;
+
+  --font-size-hero: clamp(4rem, 12vw, 12rem);
+  --font-size-section: clamp(2rem, 4vw, 3.5rem);
 }
 
 * {
@@ -18,18 +23,19 @@
 }
 
 html {
-  background-color: var(--color-dw-bg);
-  color: var(--color-dw-text);
+  background-color: #0A0A0F;
+  color: #E8E8ED;
 }
 
 body {
   min-height: 100vh;
   overflow-x: hidden;
+  background-color: #0A0A0F;
 }
 
 ::selection {
-  background-color: var(--color-dw-accent);
-  color: var(--color-dw-bg);
+  background-color: #FFD60A;
+  color: #0A0A0F;
 }
 
 a {
