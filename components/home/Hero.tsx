@@ -10,34 +10,41 @@ export default function Hero() {
     const el = containerRef.current;
     if (!el) return;
 
-    const tl = gsap.timeline({ delay: 0.3 });
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 0.3 });
 
-    tl.from(el.querySelector(".hero-title"), {
-      y: 80,
-      opacity: 0,
-      duration: 1.2,
-      ease: "power2.out",
-    })
-      .from(
-        el.querySelector(".hero-line"),
-        { scaleX: 0, duration: 0.8, ease: "power2.inOut" },
-        "-=0.4"
+      tl.fromTo(
+        el.querySelector(".hero-title"),
+        { y: 80, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" }
       )
-      .from(
-        el.querySelector(".hero-subtitle"),
-        { y: 20, opacity: 0, duration: 0.8, ease: "power2.out" },
-        "-=0.5"
-      )
-      .from(
-        el.querySelector(".hero-name"),
-        { y: 15, opacity: 0, duration: 0.6, ease: "power2.out" },
-        "-=0.4"
-      )
-      .from(
-        el.querySelector(".hero-scroll"),
-        { opacity: 0, y: 10, duration: 0.6, ease: "power2.out" },
-        "-=0.2"
-      );
+        .fromTo(
+          el.querySelector(".hero-line"),
+          { scaleX: 0 },
+          { scaleX: 1, duration: 0.8, ease: "power2.inOut" },
+          "-=0.4"
+        )
+        .fromTo(
+          el.querySelector(".hero-subtitle"),
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
+          "-=0.5"
+        )
+        .fromTo(
+          el.querySelector(".hero-name"),
+          { y: 15, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" },
+          "-=0.4"
+        )
+        .fromTo(
+          el.querySelector(".hero-scroll"),
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+          "-=0.2"
+        );
+    }, el);
+
+    return () => ctx.revert();
   }, []);
 
   return (
