@@ -20,54 +20,63 @@ export default function Identity() {
     const el = sectionRef.current;
     if (!el) return;
 
-    const desktopItems = el.querySelectorAll(".signal-desktop");
-    const mobileItems = el.querySelectorAll(".signal-mobile");
+    const ctx = gsap.context(() => {
+      const desktopItems = el.querySelectorAll(".signal-desktop");
+      const mobileItems = el.querySelectorAll(".signal-mobile");
 
-    // Desktop: fade in + parallax
-    desktopItems.forEach((item, i) => {
-      gsap.from(item, {
-        opacity: 0,
-        y: 60,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: item,
-          start: "top 85%",
-          once: true,
-        },
+      // Desktop: fade in + parallax
+      desktopItems.forEach((item, i) => {
+        gsap.fromTo(
+          item,
+          { opacity: 0, y: 60 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: item,
+              start: "top 85%",
+              once: true,
+            },
+          }
+        );
+
+        gsap.to(item, {
+          y: () => signals[i].speed * -100,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
       });
 
-      gsap.to(item, {
-        y: () => signals[i].speed * -100,
-        ease: "none",
-        scrollTrigger: {
-          trigger: el,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-    });
+      // Mobile: simple stagger fade in
+      gsap.fromTo(
+        mobileItems,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            once: true,
+          },
+        }
+      );
 
-    // Mobile: simple stagger fade in
-    gsap.from(mobileItems, {
-      opacity: 0,
-      y: 30,
-      duration: 0.6,
-      ease: "power2.out",
-      stagger: 0.1,
-      scrollTrigger: {
-        trigger: el,
-        start: "top 85%",
-        once: true,
-      },
-    });
+      // Recalculate positions after client-side navigation
+      ScrollTrigger.refresh();
+    }, el);
 
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => {
-        if (el.contains(t.trigger as Element)) t.kill();
-      });
-    };
+    return () => ctx.revert();
   }, []);
 
   return (

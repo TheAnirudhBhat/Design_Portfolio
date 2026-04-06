@@ -46,27 +46,31 @@ export default function SelectedWork() {
     const grid = gridRef.current;
     if (!grid) return;
 
-    const cards = grid.querySelectorAll(".project-card");
+    const ctx = gsap.context(() => {
+      const cards = grid.querySelectorAll(".project-card");
 
-    gsap.from(cards, {
-      y: 60,
-      opacity: 0,
-      scale: 0.97,
-      duration: 1.0,
-      ease: "power2.out",
-      stagger: 0.15,
-      scrollTrigger: {
-        trigger: grid,
-        start: "top 80%",
-        once: true,
-      },
-    });
+      gsap.fromTo(
+        cards,
+        { y: 60, opacity: 0, scale: 0.97 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1.0,
+          ease: "power2.out",
+          stagger: 0.15,
+          scrollTrigger: {
+            trigger: grid,
+            start: "top 80%",
+            once: true,
+          },
+        }
+      );
 
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => {
-        if (t.trigger === grid) t.kill();
-      });
-    };
+      ScrollTrigger.refresh();
+    }, grid);
+
+    return () => ctx.revert();
   }, []);
 
   return (

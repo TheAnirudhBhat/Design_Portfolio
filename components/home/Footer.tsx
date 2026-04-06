@@ -22,25 +22,29 @@ export default function Footer() {
     const el = sectionRef.current;
     if (!el) return;
 
-    const items = el.querySelectorAll(".footer-fade");
-    gsap.from(items, {
-      y: 30,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power2.out",
-      stagger: 0.08,
-      scrollTrigger: {
-        trigger: el,
-        start: "top 85%",
-        once: true,
-      },
-    });
+    const ctx = gsap.context(() => {
+      const items = el.querySelectorAll(".footer-fade");
+      gsap.fromTo(
+        items,
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.out",
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            once: true,
+          },
+        }
+      );
 
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => {
-        if (t.trigger === el) t.kill();
-      });
-    };
+      ScrollTrigger.refresh();
+    }, el);
+
+    return () => ctx.revert();
   }, []);
 
   return (

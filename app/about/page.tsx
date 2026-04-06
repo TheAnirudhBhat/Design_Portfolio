@@ -40,7 +40,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <section className="mx-auto max-w-3xl px-6 pt-32 pb-24">
+    <section className="mx-auto max-w-3xl px-6 pt-44 pb-24">
       <TextReveal
         as="h1"
         className="text-4xl font-bold tracking-tight md:text-6xl"

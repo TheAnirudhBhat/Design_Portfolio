@@ -1,5 +1,4 @@
 import Hero from "@/components/home/Hero";
-import Identity from "@/components/home/Identity";
 import SelectedWork from "@/components/home/SelectedWork";
 import Footer from "@/components/home/Footer";
 
@@ -8,7 +7,6 @@ export default function Home() {
     <>
       <Hero />
       <div className="relative z-10 bg-dw-bg">
-        <Identity />
         <SelectedWork />
         <Footer />
       </div>

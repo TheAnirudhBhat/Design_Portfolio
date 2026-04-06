@@ -31,7 +31,7 @@ export default function TextReveal({
     el.innerHTML = words
       .map(
         (word) =>
-          `<span class="inline-block overflow-hidden"><span class="inline-block translate-y-full opacity-0">${word}</span></span>`
+          `<span class="inline-block overflow-hidden"><span class="inline-block">${word}</span></span>`
       )
       .join('<span class="inline-block">&nbsp;</span>');
 
@@ -39,25 +39,27 @@ export default function TextReveal({
       "span > span"
     ) as NodeListOf<HTMLSpanElement>;
 
-    gsap.to(spans, {
-      y: 0,
-      opacity: 1,
-      duration: 0.6,
-      ease: "power2.out",
-      stagger,
-      delay,
-      scrollTrigger: {
-        trigger: el,
-        start: "top 80%",
-        once: true,
-      },
-    });
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        spans,
+        { y: "100%", opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          ease: "power2.out",
+          stagger,
+          delay,
+          scrollTrigger: {
+            trigger: el,
+            start: "top 80%",
+            once: true,
+          },
+        }
+      );
+    }, el);
 
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => {
-        if (t.trigger === el) t.kill();
-      });
-    };
+    return () => ctx.revert();
   }, [children, delay, stagger]);
 
   return (

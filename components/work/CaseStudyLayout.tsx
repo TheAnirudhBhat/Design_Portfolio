@@ -42,7 +42,7 @@ export default function CaseStudyLayout({
   }, []);
 
   return (
-    <article className="pt-24">
+    <article className="pt-44">
       <div ref={heroRef} className="mx-auto max-w-4xl px-6 py-16">
         <Link
           href="/"
