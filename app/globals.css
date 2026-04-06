@@ -16,10 +16,11 @@
   --font-size-section: clamp(2rem, 4vw, 3.5rem);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer base {
+  *, *::before, *::after {
+    margin: 0;
+    box-sizing: border-box;
+  }
 }
 
 html {
@@ -68,4 +69,14 @@ a {
   --tw-prose-links: #FFD60A;
   --tw-prose-bold: #E8E8ED;
   --tw-prose-bullets: #6B6B7B;
+}
+
+/* Smooth hover transitions globally */
+a, button {
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+/* Card gradient overlay utility */
+.card-gradient-overlay {
+  background: linear-gradient(to top, rgba(10, 10, 15, 0.6), transparent);
 }

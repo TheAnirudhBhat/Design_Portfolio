@@ -73,13 +73,15 @@ export default function Identity() {
   return (
     <section
       ref={sectionRef}
-      className="relative mx-auto max-w-6xl px-6 py-24 md:h-[70vh]"
+      className="relative mx-auto max-w-6xl px-6 pt-16 pb-24 md:h-[60vh]"
     >
+      <div className="mx-auto mb-16 h-px w-12 bg-white/10" />
+
       {/* Mobile: stacked layout */}
-      <div className="flex flex-col gap-8 md:hidden">
+      <div className="flex flex-col gap-6 md:hidden">
         {signals.map((signal, i) => (
           <div key={i} className="signal-mobile text-center text-dw-muted">
-            <p className="text-sm font-light tracking-wider">{signal.text}</p>
+            <p className="text-base font-light tracking-wider">{signal.text}</p>
           </div>
         ))}
       </div>

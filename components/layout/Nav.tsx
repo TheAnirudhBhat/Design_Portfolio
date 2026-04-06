@@ -23,25 +23,43 @@ export default function Nav() {
   return (
     <div
       className="fixed top-0 left-0 right-0 z-50"
-      style={{ padding: "clamp(16px, 3vw, 44px)", paddingBottom: 0 }}
+      style={{ padding: "clamp(20px, 4vw, 64px)", paddingBottom: 0 }}
     >
       <nav
-        className={`w-full rounded-full border transition-all duration-500 ${
-          scrolled
-            ? "bg-black/50 backdrop-blur-2xl border-white/[0.1] shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
-            : "bg-white/[0.06] backdrop-blur-xl border-white/[0.08]"
-        }`}
+        style={{
+          width: "100%",
+          borderRadius: "9999px",
+          border: "1px solid rgba(255,255,255,0.08)",
+          backdropFilter: scrolled ? "blur(40px)" : "blur(20px)",
+          backgroundColor: scrolled ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.06)",
+          boxShadow: scrolled ? "0 8px 32px rgba(0,0,0,0.5)" : "none",
+          transition: "all 0.5s ease",
+        }}
       >
-        <div className="flex items-center justify-between px-8 py-3">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "clamp(14px, 1.8vw, 22px) clamp(24px, 3vw, 48px)",
+          }}
+        >
           {/* Logo */}
-          <Link href="/" className="shrink-0">
-            <span className="text-base font-extrabold tracking-tight text-white">
+          <Link href="/" style={{ flexShrink: 0, textDecoration: "none" }}>
+            <span
+              style={{
+                fontSize: "clamp(15px, 1.2vw, 18px)",
+                fontWeight: 800,
+                letterSpacing: "-0.02em",
+                color: "white",
+              }}
+            >
               DaW4ve
             </span>
           </Link>
 
           {/* Center Links */}
-          <div className="flex items-center gap-8">
+          <div style={{ display: "flex", alignItems: "center", gap: "clamp(24px, 3vw, 40px)" }}>
             {links.map((link) => {
               const isActive =
                 link.href === "/"
@@ -52,9 +70,17 @@ export default function Nav() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-sm font-medium transition-colors duration-300 ${
-                    isActive ? "text-white" : "text-white/50 hover:text-white"
-                  }`}
+                  style={{
+                    fontSize: "clamp(13px, 1vw, 15px)",
+                    fontWeight: 500,
+                    color: isActive ? "white" : "rgba(255,255,255,0.5)",
+                    textDecoration: "none",
+                    transition: "color 0.3s ease",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "white")}
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.color = isActive ? "white" : "rgba(255,255,255,0.5)")
+                  }
                 >
                   {link.label}
                 </Link>
@@ -65,7 +91,28 @@ export default function Nav() {
           {/* CTA */}
           <a
             href="mailto:coolanirudh3@gmail.com"
-            className="shrink-0 flex items-center gap-2 rounded-full border border-white/20 px-5 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-white/10 hover:border-white/30"
+            style={{
+              flexShrink: 0,
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              borderRadius: "9999px",
+              border: "1px solid rgba(255,255,255,0.2)",
+              padding: "clamp(8px, 1vw, 12px) clamp(16px, 2vw, 28px)",
+              fontSize: "clamp(13px, 1vw, 15px)",
+              fontWeight: 500,
+              color: "white",
+              textDecoration: "none",
+              transition: "all 0.3s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.1)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+            }}
           >
             Say Hello
             <span>→</span>

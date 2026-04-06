@@ -82,6 +82,9 @@ export default function Hero() {
           100% { transform: translateY(100%); }
         }
       `}</style>
+
+      {/* Bottom fade */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-dw-bg to-transparent" />
     </section>
   );
 }

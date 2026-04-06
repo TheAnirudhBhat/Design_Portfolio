@@ -52,9 +52,9 @@ export default function SelectedWork() {
       y: 60,
       opacity: 0,
       scale: 0.97,
-      duration: 0.8,
+      duration: 1.0,
       ease: "power2.out",
-      stagger: 0.1,
+      stagger: 0.15,
       scrollTrigger: {
         trigger: grid,
         start: "top 80%",
@@ -70,12 +70,12 @@ export default function SelectedWork() {
   }, []);
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-32">
-      <TextReveal as="h2" className="text-section font-semibold tracking-tight mb-16">
+    <section className="mx-auto max-w-6xl px-6 py-24">
+      <TextReveal as="h2" className="text-section font-semibold tracking-tight mb-12">
         Selected Work
       </TextReveal>
 
-      <div ref={gridRef} className="grid gap-6 md:grid-cols-2">
+      <div ref={gridRef} className="grid gap-5 md:gap-8 md:grid-cols-2">
         {projects.map((project, i) => (
           <div key={project.slug} className="project-card">
             <ProjectCard {...project} index={i} />
