@@ -40,10 +40,11 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <section className="mx-auto max-w-3xl px-6 pt-44 pb-24">
+    <section className="relative z-10 min-h-screen bg-dw-bg">
+      <div className="mx-auto max-w-3xl px-6 pt-52 pb-24">
       <TextReveal
         as="h1"
-        className="text-4xl font-bold tracking-tight md:text-6xl"
+        className="text-4xl font-bold tracking-tight text-white md:text-6xl"
       >
         I design for clarity, trust, and flow.
       </TextReveal>
@@ -88,6 +89,7 @@ export default function AboutPage() {
             </span>
           ))}
         </div>
+      </div>
       </div>
     </section>
   );

@@ -36,7 +36,8 @@ export default function PlaygroundPage() {
   }, []);
 
   return (
-    <section className="mx-auto max-w-6xl px-6 pt-44 pb-24">
+    <section className="relative z-10 min-h-screen bg-dw-bg">
+      <div className="mx-auto max-w-6xl px-6 pt-52 pb-24">
       <TextReveal
         as="h1"
         className="text-4xl font-bold tracking-tight md:text-6xl"
@@ -71,6 +72,7 @@ export default function PlaygroundPage() {
             </span>
           </a>
         ))}
+      </div>
       </div>
     </section>
   );
