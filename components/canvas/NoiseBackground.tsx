@@ -278,6 +278,16 @@ export default function NoiseBackground() {
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
+
+      // Fade out as user scrolls past hero (1 viewport height)
+      const scrollY = scrollRef.current;
+      const vh = window.innerHeight;
+      const opacity = Math.max(0, 1 - scrollY / (vh * 0.8));
+      container.style.opacity = String(opacity);
+
+      // Skip rendering when fully invisible (saves GPU)
+      if (opacity <= 0) return;
+
       const t = clock.getElapsedTime();
 
       lerpMouse.x += (mouseRef.current.x - lerpMouse.x) * 0.03;
@@ -287,7 +297,7 @@ export default function NoiseBackground() {
       oceanMat.uniforms.u_mouse.value.set(lerpMouse.x, lerpMouse.y);
 
       // Camera follows scroll
-      const scrollFactor = scrollRef.current * 0.008;
+      const scrollFactor = scrollY * 0.008;
       camera.position.y = 12 - scrollFactor * 2;
       camera.position.z = 30 - scrollFactor * 4;
       camera.lookAt(0, 0, -10 - scrollFactor * 5);
