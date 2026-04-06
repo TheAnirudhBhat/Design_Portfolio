@@ -17,23 +17,39 @@ export default function Nav() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <div
-      className="fixed top-0 left-0 right-0 z-50"
-      style={{ padding: "clamp(20px, 4vw, 64px)", paddingBottom: 0 }}
-    >
+    <div className="fixed top-0 left-0 right-0 z-50">
       <nav
         style={{
-          width: "100%",
-          borderRadius: "9999px",
-          border: "1px solid rgba(255,255,255,0.08)",
-          backdropFilter: scrolled ? "blur(40px)" : "blur(20px)",
-          backgroundColor: scrolled ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.06)",
-          boxShadow: scrolled ? "0 8px 32px rgba(0,0,0,0.5)" : "none",
-          transition: "all 0.5s ease",
+          /* ── Container morph ── */
+          maxWidth: scrolled ? "1100px" : "100%",
+          margin: "0 auto",
+          borderRadius: scrolled ? "9999px" : "0",
+          /* ── Position offset ── */
+          marginTop: scrolled ? "16px" : "0",
+          marginLeft: scrolled ? "auto" : "0",
+          marginRight: scrolled ? "auto" : "0",
+          /* ── Glass effect ── */
+          backgroundColor: scrolled
+            ? "rgba(14, 14, 22, 0.6)"
+            : "rgba(10, 10, 15, 0.4)",
+          backdropFilter: scrolled ? "blur(24px)" : "blur(8px)",
+          WebkitBackdropFilter: scrolled ? "blur(24px)" : "blur(8px)",
+          border: scrolled
+            ? "1px solid rgba(255,255,255,0.08)"
+            : "1px solid transparent",
+          borderTop: scrolled
+            ? "1px solid rgba(255,255,255,0.08)"
+            : "none",
+          boxShadow: scrolled
+            ? "0 8px 32px rgba(0,0,0,0.4)"
+            : "none",
+          /* ── Transition ── */
+          transition: "all 300ms cubic-bezier(0.25, 0.1, 0.25, 1)",
         }}
       >
         <div
@@ -41,14 +57,17 @@ export default function Nav() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            padding: "clamp(14px, 1.8vw, 22px) clamp(24px, 3vw, 48px)",
+            padding: scrolled
+              ? "12px 28px"
+              : "20px 32px",
+            transition: "padding 300ms cubic-bezier(0.25, 0.1, 0.25, 1)",
           }}
         >
           {/* Logo */}
           <Link href="/" style={{ flexShrink: 0, textDecoration: "none" }}>
             <span
               style={{
-                fontSize: "clamp(15px, 1.2vw, 18px)",
+                fontSize: "15px",
                 fontWeight: 800,
                 letterSpacing: "-0.02em",
                 color: "white",
@@ -59,7 +78,13 @@ export default function Nav() {
           </Link>
 
           {/* Center Links */}
-          <div style={{ display: "flex", alignItems: "center", gap: "clamp(24px, 3vw, 40px)" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "32px",
+            }}
+          >
             {links.map((link) => {
               const isActive =
                 link.href === "/"
@@ -71,15 +96,19 @@ export default function Nav() {
                   key={link.href}
                   href={link.href}
                   style={{
-                    fontSize: "clamp(13px, 1vw, 15px)",
+                    fontSize: "14px",
                     fontWeight: 500,
-                    color: isActive ? "white" : "rgba(255,255,255,0.5)",
+                    color: isActive ? "white" : "rgba(255,255,255,0.45)",
                     textDecoration: "none",
                     transition: "color 0.3s ease",
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "white")}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.color = "white")
+                  }
                   onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = isActive ? "white" : "rgba(255,255,255,0.5)")
+                    (e.currentTarget.style.color = isActive
+                      ? "white"
+                      : "rgba(255,255,255,0.45)")
                   }
                 >
                   {link.label}
@@ -97,21 +126,22 @@ export default function Nav() {
               alignItems: "center",
               gap: "8px",
               borderRadius: "9999px",
-              border: "1px solid rgba(255,255,255,0.2)",
-              padding: "clamp(8px, 1vw, 12px) clamp(16px, 2vw, 28px)",
-              fontSize: "clamp(13px, 1vw, 15px)",
+              border: "1px solid rgba(255,255,255,0.15)",
+              padding: "8px 20px",
+              fontSize: "13px",
               fontWeight: 500,
               color: "white",
               textDecoration: "none",
               transition: "all 0.3s ease",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.1)";
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
+              e.currentTarget.style.backgroundColor =
+                "rgba(255,255,255,0.08)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = "transparent";
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
             }}
           >
             Say Hello
