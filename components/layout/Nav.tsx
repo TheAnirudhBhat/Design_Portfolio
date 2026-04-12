@@ -54,6 +54,12 @@ export default function Nav() {
             </Link>
           ))}
         </div>
+        <a
+          href="mailto:hello@dawave.in"
+          className="inline-flex items-center justify-center px-[16px] py-[8px] bg-[rgba(0,0,0,0.9)] rounded-full text-[14px] leading-[20px] font-medium text-white hover:bg-[rgba(0,0,0,0.7)] transition-colors duration-150"
+        >
+          Get in touch
+        </a>
       </nav>
     </header>
   );
