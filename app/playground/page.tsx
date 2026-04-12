@@ -1,79 +1,59 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import TextReveal from "@/components/ui/TextReveal";
-
-gsap.registerPlugin(ScrollTrigger);
+import ScrollReveal from "@/components/ui/ScrollReveal";
+import GestureNav from "@/components/layout/GestureNav";
 
 const experiments = [
-  { title: "Visual Explorations", tag: "UI", href: "https://dribbble.com/DaW4ve" },
-  { title: "Motion Studies", tag: "Motion", href: "https://dribbble.com/DaW4ve" },
-  { title: "3D Experiments", tag: "3D", href: "https://dribbble.com/DaW4ve" },
+  { title: "Motion Studies", description: "Exploring micro-interactions for fintech flows", accent: "#D30AD7" },
+  { title: "Type Explorations", description: "Playing with Rubik at extreme scales", accent: "#2196F3" },
+  { title: "Color Systems", description: "Generative color palette experiments", accent: "#00A63E" },
+  { title: "Layout Grids", description: "Adaptive grid systems for card-based UIs", accent: "#FF9800" },
 ];
 
 export default function PlaygroundPage() {
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = gridRef.current;
-    if (!el) return;
-
-    gsap.from(el.querySelectorAll(".playground-card"), {
-      y: 40,
-      opacity: 0,
-      scale: 0.97,
-      duration: 0.6,
-      ease: "power2.out",
-      stagger: 0.08,
-      scrollTrigger: {
-        trigger: el,
-        start: "top 85%",
-        once: true,
-      },
-    });
-  }, []);
-
   return (
-    <section className="relative z-10 min-h-screen bg-dw-bg">
-      <div className="mx-auto max-w-6xl px-6 pt-52 pb-24">
-      <TextReveal
-        as="h1"
-        className="text-4xl font-bold tracking-tight md:text-6xl"
-      >
-        Playground
-      </TextReveal>
-      <TextReveal
-        as="p"
-        className="mt-4 text-lg font-light text-dw-muted"
-        delay={0.2}
-      >
-        Visual experiments, motion studies, and things I build for fun.
-      </TextReveal>
+    <div>
+      {/* Mobile app bar */}
+      <div className="tablet:hidden h-[108px] flex items-end px-[24px] pb-[16px]">
+        <h1 className="text-[24px] leading-[32px] font-medium text-[rgba(0,0,0,0.9)] tracking-[0.48px]">Playground</h1>
+      </div>
 
-      <div ref={gridRef} className="mt-16 grid gap-6 md:grid-cols-3">
-        {experiments.map((exp) => (
-          <a
-            key={exp.title}
-            href={exp.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="playground-card group relative flex aspect-square flex-col justify-end overflow-hidden rounded-lg bg-dw-surface p-6 transition-shadow duration-400 hover:shadow-[0_0_30px_rgba(255,214,10,0.08)]"
-          >
-            <span className="mb-2 text-xs font-light uppercase tracking-[0.2em] text-dw-accent">
-              {exp.tag}
-            </span>
-            <h3 className="text-lg font-medium text-dw-text">
-              {exp.title}
-            </h3>
-            <span className="mt-2 text-sm text-dw-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              View on Dribbble &rarr;
-            </span>
-          </a>
-        ))}
+      {/* Desktop header */}
+      <div className="hidden tablet:block max-w-[1280px] mx-auto px-[24px] desktop:px-[48px] pt-[48px] mb-[32px]">
+        <ScrollReveal>
+          <h1 className="text-[32px] leading-[40px] font-medium text-[rgba(0,0,0,0.9)]">Playground</h1>
+          <p className="text-[20px] leading-[24px] font-medium text-[rgba(0,0,0,0.7)] mt-[16px]">Experiments, explorations, and side projects.</p>
+        </ScrollReveal>
       </div>
+
+      {/* Cards */}
+      <div className="px-[24px] tablet:max-w-[1280px] tablet:mx-auto desktop:px-[48px]">
+        {/* Mobile: DLS section header */}
+        <div className="tablet:hidden">
+          <div className="py-[12px] bg-[#F5F5F5] -mx-[24px] px-[24px]">
+            <span className="text-[14px] leading-[20px] font-medium text-[rgba(0,0,0,0.5)] tracking-[0.28px]">Experiments</span>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-[16px] tablet:grid tablet:grid-cols-2 desktop:grid-cols-3 tablet:gap-[24px] mt-[16px] tablet:mt-0">
+          {experiments.map((exp, i) => (
+            <ScrollReveal key={exp.title} delay={i * 0.05}>
+              <div className="dls-card overflow-hidden">
+                <div
+                  className="h-[140px] tablet:h-[180px]"
+                  style={{ background: `linear-gradient(135deg, ${exp.accent}15, ${exp.accent}05)` }}
+                />
+                <div className="p-[24px]">
+                  <h3 className="text-[16px] leading-[20px] font-medium text-[rgba(0,0,0,0.9)] mb-[4px]">{exp.title}</h3>
+                  <p className="text-[14px] leading-[20px] text-[rgba(0,0,0,0.7)]">{exp.description}</p>
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
       </div>
-    </section>
+
+      <GestureNav />
+    </div>
   );
 }
