@@ -1,34 +1,32 @@
 import { notFound } from "next/navigation";
-import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllProjectSlugs, getProjectBySlug } from "@/lib/mdx";
+import { MDXRemote } from "next-mdx-remote/rsc";
 import CaseStudyLayout from "@/components/work/CaseStudyLayout";
 
-interface PageProps {
-  params: Promise<{ slug: string }>;
-}
-
 export async function generateStaticParams() {
-  return getAllProjectSlugs().map((slug) => ({ slug }));
+  const slugs = getAllProjectSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: PageProps) {
-  const { slug } = await params;
-  const project = getProjectBySlug(slug);
-  if (!project) return {};
-
-  return {
-    title: `${project.frontmatter.title} — DaW4ve`,
-    description: project.frontmatter.subtitle,
-  };
-}
-
-export default async function CaseStudyPage({ params }: PageProps) {
+export default async function WorkPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) notFound();
 
   return (
-    <CaseStudyLayout frontmatter={project.frontmatter}>
+    <CaseStudyLayout
+      title={project.frontmatter.title}
+      subtitle={project.frontmatter.subtitle}
+      role={project.frontmatter.role}
+      company={project.frontmatter.company}
+      timeline={project.frontmatter.timeline}
+      metric={project.frontmatter.metric}
+      tags={project.frontmatter.tags}
+    >
       <MDXRemote source={project.content} />
     </CaseStudyLayout>
   );

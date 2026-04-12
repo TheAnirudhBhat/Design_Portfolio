@@ -1,117 +1,102 @@
-"use client";
-
-import { useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import Image from "next/image";
+import GestureNav from "@/components/layout/GestureNav";
 import Link from "next/link";
-import type { ProjectFrontmatter } from "@/lib/mdx";
 
 interface CaseStudyLayoutProps {
-  frontmatter: ProjectFrontmatter;
+  title: string;
+  subtitle: string;
+  role: string;
+  company: string;
+  timeline: string;
+  metric?: string;
+  tags?: string[];
   children: React.ReactNode;
 }
 
 export default function CaseStudyLayout({
-  frontmatter,
+  title,
+  subtitle,
+  role,
+  company,
+  timeline,
+  metric,
+  tags,
   children,
 }: CaseStudyLayoutProps) {
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = heroRef.current;
-    if (!el) return;
-
-    const tl = gsap.timeline({ delay: 0.2 });
-
-    tl.from(el.querySelector(".cs-title"), {
-      y: 60,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power2.out",
-    })
-      .from(
-        el.querySelector(".cs-subtitle"),
-        { y: 30, opacity: 0, duration: 0.6, ease: "power2.out" },
-        "-=0.4"
-      )
-      .from(
-        el.querySelectorAll(".cs-meta > *"),
-        { y: 20, opacity: 0, duration: 0.5, ease: "power2.out", stagger: 0.05 },
-        "-=0.3"
-      );
-  }, []);
+  const details = [
+    { label: "Role", value: role },
+    { label: "Company", value: company },
+    { label: "Timeline", value: timeline },
+    ...(metric ? [{ label: "Impact", value: metric }] : []),
+  ];
 
   return (
-    <article className="pt-44">
-      <div ref={heroRef} className="mx-auto max-w-4xl px-6 py-16">
-        <Link
-          href="/"
-          className="mb-12 inline-flex items-center gap-2 text-sm text-dw-muted transition-colors hover:text-dw-accent"
-        >
-          <span>&larr;</span> Back
-        </Link>
-
-        <h1 className="cs-title text-4xl font-bold tracking-tight md:text-6xl">
-          {frontmatter.title}
-        </h1>
-        <p className="cs-subtitle mt-4 text-lg text-dw-muted md:text-xl">
-          {frontmatter.subtitle}
-        </p>
-
-        <div className="cs-meta mt-8 flex flex-wrap gap-6 text-sm text-dw-muted">
-          <div>
-            <span className="text-dw-muted/50">Role</span>
-            <p className="mt-1 text-dw-text">{frontmatter.role}</p>
-          </div>
-          <div>
-            <span className="text-dw-muted/50">Company</span>
-            <p className="mt-1 text-dw-text">{frontmatter.company}</p>
-          </div>
-          <div>
-            <span className="text-dw-muted/50">Timeline</span>
-            <p className="mt-1 text-dw-text">{frontmatter.timeline}</p>
-          </div>
-          <div>
-            <span className="text-dw-muted/50">Impact</span>
-            <p className="mt-1 font-medium text-dw-accent">
-              {frontmatter.metric}
-            </p>
-          </div>
-        </div>
+    <article>
+      {/* Mobile app bar */}
+      <div className="tablet:hidden h-[108px] flex items-end px-[24px] pb-[16px] gap-[8px]">
+        <Link href="/" className="text-[16px] leading-[20px] font-medium text-[rgba(0,0,0,0.5)]">←</Link>
+        <h1 className="text-[16px] leading-[20px] font-medium text-[rgba(0,0,0,0.9)]">Work</h1>
       </div>
 
-      {frontmatter.coverImage && (
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="relative aspect-[16/9] overflow-hidden rounded-lg">
-            <Image
-              src={frontmatter.coverImage}
-              alt={frontmatter.title}
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-        </div>
-      )}
+      {/* Cover placeholder */}
+      <div className="w-full h-[200px] tablet:h-[360px] desktop:h-[480px] bg-gradient-to-br from-[rgba(211,10,215,0.05)] to-[rgba(211,10,215,0.15)]" />
 
-      <div className="mx-auto max-w-4xl px-6 py-16">
-        <div className="prose prose-invert prose-lg max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-h2:text-2xl prose-h2:mt-16 prose-h2:mb-6 prose-p:text-dw-muted prose-p:font-light prose-p:leading-relaxed prose-strong:text-dw-text prose-a:text-dw-accent prose-a:no-underline hover:prose-a:underline">
-          {children}
+      {/* Header + Details + Content */}
+      <div className="px-[24px] tablet:max-w-[720px] tablet:mx-auto desktop:max-w-[800px]">
+        {/* Title */}
+        <div className="py-[24px] tablet:py-[32px]">
+          <h1 className="text-[32px] leading-[40px] font-medium tablet:text-[clamp(32px,4vw,48px)] text-[rgba(0,0,0,0.9)] mb-[8px]">{title}</h1>
+          <p className="text-[16px] leading-[24px] text-[rgba(0,0,0,0.7)]">{subtitle}</p>
         </div>
-      </div>
 
-      <div className="mx-auto max-w-4xl px-6 pb-16">
-        <div className="flex flex-wrap gap-2">
-          {frontmatter.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full bg-dw-surface px-3 py-1 text-xs text-dw-muted"
-            >
-              {tag}
-            </span>
+        {/* Details — mobile: list items */}
+        <div className="tablet:hidden">
+          <div className="h-[1px] bg-[rgba(0,0,0,0.05)]" />
+          {details.map((d, i) => (
+            <div key={d.label} className={`flex justify-between py-[16px] ${i < details.length - 1 ? "border-b border-[rgba(0,0,0,0.05)]" : ""}`}>
+              <span className="text-[14px] leading-[20px] text-[rgba(0,0,0,0.5)]">{d.label}</span>
+              <span className="text-[14px] leading-[20px] font-medium text-[rgba(0,0,0,0.9)]">{d.value}</span>
+            </div>
           ))}
         </div>
+
+        {/* Details — desktop: inline row */}
+        <div className="hidden tablet:flex tablet:gap-[32px] tablet:py-[24px] tablet:border-y tablet:border-[rgba(0,0,0,0.05)]">
+          {details.map((d) => (
+            <div key={d.label}>
+              <p className="text-[12px] leading-[16px] text-[rgba(0,0,0,0.5)] mb-[4px]">{d.label}</p>
+              <p className="text-[14px] leading-[20px] font-medium text-[rgba(0,0,0,0.9)]">{d.value}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* MDX content */}
+        <div className="prose prose-lg max-w-none py-[32px]">
+          {children}
+        </div>
+
+        {/* Tags */}
+        {tags && tags.length > 0 && (
+          <div className="flex flex-wrap gap-[8px] pb-[32px]">
+            {tags.map((tag) => (
+              <span key={tag} className="px-[12px] py-[4px] bg-[#F5F5F5] rounded-[8px] text-[12px] leading-[16px] text-[rgba(0,0,0,0.5)]">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
+
+      {/* Mobile bottom CTA */}
+      <div className="tablet:hidden px-[24px] py-[12px] border-t border-[rgba(0,0,0,0.05)]">
+        <Link
+          href="/"
+          className="w-full flex items-center justify-center py-[12px] bg-[#D30AD7] rounded-full text-[14px] leading-[20px] font-medium text-white tracking-[0.28px]"
+        >
+          Back to home
+        </Link>
+      </div>
+
+      <GestureNav />
     </article>
   );
 }
