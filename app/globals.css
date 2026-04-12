@@ -4,6 +4,11 @@
 @theme {
   --font-sans: "Rubik", sans-serif;
 
+  /* Breakpoints */
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1280px;
+  --breakpoint-wide: 1536px;
+
   /* DLS Colors */
   --color-brand: #D30AD7;
   --color-brand-dark: #A808AB;
@@ -78,21 +83,21 @@ body {
 }
 
 .dls-card {
-  background: var(--color-surface-primary);
-  border: 1px solid var(--color-outline-subtle);
-  border-radius: var(--radius-m);
-  box-shadow: var(--shadow-card);
+  background: white;
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 16px;
+  box-shadow: 0 2px 32px rgba(0,0,0,0.05);
 }
 
 .dls-divider-big {
   height: 8px;
-  background: var(--color-surface-secondary);
+  background: #F5F5F5;
   width: 100%;
 }
 
 .dls-divider {
   height: 1px;
-  background: var(--color-outline-subtle);
+  background: rgba(0,0,0,0.05);
   width: 100%;
 }
 
