@@ -1,90 +1,67 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import TextReveal from "@/components/ui/TextReveal";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 import ProjectCard from "./ProjectCard";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
     title: "LENS",
-    metric: "+18% first txn rate",
-    tags: "PFM · Mobikwik · 2023",
-    slug: "lens",
-    coverImage: "",
+    subtitle: "Reimagining credit card management for slice users",
+    role: "Product Designer · slice",
+    href: "/work/lens",
+    accent: "#D30AD7",
   },
   {
-    title: "EPFO Dashboard",
-    metric: "7→12% conversion",
-    tags: "Dashboard · Mobikwik · 2023",
-    slug: "epfo",
-    coverImage: "",
+    title: "EPFO",
+    subtitle: "Simplifying provident fund withdrawals for millions",
+    role: "Product Designer · slice",
+    href: "/work/epfo",
+    accent: "#2196F3",
   },
   {
     title: "UPI Onboarding",
-    metric: "+18% conversion",
-    tags: "UPI · Mobikwik · 2022",
-    slug: "upi-onboarding",
-    coverImage: "",
+    subtitle: "Making first UPI payments frictionless for young India",
+    role: "Product Designer · slice",
+    href: "/work/upi-onboarding",
+    accent: "#00A63E",
   },
   {
-    title: "Xtra Investing",
-    metric: "₹150Cr+ AUM",
-    tags: "Wealth · Mobikwik · 2024",
-    slug: "xtra",
-    coverImage: "",
+    title: "Xtra",
+    subtitle: "Designing the savings experience for first-time investors",
+    role: "Product Designer · slice",
+    href: "/work/xtra",
+    accent: "#FF9800",
   },
 ];
 
 export default function SelectedWork() {
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const grid = gridRef.current;
-    if (!grid) return;
-
-    const ctx = gsap.context(() => {
-      const cards = grid.querySelectorAll(".project-card");
-
-      gsap.fromTo(
-        cards,
-        { y: 60, opacity: 0, scale: 0.97 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 1.0,
-          ease: "power2.out",
-          stagger: 0.15,
-          scrollTrigger: {
-            trigger: grid,
-            start: "top 80%",
-            once: true,
-          },
-        }
-      );
-
-      ScrollTrigger.refresh();
-    }, grid);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section className="mx-auto max-w-6xl px-6 py-24">
-      <TextReveal as="h2" className="text-section font-semibold tracking-tight mb-12">
-        Selected Work
-      </TextReveal>
+    <section id="work" className="px-[24px] pt-[16px] tablet:pt-[48px]">
+      {/* Mobile: DLS section header */}
+      <div className="tablet:hidden">
+        <div className="py-[12px] bg-[#F5F5F5] -mx-[24px] px-[24px] mb-0">
+          <span className="text-[14px] leading-[20px] font-medium text-[rgba(0,0,0,0.5)] tracking-[0.28px]">
+            Selected work
+          </span>
+        </div>
+      </div>
 
-      <div ref={gridRef} className="grid gap-5 md:gap-8 md:grid-cols-2">
-        {projects.map((project, i) => (
-          <div key={project.slug} className="project-card">
-            <ProjectCard {...project} index={i} />
-          </div>
-        ))}
+      {/* Desktop: section label */}
+      <div className="hidden tablet:block max-w-[1280px] mx-auto mb-[32px]">
+        <ScrollReveal>
+          <h2 className="text-[24px] leading-[32px] font-medium text-[rgba(0,0,0,0.9)] tracking-[0.48px]">Selected work</h2>
+        </ScrollReveal>
+      </div>
+
+      {/* Project grid */}
+      <div className="max-w-[1280px] mx-auto">
+        <div className="flex flex-col gap-[16px] tablet:grid tablet:grid-cols-2 tablet:gap-[24px]">
+          {projects.map((project, i) => (
+            <ScrollReveal key={project.title} delay={i * 0.05}>
+              <ProjectCard {...project} />
+            </ScrollReveal>
+          ))}
+        </div>
       </div>
     </section>
   );

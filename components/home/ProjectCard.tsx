@@ -1,91 +1,49 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface ProjectCardProps {
   title: string;
-  metric: string;
-  tags: string;
-  slug: string;
-  coverImage: string;
-  index: number;
+  subtitle: string;
+  role: string;
+  href: string;
+  accent?: string;
 }
-
-const gradients: Record<string, string> = {
-  lens: "linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)",
-  epfo: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
-  "upi-onboarding":
-    "linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1a2332 100%)",
-  xtra: "linear-gradient(135deg, #1b1b2f 0%, #162447 50%, #1f4068 100%)",
-};
 
 export default function ProjectCard({
   title,
-  metric,
-  tags,
-  slug,
-  coverImage,
-  index,
+  subtitle,
+  role,
+  href,
+  accent = "#D30AD7",
 }: ProjectCardProps) {
-  const cardRef = useRef<HTMLAnchorElement>(null);
-
   return (
-    <Link
-      ref={cardRef}
-      href={`/work/${slug}`}
-      className="group relative block overflow-hidden rounded-2xl bg-dw-surface transition-all duration-500 ease-out hover:-translate-y-1"
-      style={{
-        transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
-      }}
-    >
-      {/* Thumbnail area */}
-      <div className="relative aspect-[16/10] overflow-hidden">
-        {coverImage ? (
-          <Image
-            src={coverImage}
-            alt={title}
-            fill
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-        ) : (
-          <div
-            className="flex h-full w-full items-end p-6"
-            style={{ background: gradients[slug] || gradients.lens }}
-          >
-            <span className="text-sm font-light tracking-wider text-white/20">
-              {title}
+    <Link href={href}>
+      <motion.article
+        className="dls-card overflow-hidden group cursor-pointer"
+        whileHover={{ y: -2, boxShadow: "0 4px 12px rgba(0,0,0,0.12)" }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ duration: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+      >
+        <div
+          className="h-[180px] tablet:h-[220px] desktop:h-[260px] w-full"
+          style={{ background: `linear-gradient(135deg, ${accent}22, ${accent}08)` }}
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            <span className="text-[32px] font-medium opacity-10" style={{ color: accent }}>
+              {title.charAt(0)}
             </span>
           </div>
-        )}
-
-        {/* Hover overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-dw-bg/60 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-      </div>
-
-      {/* Card info */}
-      <div className="p-5">
-        <div className="flex items-start justify-between gap-4">
-          <h3 className="text-lg font-medium text-dw-text">{title}</h3>
-          <span className="shrink-0 text-sm font-medium text-dw-accent">
-            {metric}
-          </span>
         </div>
-        <p className="mt-2 text-xs font-light tracking-wider text-dw-muted">
-          {tags}
-        </p>
-      </div>
-
-      {/* Hover border glow */}
-      <div
-        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{
-          boxShadow:
-            "inset 0 0 0 1px rgba(255,214,10,0.1), 0 8px 40px rgba(0,0,0,0.3)",
-        }}
-      />
+        <div className="p-[24px]">
+          <p className="text-[14px] leading-[20px] font-medium text-[rgba(0,0,0,0.5)] tracking-[0.28px] mb-[4px]">
+            {role}
+          </p>
+          <h3 className="text-[20px] leading-[24px] font-medium text-[rgba(0,0,0,0.9)] mb-[8px]">{title}</h3>
+          <p className="text-[14px] leading-[20px] text-[rgba(0,0,0,0.7)]">{subtitle}</p>
+        </div>
+      </motion.article>
     </Link>
   );
 }
