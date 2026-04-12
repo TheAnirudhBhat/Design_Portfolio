@@ -1,28 +1,13 @@
 import type { Metadata } from "next";
-import { Figtree } from "next/font/google";
-import NoiseBackground from "@/components/canvas/NoiseBackground";
-import CustomCursor from "@/components/ui/CustomCursor";
+import "./globals.css";
 import Nav from "@/components/layout/Nav";
+import BottomNav from "@/components/layout/BottomNav";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import PageTransition from "@/components/layout/PageTransition";
-import "./globals.css";
-
-const figtree = Figtree({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-});
 
 export const metadata: Metadata = {
-  title: "DaW4ve — Anirudh Bhat | Product Designer",
-  description:
-    "Product Designer crafting intuitive, scalable experiences in fintech. Payments, investing, and trust.",
-  openGraph: {
-    title: "DaW4ve — Anirudh Bhat | Product Designer",
-    description:
-      "Product Designer crafting intuitive, scalable experiences in fintech.",
-    type: "website",
-  },
+  title: "dawave — Product Designer",
+  description: "Senior Product Designer at slice. Designing UPI payments and banking products for young India.",
 };
 
 export default function RootLayout({
@@ -31,15 +16,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={figtree.variable}>
-      <body className="font-display bg-dw-bg text-dw-text antialiased">
-        <NoiseBackground />
-        <CustomCursor />
-        <Nav />
+    <html lang="en">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="font-sans bg-white text-[rgba(0,0,0,0.9)]">
         <SmoothScroll>
+          <Nav />
           <PageTransition>
-            <main className="relative z-10">{children}</main>
+            <main className="min-h-screen pb-[140px] tablet:pb-0">
+              {children}
+            </main>
           </PageTransition>
+          <BottomNav />
         </SmoothScroll>
       </body>
     </html>
