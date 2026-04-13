@@ -24,9 +24,14 @@ export default function Nav() {
       <nav className="max-w-[1280px] mx-auto flex items-center justify-between h-[64px] px-[24px] desktop:px-[48px]">
         <Link
           href="/"
-          className="font-medium text-[16px] leading-[20px] text-[rgba(0,0,0,0.9)] tracking-wide"
+          className="group flex items-center gap-[6px]"
         >
-          dawave
+          <span className="text-[20px] font-medium tracking-[-0.02em] text-[rgba(0,0,0,0.9)]">
+            da
+          </span>
+          <span className="text-[20px] font-medium tracking-[-0.02em] text-[#D30AD7]">
+            w4ve
+          </span>
         </Link>
         <div className="flex items-center gap-[32px]">
           {links.map((link) => (

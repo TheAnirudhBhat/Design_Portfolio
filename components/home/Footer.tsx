@@ -12,8 +12,9 @@ export default function Footer() {
     <footer className="border-t border-[rgba(0,0,0,0.05)] mt-[40px]">
       <div className="max-w-[960px] mx-auto px-[24px] py-[48px]">
         <div className="flex flex-col tablet:flex-row items-start tablet:items-center justify-between gap-[24px] mb-[16px]">
-          <span className="text-[20px] leading-[24px] font-medium text-[rgba(0,0,0,0.9)]">
-            Anirudh Bhat
+          <span className="flex items-center gap-[6px]">
+            <span className="text-[20px] font-medium tracking-[-0.02em] text-[rgba(0,0,0,0.9)]">da</span>
+            <span className="text-[20px] font-medium tracking-[-0.02em] text-[#D30AD7]">w4ve</span>
           </span>
           <div className="flex items-center gap-[24px]">
             <a
