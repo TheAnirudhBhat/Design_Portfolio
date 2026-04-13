@@ -11,7 +11,6 @@ const navLinks = [
 const externalLinks = [
   { label: "LinkedIn", href: "https://linkedin.com/in/daw4ve" },
   { label: "Dribbble", href: "https://dribbble.com/DaW4ve" },
-  { label: "Email", href: "mailto:hello@dawave.in" },
   { label: "Resume", href: "/Anirudh_Bhat_Resume_2026.pdf" },
 ];
 

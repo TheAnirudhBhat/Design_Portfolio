@@ -341,8 +341,8 @@
   scroll-snap-type: x mandatory;
   scroll-padding-left: 48px;
   scrollbar-width: none;
-  padding: 16px 48px 40px 48px;
-  margin: -16px -48px -40px -48px;
+  padding: 24px 48px 40px 48px;
+  margin: -24px -48px -40px -48px;
 }
 
 .v2-carousel-viewport::-webkit-scrollbar {
@@ -1371,8 +1371,8 @@
   }
 
   .v2-carousel-viewport {
-    margin: -16px -32px -40px -32px;
-    padding: 16px 32px 40px 32px;
+    margin: -24px -32px -40px -32px;
+    padding: 24px 32px 40px 32px;
     scroll-padding-left: 32px;
   }
 
