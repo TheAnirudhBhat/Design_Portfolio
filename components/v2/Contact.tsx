@@ -268,6 +268,11 @@ export default function Contact() {
               className="v2-bp-form"
               onSubmit={(e) => {
                 e.preventDefault();
+                const textarea = e.currentTarget.querySelector("textarea");
+                if (textarea && !textarea.value.trim()) {
+                  textarea.classList.add("v2-bp-input--error");
+                  return;
+                }
                 const fd = new FormData(e.currentTarget);
                 const subject = "Hello from your portfolio";
                 const message = fd.get("message");
@@ -276,7 +281,17 @@ export default function Contact() {
             >
               <div className="v2-bp-form-field">
                 <label className="v2-bp-label">Message</label>
-                <textarea name="message" required rows={3} placeholder="What's on your mind?" className="v2-bp-input v2-bp-textarea" />
+                <textarea
+                  name="message"
+                  rows={3}
+                  placeholder="What's on your mind?"
+                  className="v2-bp-input v2-bp-textarea"
+                  onChange={(e) => {
+                    e.target.setCustomValidity("");
+                    e.target.classList.remove("v2-bp-input--error");
+                  }}
+                />
+                <span className="v2-bp-error">Please write a message</span>
               </div>
               <div className="v2-bp-form-actions">
                 <button type="button" onClick={() => flipTo("front")} className="v2-bp-form-back">← Back</button>

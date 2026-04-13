@@ -260,7 +260,7 @@
 
 .v2-blurb {
   font-family: "Rubik", sans-serif;
-  font-size: clamp(28px, 3.5vw, 42px);
+  font-size: clamp(28px, 4vw, 52px);
   font-weight: 500;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -334,32 +334,27 @@
   border-color: var(--v2-text-tertiary);
 }
 
-.v2-carousel {
-  margin-left: -48px;
-  margin-right: -48px;
-}
-
 .v2-carousel-viewport {
+  display: flex;
+  gap: var(--v2-gap);
   overflow-x: auto;
-  overflow-y: visible;
-  cursor: grab;
-  padding: 12px 48px 32px;
+  scroll-snap-type: x mandatory;
   scrollbar-width: none;
+  padding-bottom: 8px;
+  /* Bleed to the right edge of the page */
+  margin-right: -48px;
+  padding-right: 48px;
 }
 
 .v2-carousel-viewport::-webkit-scrollbar {
   display: none;
 }
 
-.v2-carousel-track {
-  display: flex;
-  gap: var(--v2-gap);
-  transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1);
-}
-
 .v2-carousel-slide {
-  flex: 0 0 700px;
-  min-width: 0;
+  flex: 0 0 calc(40% - 8px);
+  min-width: 300px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 .v2-bento-card {
@@ -533,9 +528,13 @@
   flex: 1;
   background: var(--v2-bg-card);
   border-radius: var(--v2-radius);
-  padding: 24px;
+  padding: 28px;
   margin-bottom: 16px;
   transition: background var(--v2-transition);
+}
+
+.v2-exp-block:hover {
+  background: var(--v2-bg-card-hover);
 }
 
 .v2-exp-header {
@@ -554,14 +553,14 @@
 }
 
 .v2-exp-logo {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: "Gasoek One", Impact, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   color: #ffffff;
   text-transform: uppercase;
@@ -870,6 +869,21 @@
   min-height: 80px;
 }
 
+.v2-bp-input--error {
+  border-color: #E63741 !important;
+}
+
+.v2-bp-error {
+  font-family: "Rubik", sans-serif;
+  font-size: 12px;
+  color: #E63741;
+  display: none;
+}
+
+.v2-bp-input--error ~ .v2-bp-error {
+  display: block;
+}
+
 .v2-bp-form-actions {
   display: flex;
   gap: 12px;
@@ -1158,24 +1172,33 @@
   }
 
   .v2-bp-value--lg {
-    font-size: 24px;
+    font-size: 32px;
   }
 
   .v2-bp-value {
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .v2-bp-label {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .v2-bp-logo {
-    font-size: 22px;
+    font-size: 24px;
+  }
+
+  .v2-bp-sub {
+    font-size: 14px;
   }
 
   .v2-bp-cta {
-    font-size: 15px;
+    font-size: 16px;
     padding: 16px;
+  }
+
+  .v2-bp-class {
+    font-size: 11px;
+    padding: 5px 14px;
   }
 
   .v2-bp-details {
@@ -1251,7 +1274,6 @@
   text-decoration: none;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
   transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
-  animation: v2-fab-levitate 2.8s ease-in-out infinite;
   outline: none;
 }
 
@@ -1321,21 +1343,36 @@
   }
 
   .v2-main {
-    padding: 24px;
+    padding: 32px;
+  }
+
+  /* FAB bottom-center on mobile */
+  .v2-fab {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .v2-fab:hover {
+    transform: translateX(-50%) translateY(-2px);
+  }
+
+  .v2-fab--hidden {
+    transform: translateX(-50%) translateY(8px);
   }
 
   .v2-marquee {
     margin-left: -24px;
-    margin-right: -24px;
+    margin-right: -32px;
   }
 
-  .v2-carousel {
-    margin-left: -24px;
-    margin-right: -24px;
+  .v2-carousel-viewport {
+    margin-right: -32px;
+    padding-right: 32px;
   }
 
   .v2-carousel-slide {
-    flex: 0 0 min(500px, calc(100vw - 48px));
+    flex: 0 0 min(300px, calc(100vw - 80px));
   }
 
   .v2-blurb {
@@ -1344,19 +1381,34 @@
 
   .v2-hero {
     min-height: auto;
-    margin-top: 0;
+    margin-top: -20px;
   }
 
   .v2-hero-wrapper {
-    min-height: 80vh;
+    min-height: 60vh;
   }
 
   .v2-sidebar-name {
-    font-size: 42px;
+    font-size: 48px;
   }
 
   .v2-name-last {
     display: block;
+  }
+
+  .v2-sidebar-role {
+    font-size: 13px;
+    margin-top: 14px;
+  }
+
+  .v2-status-pill {
+    font-size: 13px;
+    margin-top: 14px;
+    padding: 8px 16px;
+  }
+
+  .v2-sidebar {
+    padding: 28px 20px;
   }
 
   .v2-mobile-controls {
@@ -1364,8 +1416,8 @@
     align-items: center;
     gap: 8px;
     position: fixed;
-    top: 16px;
-    right: 16px;
+    top: 28px;
+    right: 20px;
     z-index: 300;
   }
 
@@ -1490,9 +1542,7 @@
 }
 
 @media (max-width: 600px) {
-  .v2-carousel-slide {
-    flex: 0 0 min(420px, calc(100vw - 48px));
-  }
+  /* carousel slide size handled in 768px query */
 
   .v2-bento-title {
     font-size: 20px;

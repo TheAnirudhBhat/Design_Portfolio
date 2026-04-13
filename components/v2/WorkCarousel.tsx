@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef } from "react";
 
 const projects = [
   {
@@ -14,7 +14,6 @@ const projects = [
     ],
     image: "/images/projects/lens-cover.jpg",
     bg: "#D30AD7",
-    href: "/work/lens",
   },
   {
     id: "upi",
@@ -27,7 +26,6 @@ const projects = [
     ],
     image: "/images/projects/upi-cover.jpg",
     bg: "#00A63E",
-    href: "/work/upi-onboarding",
   },
   {
     id: "epfo",
@@ -40,7 +38,6 @@ const projects = [
     ],
     image: "/images/projects/epfo-cover.jpg",
     bg: "#2196F3",
-    href: "/work/epfo",
   },
   {
     id: "xtra",
@@ -53,50 +50,20 @@ const projects = [
     ],
     image: "/images/projects/xtra-cover.jpg",
     bg: "#FF9800",
-    href: "/work/xtra",
   },
 ];
 
 export default function WorkCarousel() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [current, setCurrent] = useState(0);
-  const count = projects.length;
+  const viewportRef = useRef<HTMLDivElement>(null);
 
-  const go = useCallback(
-    (i: number) => {
-      const next = ((i % count) + count) % count;
-      setCurrent(next);
-      if (!trackRef.current) return;
-      const slide = trackRef.current.children[next] as HTMLElement;
-      if (slide) {
-        const track = trackRef.current;
-        const gap = parseFloat(getComputedStyle(track).gap) || 16;
-        const slideW = slide.offsetWidth;
-        const tx = -(next * (slideW + gap));
-        track.style.transform = `translate3d(${tx}px, 0, 0)`;
-      }
-    },
-    [count]
-  );
-
-  useEffect(() => {
-    // Delay to ensure layout is ready
-    requestAnimationFrame(() => go(0));
-  }, [go]);
-
-  // Touch swipe
-  const touchStart = useRef({ x: 0, y: 0 });
-
-  function onTouchStart(e: React.TouchEvent) {
-    touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-  }
-
-  function onTouchEnd(e: React.TouchEvent) {
-    const dx = touchStart.current.x - e.changedTouches[0].clientX;
-    const dy = touchStart.current.y - e.changedTouches[0].clientY;
-    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
-      go(dx > 0 ? current + 1 : current - 1);
-    }
+  function scrollByCard(dir: number) {
+    const vp = viewportRef.current;
+    if (!vp) return;
+    const slide = vp.querySelector(".v2-carousel-slide") as HTMLElement;
+    if (!slide) return;
+    const gap = parseFloat(getComputedStyle(vp).gap) || 16;
+    const scrollAmount = (slide.offsetWidth + gap) * dir;
+    vp.scrollBy({ left: scrollAmount, behavior: "smooth" });
   }
 
   return (
@@ -106,53 +73,37 @@ export default function WorkCarousel() {
           Selected Work
         </h2>
         <div className="v2-carousel-controls">
-          <button
-            className="v2-carousel-btn"
-            onClick={() => go(current - 1)}
-            aria-label="Previous"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
+          <button className="v2-carousel-btn" onClick={() => scrollByCard(-1)} aria-label="Previous">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
           </button>
-          <button
-            className="v2-carousel-btn"
-            onClick={() => go(current + 1)}
-            aria-label="Next"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 18l6-6-6-6" />
-            </svg>
+          <button className="v2-carousel-btn" onClick={() => scrollByCard(1)} aria-label="Next">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
           </button>
         </div>
       </div>
 
-      <div className="v2-carousel">
-        <div className="v2-carousel-viewport" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-          <div className="v2-carousel-track" ref={trackRef}>
-            {projects.map((p) => (
-              <div className="v2-carousel-slide" key={p.id}>
-                <div className="v2-bento-card" style={{ background: p.bg }}>
-                  <div className="v2-bento-visual">
-                    <img src={p.image} alt={p.title} loading="lazy" />
-                  </div>
-                  <div className="v2-bento-body">
-                    <h3 className="v2-bento-title">{p.title}</h3>
-                    <p className="v2-bento-sub">{p.sub}</p>
-                    <p className="v2-bento-desc">{p.desc}</p>
-                    <div className="v2-bento-stats">
-                      {p.stats.map((s) => (
-                        <span key={s.label}>
-                          <strong>{s.value}</strong> {s.label}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+      <div className="v2-carousel-viewport" ref={viewportRef}>
+        {projects.map((p) => (
+          <div className="v2-carousel-slide" key={p.id}>
+            <div className="v2-bento-card" style={{ background: p.bg }}>
+              <div className="v2-bento-visual">
+                <img src={p.image} alt={p.title} loading="lazy" />
+              </div>
+              <div className="v2-bento-body">
+                <h3 className="v2-bento-title">{p.title}</h3>
+                <p className="v2-bento-sub">{p.sub}</p>
+                <p className="v2-bento-desc">{p.desc}</p>
+                <div className="v2-bento-stats">
+                  {p.stats.map((s) => (
+                    <span key={s.label}>
+                      <strong>{s.value}</strong> {s.label}
+                    </span>
+                  ))}
                 </div>
               </div>
-            ))}
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </section>
   );
