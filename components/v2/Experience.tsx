@@ -6,7 +6,6 @@ const experience = [
     logoText: "s",
     logoColor: "#D30AD7",
     date: "Jan 2026 – Present",
-    current: true,
     roles: [
       { title: "Senior Product Designer", period: "Jan 2026 – Present" },
     ],
@@ -22,7 +21,6 @@ const experience = [
     logoText: "M",
     logoColor: "#00B9F5",
     date: "2022 – 2026",
-    current: false,
     roles: [
       { title: "Lead Product Designer", period: "2024 – 2026" },
       { title: "Product Designer", period: "2022 – 2024" },
@@ -39,7 +37,6 @@ const experience = [
     logoText: "F",
     logoColor: "#888888",
     date: "2020 – 2022",
-    current: false,
     roles: [
       { title: "UI/UX Designer", period: "2020 – 2022" },
     ],
@@ -54,39 +51,33 @@ const experience = [
 export default function Experience() {
   return (
     <section className="v2-experience">
-      <h2 className="v2-section-title" id="experience">
-        Experience
-      </h2>
+      <h2 className="v2-section-title" id="experience">Experience</h2>
 
       <div className="v2-exp-list">
         {experience.map((exp) => (
-          <div className="v2-exp-item" key={exp.company}>
-            <div className="v2-exp-block">
-              <div className="v2-exp-header">
-                <div className="v2-exp-company-row">
-                  <span className="v2-exp-logo" style={{ background: exp.logoColor }}>{exp.logoText}</span>
-                  <h3 className="v2-exp-company">{exp.company}</h3>
-                </div>
-                <span className="v2-exp-date">{exp.date}</span>
+          <div className="v2-exp-block" key={exp.company}>
+            <div className="v2-exp-header">
+              <div className="v2-exp-company-row">
+                <span className="v2-exp-logo" style={{ background: exp.logoColor }}>{exp.logoText}</span>
+                <h3 className="v2-exp-company">{exp.company}</h3>
               </div>
-              <div className="v2-exp-body">
-                <div className="v2-exp-col">
-                  <h4>Role</h4>
-                  {exp.roles.map((r) => (
-                    <div key={r.title}>
-                      <p className="v2-exp-role-primary">{r.title}</p>
-                      <p className="v2-exp-role-note">{r.period}</p>
-                    </div>
-                  ))}
-                </div>
-                <div className="v2-exp-col v2-exp-col--projects">
-                  <h4>Key Projects</h4>
-                  {exp.projects.map((p) => (
-                    <p key={p.name}>
-                      <strong>{p.name}</strong>: {p.desc}
-                    </p>
-                  ))}
-                </div>
+              <span className="v2-exp-date">{exp.date}</span>
+            </div>
+            <div className="v2-exp-body">
+              <div className="v2-exp-col">
+                <h4>Role</h4>
+                {exp.roles.map((r) => (
+                  <div key={r.title}>
+                    <p className="v2-exp-role-primary">{r.title}</p>
+                    <p className="v2-exp-role-note">{r.period}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="v2-exp-col v2-exp-col--projects">
+                <h4>Key Projects</h4>
+                {exp.projects.map((p) => (
+                  <p key={p.name}><strong>{p.name}</strong>: {p.desc}</p>
+                ))}
               </div>
             </div>
           </div>

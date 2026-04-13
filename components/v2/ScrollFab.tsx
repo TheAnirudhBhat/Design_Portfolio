@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 
 const sections = [
   { id: "work", label: "Selected Work" },
@@ -8,11 +8,11 @@ const sections = [
   { id: "contact", label: "Contact" },
 ];
 
-const topSection = { id: "_top", label: "Back to top" };
-
 export default function ScrollFab() {
   const [currentTarget, setCurrentTarget] = useState(sections[0]);
-  const [isBackToTop, setIsBackToTop] = useState(false);
+  const rafPending = useRef(false);
+
+  const isBackToTop = currentTarget.id === "_top";
 
   const update = useCallback(() => {
     const vh = window.innerHeight;
@@ -27,26 +27,32 @@ export default function ScrollFab() {
     }
 
     const nextIdx = currentIdx + 1;
-
-    // If we've scrolled past the contact section — show Back to top
     if (currentIdx >= sections.length - 1) {
-      setIsBackToTop(true);
-      setCurrentTarget(topSection);
+      setCurrentTarget({ id: "_top", label: "Back to top" });
     } else {
-      setIsBackToTop(false);
       setCurrentTarget(sections[nextIdx]);
     }
   }, []);
 
+  // rAF-throttled scroll handler
+  const onScroll = useCallback(() => {
+    if (rafPending.current) return;
+    rafPending.current = true;
+    requestAnimationFrame(() => {
+      rafPending.current = false;
+      update();
+    });
+  }, [update]);
+
   useEffect(() => {
     update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
     return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
     };
-  }, [update]);
+  }, [update, onScroll]);
 
   function handleClick(e: React.MouseEvent) {
     e.preventDefault();

@@ -1,20 +1,14 @@
 "use client";
 
 const items = [
-  "slice",
-  "UPI Payments",
-  "Credit Cards",
-  "Savings & FDs",
-  "MobiKwik",
-  "Design Systems",
-  "Young India",
-  "Fintech",
+  "slice", "UPI Payments", "Credit Cards", "Savings & FDs",
+  "MobiKwik", "Design Systems", "Young India", "Fintech",
 ];
 
-export default function Marquee() {
-  // Triple the items for seamless loop
-  const track = [...items, ...items, ...items];
+// Pre-computed — no allocation per render
+const track = [...items, ...items, ...items];
 
+export default function Marquee() {
   return (
     <div className="v2-marquee">
       <div className="v2-marquee-track">

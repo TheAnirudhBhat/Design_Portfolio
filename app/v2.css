@@ -1125,13 +1125,7 @@
 /* Perforated divider */
 .v2-bp-perf {
   width: 1px;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.12) 0px,
-    rgba(255, 255, 255, 0.12) 6px,
-    transparent 6px,
-    transparent 12px
-  );
+  background: rgba(255, 255, 255, 0.1);
   position: relative;
   flex-shrink: 0;
 }

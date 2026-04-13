@@ -10,7 +10,7 @@ import Footer from "@/components/v2/Footer";
 import ScrollFab from "@/components/v2/ScrollFab";
 import "./v2.css";
 
-export default function V2Page() {
+export default function Home() {
   return (
     <div className="v2-layout">
       <Sidebar />
