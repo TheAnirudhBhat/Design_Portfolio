@@ -762,6 +762,11 @@
   display: flex;
   flex-direction: column;
   gap: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--v2-radius);
+  box-shadow:
+    0 0 50px rgba(255, 255, 255, 0.03),
+    0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
 .v2-bp-form-header {
