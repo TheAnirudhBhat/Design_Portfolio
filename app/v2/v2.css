@@ -61,6 +61,21 @@
   text-transform: uppercase;
 }
 
+.v2-name-first {
+  color: var(--v2-text-primary);
+}
+
+.v2-name-last {
+  color: #D30AD7;
+}
+
+/* Desktop: stack name vertically */
+@media (min-width: 769px) {
+  .v2-name-last {
+    display: block;
+  }
+}
+
 [data-theme="dark"] .v2-sidebar-name span:first-child {
   color: #f0f0f0;
 }

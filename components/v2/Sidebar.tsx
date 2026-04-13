@@ -87,9 +87,9 @@ export default function Sidebar() {
       <aside className="v2-sidebar">
         <div className="v2-sidebar-top">
           <h1 className="v2-sidebar-name">
-            <span className="text-[rgba(0,0,0,0.9)] dark:text-[#f0f0f0]">Anirudh</span>
-            <br />
-            <span className="text-[#D30AD7]">Bhat</span>
+            <span className="v2-name-first">Anirudh</span>
+            {" "}
+            <span className="v2-name-last">Bhat</span>
           </h1>
           <p className="v2-sidebar-role">Product Designer in Bengaluru 🇮🇳</p>
           <span className="v2-status-pill">
