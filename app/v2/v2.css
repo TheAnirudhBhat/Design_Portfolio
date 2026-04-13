@@ -1222,15 +1222,19 @@
   }
 
   .v2-bp-value--lg {
-    font-size: 40px;
+    font-size: clamp(36px, 10vw, 48px);
   }
 
   .v2-bp-route .v2-bp-label {
-    font-size: 14px;
+    font-size: 15px;
   }
 
   .v2-bp-route .v2-bp-sub {
-    font-size: 16px;
+    font-size: 17px;
+  }
+
+  .v2-bp-route {
+    gap: 20px 28px;
   }
 
   .v2-bp-value {
