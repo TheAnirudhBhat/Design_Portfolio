@@ -50,7 +50,6 @@
   overflow: hidden;
   background: var(--v2-bg);
   transition: background var(--v2-transition);
-  z-index: 50;
 }
 
 .v2-sidebar-name {
@@ -1071,24 +1070,51 @@
   border-radius: 0.5px;
 }
 
-/* Mobile: stack vertically */
+/* Mobile: stack boarding pass vertically, hide stub */
 @media (max-width: 768px) {
   .v2-contact {
-    padding: 0 16px;
+    padding: 0;
   }
 
   .v2-bp {
     flex-direction: column;
-    max-width: 480px;
+    border-radius: 16px;
     margin: 0 auto;
+    max-width: 100%;
   }
 
   .v2-bp-main {
-    padding: 32px 24px;
+    padding: 28px 24px;
+    gap: 24px;
+  }
+
+  /* Hide stub on mobile — not enough room */
+  .v2-bp-perf,
+  .v2-bp-stub {
+    display: none;
+  }
+
+  .v2-bp-route {
+    grid-template-columns: auto auto auto auto;
+    gap: 12px;
+  }
+
+  .v2-bp-route-arrow {
+    font-size: 16px;
+    margin-top: 18px;
+  }
+
+  .v2-bp-value--lg {
+    font-size: 20px;
+  }
+
+  .v2-bp-details {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 
   .v2-bp-form-wrap {
-    padding: 32px 24px;
+    padding: 28px 24px;
   }
 
   .v2-bp-form-sub {
@@ -1099,66 +1125,7 @@
     font-size: 24px;
   }
 
-  .v2-bp-route {
-    grid-template-columns: auto auto auto auto;
-    gap: 16px;
-  }
-
-  .v2-bp-value--lg {
-    font-size: 22px;
-  }
-
-  .v2-bp-perf {
-    width: 100%;
-    height: 1px;
-    background: repeating-linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.12) 0px,
-      rgba(255, 255, 255, 0.12) 6px,
-      transparent 6px,
-      transparent 12px
-    );
-  }
-
-  /* cutouts removed */
-
-  .v2-bp-stub {
-    width: 100%;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 24px;
-    gap: 16px;
-  }
-
-  .v2-bp-stub-fields {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: center;
-  }
-
-  .v2-bp-stub-fields .v2-bp-field {
-    min-width: 80px;
-  }
-
-  .v2-bp-barcode {
-    width: 100%;
-    height: 36px;
-  }
-
-  .v2-bp-value--lg {
-    font-size: 22px;
-  }
-
-  .v2-bp-route {
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  .v2-bp-details {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  /* old duplicate rules removed — handled above */
 }
 
 /* --- Footer --- */
@@ -1268,6 +1235,8 @@
     border-right: none;
     border-bottom: 1px solid var(--v2-border);
     padding: 24px;
+    /* Remove stacking context on mobile so fixed nav drawer can escape */
+    z-index: auto;
   }
 
   .v2-sidebar-name {
@@ -1315,9 +1284,17 @@
   }
 
   .v2-mobile-theme {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     margin-top: 0;
+    background: #ffffff;
+    border: none;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  [data-theme="dark"] .v2-mobile-theme {
+    background: #1e1e22;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
   }
 
   .v2-burger {
@@ -1326,14 +1303,20 @@
     justify-content: center;
     align-items: center;
     gap: 4px;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     padding: 0;
-    border: 1px solid var(--v2-border);
+    border: none;
     border-radius: 50%;
-    background: var(--v2-bg-card);
-    color: var(--v2-text-secondary);
+    background: #ffffff;
+    color: var(--v2-text-primary);
     cursor: pointer;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  [data-theme="dark"] .v2-burger {
+    background: #1e1e22;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
   }
 
   /* Hide the theme toggle inside the sidebar nav on mobile — it's in the top bar now */
