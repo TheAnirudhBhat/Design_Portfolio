@@ -348,9 +348,9 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  padding: 24px 48px 40px 48px;
-  margin: -24px -48px -40px -48px;
-  scroll-padding-left: 48px;
+  padding: 24px 48px 40px 80px;
+  margin: -24px -48px -40px -80px;
+  scroll-padding-left: 80px;
   gap: 24px;
 }
 
@@ -1442,9 +1442,9 @@
   }
 
   .v2-carousel-viewport {
-    margin: -24px -32px -40px -32px;
-    padding: 24px 32px 40px 32px;
-    scroll-padding-left: 32px;
+    margin: -24px -32px -40px -48px;
+    padding: 24px 32px 40px 48px;
+    scroll-padding-left: 48px;
   }
 
   .v2-carousel-slide {
