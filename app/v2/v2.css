@@ -344,13 +344,14 @@
 
 .v2-carousel-viewport {
   display: flex;
-  gap: var(--v2-gap);
+  gap: 24px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scroll-padding-left: 48px;
   scrollbar-width: none;
   padding: 24px 48px 40px 48px;
   margin: -24px -48px -40px -48px;
+  scroll-padding-left: 48px;
+  gap: 24px;
 }
 
 .v2-carousel-viewport::-webkit-scrollbar {
@@ -541,7 +542,7 @@
   background: var(--v2-bg-card);
   border-radius: var(--v2-radius);
   padding: 28px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   transition: background var(--v2-transition);
 }
 
@@ -829,8 +830,9 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding-top: 8px;
+  padding-top: 24px;
   border-top: 1px dashed rgba(255, 255, 255, 0.08);
+  margin-top: 8px;
 }
 
 .v2-bp-form-field {
@@ -1024,7 +1026,28 @@
 .v2-bp-details {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px 16px;
+  gap: 24px 32px;
+}
+
+/* Left column: left-aligned (default) */
+/* Center column: center-aligned */
+.v2-bp-details > .v2-bp-field:nth-child(3n+2) {
+  text-align: center;
+  align-items: center;
+}
+
+/* Right column: right-aligned */
+.v2-bp-details > .v2-bp-field:nth-child(3n) {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.v2-bp-details .v2-bp-value {
+  font-size: 16px;
+}
+
+.v2-bp-details .v2-bp-label {
+  font-size: 11px;
 }
 
 /* Actions */
@@ -1221,7 +1244,14 @@
 
   .v2-bp-details {
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 20px;
+  }
+
+  /* Reset alignment on mobile — all left-aligned */
+  .v2-bp-details > .v2-bp-field:nth-child(3n+2),
+  .v2-bp-details > .v2-bp-field:nth-child(3n) {
+    text-align: left;
+    align-items: flex-start;
   }
 
   .v2-bp-form-wrap {
