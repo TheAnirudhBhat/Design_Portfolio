@@ -58,16 +58,9 @@ export default function Experience() {
         Experience
       </h2>
 
-      <div className="v2-timeline">
-        {experience.map((exp, i) => (
-          <div className="v2-timeline-item" key={exp.company}>
-            <div className="v2-timeline-track">
-              <div className={`v2-timeline-dot ${exp.current ? "v2-timeline-dot--active" : ""}`}>
-                {exp.current && <span className="v2-timeline-pulse" />}
-              </div>
-              {i < experience.length - 1 && <div className="v2-timeline-line" />}
-            </div>
-
+      <div className="v2-exp-list">
+        {experience.map((exp) => (
+          <div className="v2-exp-item" key={exp.company}>
             <div className="v2-exp-block">
               <div className="v2-exp-header">
                 <div className="v2-exp-company-row">

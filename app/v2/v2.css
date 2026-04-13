@@ -181,7 +181,7 @@
   min-width: 0;
 }
 
-.v2-main > *:not(.v2-work-section):not(.v2-hero-wrapper) {
+.v2-main > *:not(.v2-work-section):not(.v2-hero-wrapper):not(.v2-experience):not(.v2-contact) {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
@@ -348,10 +348,14 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
+  /* Only bleed right — left stays flush with content */
   padding: 24px 48px 40px 0;
   margin: -24px -48px -40px 0;
-  scroll-padding-left: 0;
-  gap: 24px;
+}
+
+/* Invisible spacer — creates buffer before first card so it doesn't clip */
+.v2-carousel-spacer {
+  flex: 0 0 4px;
 }
 
 .v2-carousel-viewport::-webkit-scrollbar {
@@ -665,9 +669,6 @@
 /* --- Contact Boarding Pass (3D flip + tilt) --- */
 .v2-contact {
   margin-bottom: 80px;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 
@@ -779,9 +780,9 @@
   overflow: visible;
 }
 
-/* Logo on form side is a faded watermark */
+/* Logo on form side is a subtle watermark */
 .v2-bp-form-header .v2-bp-logo {
-  opacity: 0.15;
+  opacity: 0.35;
   font-size: 28px;
 }
 
@@ -1038,21 +1039,8 @@
 /* Details grid */
 .v2-bp-details {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px 32px;
-}
-
-/* Left column: left-aligned (default) */
-/* Center column: center-aligned */
-.v2-bp-details > .v2-bp-field:nth-child(3n+2) {
-  text-align: center;
-  align-items: center;
-}
-
-/* Right column: right-aligned */
-.v2-bp-details > .v2-bp-field:nth-child(3n) {
-  text-align: right;
-  align-items: flex-end;
 }
 
 .v2-bp-details .v2-bp-value {
@@ -1062,6 +1050,28 @@
 .v2-bp-details .v2-bp-label {
   font-size: 11px;
   margin-bottom: 2px;
+}
+
+/* Barcode in main card — hidden on desktop (stub has it), shown on mobile */
+.v2-bp-barcode-mobile {
+  display: none;
+  align-items: center;
+  gap: 2px;
+  height: 40px;
+}
+
+.v2-bp-barcode-mobile span {
+  display: block;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .v2-bp-barcode-mobile {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 /* Actions */
@@ -1272,13 +1282,6 @@
   .v2-bp-details {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-  }
-
-  /* Reset alignment on mobile — all left-aligned */
-  .v2-bp-details > .v2-bp-field:nth-child(3n+2),
-  .v2-bp-details > .v2-bp-field:nth-child(3n) {
-    text-align: left;
-    align-items: flex-start;
   }
 
   .v2-bp-form-wrap {

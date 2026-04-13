@@ -231,8 +231,12 @@ export default function Contact() {
                 <div className="v2-bp-field"><span className="v2-bp-label">Experience</span><span className="v2-bp-value">4+ Years</span></div>
                 <div className="v2-bp-field"><span className="v2-bp-label">Status</span><span className="v2-bp-value v2-bp-value--green"><span className="v2-status-dot" /> Available</span></div>
                 <div className="v2-bp-field"><span className="v2-bp-label">Date</span><span className="v2-bp-value">{dateStr}</span></div>
-                <div className="v2-bp-field"><span className="v2-bp-label">Gate</span><span className="v2-bp-value">{timeStr}</span></div>
-                <div className="v2-bp-field"><span className="v2-bp-label">Seat</span><span className="v2-bp-value">1A</span></div>
+              </div>
+              {/* Barcode — visible on mobile where stub is hidden */}
+              <div className="v2-bp-barcode-mobile">
+                {[3,1.5,3,1.5,3,3,1.5,3,1.5,1.5,3,1.5,3,3,1.5,1.5,3,3,1.5,3,1.5,1.5,3,3,1.5,3,1.5,3].map((w, i) => (
+                  <span key={i} style={{ width: `${w}px` }} />
+                ))}
               </div>
               <div className="v2-bp-actions">
                 <button onClick={() => flipTo("back")} className="v2-bp-cta">Board now — say hello</button>
