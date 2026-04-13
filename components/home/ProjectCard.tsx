@@ -1,7 +1,8 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 interface ProjectCardProps {
   title: string;
@@ -12,6 +13,8 @@ interface ProjectCardProps {
   impact?: string;
   impactLabel?: string;
   tags?: string[];
+  image?: string;
+  size?: "large" | "default";
 }
 
 export default function ProjectCard({
@@ -23,63 +26,104 @@ export default function ProjectCard({
   impact,
   impactLabel,
   tags = [],
+  image,
+  size = "default",
 }: ProjectCardProps) {
+  const isLarge = size === "large";
+  const cardRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "end start"],
+  });
+  const imageY = useTransform(scrollYProgress, [0, 1], ["-5%", "-15%"]);
+
   return (
-    <Link href={href}>
+    <Link href={href} className="block" data-cursor="View Case Study">
       <motion.article
-        className="dls-card overflow-hidden group cursor-pointer"
-        whileHover={{ y: -2, boxShadow: "0 4px 12px rgba(0,0,0,0.12)" }}
-        whileTap={{ scale: 0.99 }}
-        transition={{ duration: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+        ref={cardRef}
+        className="group cursor-pointer relative overflow-hidden rounded-[20px] bg-[#0A0A0F]"
+        style={{ height: isLarge ? "480px" : "380px" }}
+        whileTap={{ scale: 0.985 }}
+        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
       >
-        <div className="flex flex-col tablet:flex-row">
-          <div
-            className="w-full tablet:w-[280px] desktop:w-[340px] h-[200px] tablet:h-auto shrink-0"
-            style={{ background: `linear-gradient(135deg, ${accent}20, ${accent}08)` }}
-          >
-            <div className="w-full h-full flex items-center justify-center min-h-[200px] tablet:min-h-[260px]">
-              <span className="text-[48px] font-medium opacity-10" style={{ color: accent }}>
-                {title.charAt(0)}
-              </span>
-            </div>
-          </div>
-
-          <div className="flex-1 p-[32px] flex flex-col justify-center">
-            <h3 className="text-[24px] leading-[32px] font-medium text-[rgba(0,0,0,0.9)] mb-[8px]">
-              {title}
-            </h3>
-            <p className="text-[14px] leading-[20px] text-[rgba(0,0,0,0.5)] mb-[20px] max-w-[400px]">
-              {subtitle}
-            </p>
-
-            {impact && (
-              <div className="mb-[20px]">
-                <p className="text-[12px] leading-[16px] text-[rgba(0,0,0,0.3)] mb-[4px]">Impact:</p>
-                <p className="text-[20px] leading-[24px] font-medium text-[rgba(0,0,0,0.9)]">
-                  {impact}
-                  {impactLabel && (
-                    <span className="text-[14px] leading-[20px] font-normal text-[rgba(0,0,0,0.5)] block mt-[4px]">
-                      {impactLabel}
-                    </span>
-                  )}
-                </p>
-              </div>
-            )}
-
-            {tags.length > 0 && (
-              <div className="flex flex-wrap gap-[8px]">
-                {tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-[12px] py-[4px] bg-[#F5F5F5] rounded-full text-[12px] leading-[16px] font-medium text-[rgba(0,0,0,0.5)]"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
+        {/* Background image with parallax + hover scale */}
+        <div className="absolute inset-0 overflow-hidden">
+          {image ? (
+            <motion.img
+              src={image}
+              alt={title}
+              className="w-full h-[120%] object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-700 ease-out"
+              style={{ y: imageY }}
+            />
+          ) : (
+            <div
+              className="w-full h-full"
+              style={{ background: `linear-gradient(135deg, ${accent}40, ${accent}10)` }}
+            />
+          )}
         </div>
+
+        {/* Gradient overlay — stronger at bottom */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-[#0A0A0F]/40 to-transparent" />
+
+        {/* Noise texture overlay */}
+        <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none grain-texture" />
+
+        {/* Content pinned to bottom */}
+        <div className="absolute bottom-0 left-0 right-0 p-[28px] tablet:p-[36px]">
+          {/* Tags — slide up on hover */}
+          {tags.length > 0 && (
+            <div className="flex flex-wrap gap-[6px] mb-[16px] translate-y-[8px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out">
+              {tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-[10px] py-[3px] rounded-full text-[11px] leading-[16px] font-medium text-white/70 border border-white/15 backdrop-blur-sm"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Title */}
+          <h3
+            className={`font-medium text-white mb-[6px] ${
+              isLarge
+                ? "text-[32px] leading-[40px]"
+                : "text-[24px] leading-[32px]"
+            }`}
+          >
+            {title}
+          </h3>
+
+          {/* Subtitle — visible, slides up slightly on hover */}
+          <p className="text-[14px] leading-[20px] text-white/50 max-w-[440px] mb-[16px] group-hover:text-white/70 transition-colors duration-300">
+            {subtitle}
+          </p>
+
+          {/* Impact metric */}
+          {impact && (
+            <div className="flex items-baseline gap-[8px]">
+              <span
+                className="text-[28px] leading-[32px] font-medium"
+                style={{ color: accent }}
+              >
+                {impact}
+              </span>
+              {impactLabel && (
+                <span className="text-[13px] leading-[16px] text-white/40">
+                  {impactLabel}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Accent line at top */}
+        <div
+          className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{ background: accent }}
+        />
       </motion.article>
     </Link>
   );

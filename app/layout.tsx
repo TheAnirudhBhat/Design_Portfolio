@@ -3,7 +3,8 @@ import "./globals.css";
 import Nav from "@/components/layout/Nav";
 import BottomNav from "@/components/layout/BottomNav";
 import SmoothScroll from "@/components/layout/SmoothScroll";
-import PageTransition from "@/components/layout/PageTransition";
+import CustomCursor from "@/components/ui/CustomCursor";
+import IntroScreen from "@/components/ui/IntroScreen";
 
 export const metadata: Metadata = {
   title: "dawave — Product Designer",
@@ -23,14 +24,14 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-sans bg-white text-[rgba(0,0,0,0.9)]">
+      <body className="font-sans bg-white text-[rgba(0,0,0,0.9)] grain-overlay">
+        <IntroScreen />
+        <CustomCursor />
         <SmoothScroll>
           <Nav />
-          <PageTransition>
-            <main className="min-h-screen pb-[140px] tablet:pb-0">
-              {children}
-            </main>
-          </PageTransition>
+          <main className="min-h-screen pb-[140px] tablet:pb-0">
+            {children}
+          </main>
           <BottomNav />
         </SmoothScroll>
       </body>

@@ -2,12 +2,13 @@
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import GestureNav from "@/components/layout/GestureNav";
+import { motion } from "framer-motion";
 
 const experiments = [
-  { title: "Motion Studies", description: "Exploring micro-interactions for fintech flows", accent: "#D30AD7" },
-  { title: "Type Explorations", description: "Playing with Rubik at extreme scales", accent: "#2196F3" },
-  { title: "Color Systems", description: "Generative color palette experiments", accent: "#00A63E" },
-  { title: "Layout Grids", description: "Adaptive grid systems for card-based UIs", accent: "#FF9800" },
+  { title: "Motion Studies", description: "Exploring micro-interactions for fintech flows", accent: "#D30AD7", image: "/images/playground/motion.jpg" },
+  { title: "Type Explorations", description: "Playing with Rubik at extreme scales", accent: "#2196F3", image: "/images/playground/type.jpg" },
+  { title: "Color Systems", description: "Generative color palette experiments", accent: "#00A63E", image: "/images/playground/color.jpg" },
+  { title: "Layout Grids", description: "Adaptive grid systems for card-based UIs", accent: "#FF9800", image: "/images/playground/grid.jpg" },
 ];
 
 export default function PlaygroundPage() {
@@ -38,16 +39,25 @@ export default function PlaygroundPage() {
         <div className="flex flex-col gap-[16px] tablet:grid tablet:grid-cols-2 desktop:grid-cols-3 tablet:gap-[24px] mt-[16px] tablet:mt-0">
           {experiments.map((exp, i) => (
             <ScrollReveal key={exp.title} delay={i * 0.05}>
-              <div className="dls-card overflow-hidden">
-                <div
-                  className="h-[140px] tablet:h-[180px]"
-                  style={{ background: `linear-gradient(135deg, ${exp.accent}15, ${exp.accent}05)` }}
-                />
-                <div className="p-[24px]">
-                  <h3 className="text-[16px] leading-[20px] font-medium text-[rgba(0,0,0,0.9)] mb-[4px]">{exp.title}</h3>
-                  <p className="text-[14px] leading-[20px] text-[rgba(0,0,0,0.7)]">{exp.description}</p>
+              <motion.div
+                className="group overflow-hidden rounded-[16px] cursor-pointer relative"
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+              >
+                <div className="relative h-[200px] tablet:h-[220px] overflow-hidden">
+                  <img
+                    src={exp.image}
+                    alt={exp.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute inset-0 grain-texture opacity-[0.03]" />
                 </div>
-              </div>
+                <div className="absolute bottom-0 left-0 right-0 p-[20px]">
+                  <h3 className="text-[16px] leading-[20px] font-medium text-white mb-[4px]">{exp.title}</h3>
+                  <p className="text-[13px] leading-[18px] text-white/60">{exp.description}</p>
+                </div>
+              </motion.div>
             </ScrollReveal>
           ))}
         </div>

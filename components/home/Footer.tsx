@@ -3,8 +3,9 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const socialLinks = [
-  { name: "Twitter", href: "https://twitter.com" },
-  { name: "LinkedIn", href: "https://linkedin.com" },
+  { name: "Dribbble", href: "https://dribbble.com/DaW4ve" },
+  { name: "LinkedIn", href: "https://linkedin.com/in/daw4ve" },
+  { name: "Medium", href: "https://medium.com/@daw4ve" },
 ];
 
 export default function Footer() {
