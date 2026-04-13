@@ -17,14 +17,14 @@ export default function Hero() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.05}>
-          <p className="text-[16px] leading-[24px] text-[rgba(0,0,0,0.5)] max-w-[480px] mx-auto mb-[32px]">
+          <p className="text-[16px] leading-[24px] text-[rgba(0,0,0,0.5)] max-w-[480px] mx-auto mb-[40px]">
             Senior Product Designer at slice, shaping UPI payments<br className="hidden tablet:block" />
             and banking products. 4+ years in fintech.
           </p>
         </ScrollReveal>
 
         <ScrollReveal delay={0.1}>
-          <div className="flex gap-[12px] justify-center mb-[48px]">
+          <div className="flex gap-[16px] justify-center mb-[64px]">
             <a
               href="#work"
               className="inline-flex items-center justify-center px-[24px] py-[12px] bg-[#D30AD7] rounded-full text-[14px] leading-[20px] font-medium text-white tracking-[0.28px] hover:bg-[#A808AB] transition-colors duration-150"

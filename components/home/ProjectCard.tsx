@@ -44,7 +44,7 @@ export default function ProjectCard({
             </div>
           </div>
 
-          <div className="flex-1 p-[24px] tablet:p-[32px] flex flex-col justify-center">
+          <div className="flex-1 p-[32px] flex flex-col justify-center">
             <h3 className="text-[24px] leading-[32px] font-medium text-[rgba(0,0,0,0.9)] mb-[8px]">
               {title}
             </h3>
@@ -58,7 +58,7 @@ export default function ProjectCard({
                 <p className="text-[20px] leading-[24px] font-medium text-[rgba(0,0,0,0.9)]">
                   {impact}
                   {impactLabel && (
-                    <span className="text-[14px] leading-[20px] font-normal text-[rgba(0,0,0,0.5)] ml-[8px]">
+                    <span className="text-[14px] leading-[20px] font-normal text-[rgba(0,0,0,0.5)] block mt-[4px]">
                       {impactLabel}
                     </span>
                   )}

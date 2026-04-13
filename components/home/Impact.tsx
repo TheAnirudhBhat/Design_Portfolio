@@ -22,7 +22,7 @@ export default function Impact() {
     <section className="py-[64px] tablet:py-[100px] px-[24px]">
       <div className="max-w-[960px] mx-auto text-center">
         <ScrollReveal>
-          <h2 className="text-[32px] leading-[40px] font-medium text-[rgba(0,0,0,0.9)] mb-[48px] tablet:mb-[64px]">
+          <h2 className="text-[32px] leading-[40px] font-medium text-[rgba(0,0,0,0.9)] mb-[64px] tablet:mb-[64px]">
             Product Impact
           </h2>
         </ScrollReveal>

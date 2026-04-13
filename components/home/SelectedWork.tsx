@@ -46,7 +46,7 @@ const projects = [
 
 export default function SelectedWork() {
   return (
-    <section id="work" className="py-[64px] tablet:py-[100px] px-[24px]">
+    <section id="work" className="py-[80px] tablet:py-[120px] px-[24px]">
       <div className="max-w-[960px] mx-auto">
         <ScrollReveal>
           <h2 className="text-[32px] leading-[40px] font-medium text-[rgba(0,0,0,0.9)] text-center mb-[48px] tablet:mb-[64px]">

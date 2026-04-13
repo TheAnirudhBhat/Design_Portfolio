@@ -45,11 +45,16 @@ export default function Nav() {
                 {link.name}
               </span>
               {isActive(link.href) && (
-                <motion.div
-                  layoutId="nav-indicator"
-                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#D30AD7] rounded-full"
-                  transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-                />
+                <>
+                  <motion.div
+                    layoutId="nav-indicator"
+                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#D30AD7] rounded-full"
+                    transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                  />
+                  <noscript>
+                    <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#D30AD7] rounded-full" />
+                  </noscript>
+                </>
               )}
             </Link>
           ))}
