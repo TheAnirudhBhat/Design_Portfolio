@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Nav from "@/components/layout/Nav";
-import BottomNav from "@/components/layout/BottomNav";
-import SmoothScroll from "@/components/layout/SmoothScroll";
-import CustomCursor from "@/components/ui/CustomCursor";
-import IntroScreen from "@/components/ui/IntroScreen";
 
 export const metadata: Metadata = {
   title: "dawave — Product Designer",
@@ -20,20 +15,12 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link
-          href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&family=Gasoek+One&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="font-sans bg-white text-[rgba(0,0,0,0.9)] grain-overlay">
-        <IntroScreen />
-        <CustomCursor />
-        <SmoothScroll>
-          <Nav />
-          <main className="min-h-screen pb-[140px] tablet:pb-0">
-            {children}
-          </main>
-          <BottomNav />
-        </SmoothScroll>
+      <body className="font-sans bg-white text-[rgba(0,0,0,0.9)]">
+        {children}
       </body>
     </html>
   );

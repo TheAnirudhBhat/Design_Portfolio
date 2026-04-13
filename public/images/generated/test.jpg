@@ -1,0 +1,676 @@
+<html>
+<head>
+    <title></title>
+    <meta name="referrer" content="no-referrer">
+</head>
+<script>
+window.onload = function() {
+    // modal style
+var css = '\
+  .ns-template-wrap { \
+     z-index: 2; \
+     font-size: 12px; \
+     background: #ffffff; \
+     line-height: 16px; \
+     color: #646464; \
+     border-top: 8px solid transparent; \
+     padding: 24px 32px 32px; \
+     font-family: Lato, sans-serif; \
+  } \
+  .ns-template-inner-wrap { \
+     width: 100%; \
+     max-width: 600px; \
+     margin: 0 auto; \
+     overflow-x: hidden; \
+     word-wrap: break-word; \
+  } \
+  .ns-template-wrap * { \
+     box-sizing: border-box; \
+  } \
+  .ns-template-wrap h1 { \
+     margin-top: 0; \
+     color: #000000; \
+     font-size: 20px; \
+     line-height: 24px; \
+     font-weight: normal; \
+     margin-bottom: 16px; \
+  } \
+  .ns-template-wrap h2 { \
+     margin-top: 0; \
+     color: #000000; \
+     font-size: 14px; \
+     line-height: 20px; \
+     font-weight: normal; \
+     margin-bottom: 16px; \
+  } \
+  .ns-template-wrap p { \
+     color: #646464; \
+     font-size: 12px; \
+     line-height: 16px; \
+     margin-bottom: 24px; \
+  } \
+  .ns-template-wrap p.message-max-height { \
+     overflow: auto; \
+     word-wrap: break-word; \
+     margin-bottom: 20px; \
+  } \
+  .ns-template-wrap fieldset { \
+     margin: 0 0 12px 0; \
+     padding: 0; \
+     border: 0; \
+  } \
+  .ns-template-wrap fieldset label{ \
+     margin: 0 0 8px 0; \
+     padding: 0; \
+     border: 0; \
+     font-size: 14px; \
+     line-height: 20px; \
+     color: #000000; \
+  } \
+  .ns-template-wrap fieldset label::after{ \
+     content: ""; \
+     display: table; \
+     width: 100%; \
+     clear: both; \
+  } \
+  .ns-template-wrap fieldset label:last-of-type{ \
+     margin-bottom: 0; \
+  } \
+  .ns-template-wrap .custom-logo { \
+     margin-bottom: 24px; \
+  } \
+  .ns-template-wrap .custom-logo.small { \
+     max-height: 48px; \
+  } \
+  .ns-template-wrap .custom-logo.medium { \
+     max-height: 64px; \
+  } \
+  .ns-template-wrap .custom-logo.large { \
+     max-height: 128px; \
+  } \
+  .ns-template-wrap textarea { \
+     font-family: inherit; \
+     padding: 8px 12px; \
+     height: 80px; \
+     width: 100% !important; \
+     resize: none; \
+     border: 1px solid #E1E1E1; \
+     border-radius: 4px; \
+     background-color: #FFFFFF; \
+     color: #434343; \
+     font-size: 13px; \
+     line-height: 16px; \
+  } \
+  .ns-template-wrap button[disabled] { \
+     background: #EEEEEE; \
+     border-color: #E3E3E3; \
+     color: #ccc; \
+  } \
+  .ns-template-wrap button { \
+     height: auto; \
+     min-width: 88px; \
+     max-width: 160px; \
+     overflow: hidden; \
+     text-overflow: ellipsis; \
+     padding: 8px 16px; \
+     font-size: 12px; \
+     font-weight: bold; \
+     line-height: 16px; \
+     text-align: center; \
+     text-transform: uppercase; \
+  } \
+  .ns-template-wrap button.ns-btn-primary { \
+     border: 1px solid #047AB5; \
+     color: #FFFFFF; \
+     border-radius: 4px; \
+     background-color: #047AB5; \
+  } \
+  .ns-template-wrap button.ns-btn-cancel { \
+     border: 1px solid #047AB5; \
+     border-radius: 4px; \
+     background-color: #FFFFFF; \
+     color: #047AB5; \
+     margin-right: 8px; \
+  }\
+  .ns-user-justify-modal-wrap { \
+      font-size: 14px; \
+      color: #333333; \
+      text-align: center; \
+  } \
+  .ns-user-justify-modal-backdrop { \
+      position: fixed; \
+      z-index: 1; \
+      top: 0; \
+      left: 0; \
+      height: 100%; \
+      width: 100%; \
+      opacity: .6; \
+      background: #000000; \
+  } \
+  .ns-user-justify-modal-wrap .modal-header { \
+      min-height: 40px; \
+      height: auto; \
+      padding: 0; \
+      background: #FFFFFF; \
+      border-bottom: 0; \
+  } \
+  .ns-user-justify-modal-wrap .modal-header .modal-header { \
+      padding: 0 0 24px 0; \
+  } \
+  .ns-user-justify-modal-wrap textarea { \
+      font-size: inherit; \
+      font-family: inherit; \
+  } \
+  .ns-user-justify-modal-wrap * { \
+      box-sizing: border-box; \
+  } \
+  .ns-user-justify-modal { \
+      position: relative; \
+      display: inline-block; \
+      z-index: 2; \
+      padding: 72px 32px 0; \
+      width: 100%; \
+      max-width: 480px; \
+      text-align: left; \
+      border-radius: 2px; \
+      background-color: #FFFFFF; \
+      color: #242424; \
+      font-family:Lato, Arial, sans-serif; \
+      font-size: 14px; \
+      line-height: 20px; \
+  } \
+  .ns-user-justify-modal h1 { \
+      margin-top: 0; \
+      color: #000100; \
+      font-size: 20px; \
+      line-height: 24px; \
+      font-family:Lato, Arial, sans-serif; \
+  } \
+  .ns-user-justify-modal h2 { \
+      margin-top: 0; \
+      color: #000100; \
+      font-size: 18px; \
+      line-height: 24px; \
+      font-family:Lato, Arial, sans-serif; \
+  } \
+  .ns-user-justify-modal h3 { \
+      margin-top: 0; \
+      color: #000100; \
+      font-size: 16px; \
+      line-height: 24px; \
+      font-family:Lato, Arial, sans-serif; \
+  } \
+  .ns-user-justify-modal p { \
+      margin: 24px 0; \
+      color: #434343; \
+      font-size: 12px; \
+      line-height: 15px; \
+      max-height: 150px; \
+      overflow-y: auto; \
+  } \
+  .ns-user-justify-modal label { \
+      display: block; \
+      margin-right: .5em; \
+  } \
+  .ns-user-justify-modal fieldset { \
+      margin: 1em 0 0; \
+      padding: 0; \
+      border: 0; \
+  } \
+  .ns-user-justify-modal .custom-logo { \
+      position: absolute; \
+      top: 24px; \
+      left: 32px; \
+      max-height: 60px; \
+      max-width: 128px; \
+  } \
+  #ns-justify-description-box { \
+      padding: .5em; \
+      height: 7.5em; \
+      width: 100% !important; \
+      resize: none; \
+      margin-bottom: 0; \
+      border: 1px solid #E1E1E1; \
+      border-radius: 4px; \
+      background-color: #FFFFFF; \
+      color: #9B9B9B; \
+      font-size: 13px; \
+      line-height: 16px; \
+  } \
+  .ns-user-justify-modal-wrap button[disabled] { \
+      background: #EEEEEE; \
+      border-color: #E3E3E3; \
+      color: #ccc; \
+  } \
+  .ns-btn-group { \
+      margin-top: 40px; \
+      padding: 16px 0; \
+      text-align: right; \
+      position: relative; \
+  } \
+  .ns-btn-group:after { \
+      content: ""; \
+      background: #EEEEEE; \
+      height: 1px; \
+      width: calc(100% + 64px); \
+      position: absolute; \
+      top: 0; \
+      left: -32px; \
+  } \
+  .ns-btn-group button { \
+      height: auto; \
+      min-width: 88px; \
+      max-width: 160px; \
+      overflow: hidden; \
+      text-overflow: ellipsis; \
+      padding: 8px 16px; \
+      font-size: 12px; \
+      font-weight: bold; \
+      line-height: 16px; \
+      text-align: center; \
+      text-transform: uppercase; \
+  } \
+  .ns-btn-cancel { \
+      border: 1px solid #1BB7DF; \
+      border-radius: 4px; \
+      background-color: #FFFFFF; \
+      color: #1BB7DF; \
+      float: left; \
+  } \
+  .ns-btn-primary { \
+      color: #FFFFFF; \
+      border-radius: 4px; \
+      background-color: #1BB7DF; \
+      border: 1px solid #1BB7DF; \
+  } \
+  .ns-btn-group.ns-no-border { \
+      text-align: left; \
+      padding: 0; \
+      margin-top: 32px; \
+  } \
+  .ns-btn-group.ns-no-border:after { \
+      background: transparent; \
+  } \
+  .ns-btn-group.ns-no-border .ns-btn-cancel { \
+      margin-right: 8px; \
+  } \
+  .ns-user-justify-modal h4 { \
+      margin-top:0; \
+      margin-bottom:0; \
+      color: #000100; \
+      font-size: 20px; \
+      line-height: 24px; \
+      font-family:Lato, Arial, sans-serif; \
+      font-weight:normal; \
+  } \
+  .ns-user-justify-modal h5 { \
+      margin-top: 0; \
+      margin-bottom: 0; \
+      color: #434343; \
+      font-size: 12px; \
+      line-height: 16px; \
+      font-family:Lato, Arial, sans-serif; \
+      font-weight: normal; \
+  } \
+  .ns-form-input { \
+      width: 280px; \
+      border: 1px solid #E1E1E1; \
+      border-radius: 4px; \
+      background-color: #FFFFFF; \
+      color: #9B9B9B; \
+      font-family:Lato, Arial, sans-serif; \
+      font-size: 13px; \
+      line-height: 16px; \
+      padding:8px 12px; \
+      margin-top: 16px; \
+      margin-bottom:0; \
+  } \
+  .ns-padding-none { \
+      padding: 0 !important; \
+  } \
+  .ns-margin-none { \
+      margin: 0 !important; \
+  } \
+  .ns-success-msg { \
+      margin-top: 0; \
+      color: #000100; \
+      font-size: 14px; \
+      line-height: 24px; \
+      font-family: Lato, Arial, sans-serif; \
+      font-weight: normal; \
+      float: left; \
+      margin-left: 15px; \
+      margin-bottom: 0; \
+  }';
+
+var notify_css = document.createElement('style');
+notify_css.innerHTML = css;
+document.getElementsByTagName("head")[0].appendChild(notify_css);
+
+ns_debug = function(log_txt) {
+  if (typeof window.console != 'undefined') {
+    console.log(log_txt);
+  }
+};
+
+var ackMessages = {
+    'en': {
+        'block_message': 'You can close this page',
+        'justification_message': 'Justification sent, you can close this page'
+    },
+    'de': {
+        'block_message': 'Sie können diese Seite schließen.',
+        'justification_message': 'Die Begründung wurde gesendet, Sie können diese Seite schließen.'
+    },
+    'es': {
+        'block_message': 'Puedes cerrar esta página.',
+        'justification_message': 'Justificación enviada, ya puedes cerrar esta página.'
+    },
+    'fr': {
+        'block_message': 'Vous pouvez fermer cette page',
+        'justification_message': 'Justificatif envoyé, vous pouvez fermer cette page.'
+    },
+    'it': {
+        'block_message': 'Puoi chiudere questa pagina.',
+        'justification_message': 'La giustificazione è stata inviata, potete chiudere questa pagina.'
+    },
+    'ja': {
+        'block_message': 'このページを閉じることができます。',
+        'justification_message': '正当化理由を送信しました。このページを閉じても構いません。'
+    },
+    'zh': {
+        'block_message': '您可以关闭此页面。',
+        'justification_message': '理由已发送，您可以关闭此页面。'
+    },
+    'ko': {
+        'block_message': '이 페이지를 닫으셔도 됩니다.',
+        'justification_message': '소명 자료가 제출되었습니다. 이 페이지를 닫으셔도 됩니다.'
+    },
+    'pt': {
+        'block_message': 'Você pode fechar esta página.',
+        'justification_message': 'Justificativa enviada, você pode fechar esta página.'
+    },
+    'br': {
+        'block_message': 'Você pode fechar esta página.',
+        'justification_message': 'Justificativa enviada, você pode fechar esta página.'
+    }
+};
+
+function renderMessage(params) {
+    /*
+    // params comes from server
+    // The top format is for rendering the justification html
+    // and the bottom format is for rendering the block html.
+    @params = {
+    msg: (string),
+    justify: (htmlString)
+    } or
+    @params = {
+    rawmsg: (htmlString)
+    }
+     */
+    var notify_modal_container = document.createElement('div');
+    if (document.body) {
+        document.body.appendChild(notify_modal_container);
+    }
+    // Display justification pages
+    doc = window.document;
+    if (params.msg) {
+        doc.title = params.msg;
+    }
+
+    var language = "en";
+    if (language.indexOf("NS_LANGUAGE") > -1) {
+        // no substitution done, set to default
+        ns_debug("language is set to default language en");
+        doc.documentElement.lang = 'en';
+    } else {
+        ns_debug("language is set to:" + language);
+        doc.documentElement.lang = language;
+    }
+
+    notify_css = doc.createElement('style');
+    notify_css.innerHTML = css;
+    doc.getElementsByTagName("head")[0].appendChild(notify_css);
+
+    doc.body.innerHTML = params.justify;
+    doc.querySelector('.msg').innerHTML = params.msg;
+
+    formData = {};
+    var justifyForm = doc.querySelector('.ns-template-inner-wrap form');
+    var descriptionField = doc.querySelector('#ns-justify-description');
+    var descriptionFieldBox = doc.querySelector('#ns-justify-description-box');
+    var justifySubmitBtns = justifyForm.querySelectorAll('.ns-submit');
+    var justifyRadio = justifyForm.querySelector('#justify-usage-radio');
+    var falsePositiveRadio = justifyForm.querySelector('#false-positive-radio');
+
+    var justification_req = 1;
+    _ns_justify_message_ = 1;
+    _ns_url_ = justifyForm.getAttribute('action');
+
+    var justifyFields = justifyForm.querySelectorAll('[name]');
+    for (var i=0; i<justifyFields.length; i++) {
+        var field = justifyFields[i];
+        var key = field.getAttribute('name');
+        if(key == 'msuid') {
+            _ns_msuid_ = field.value;
+            break;
+        }
+    }
+
+    function disableSubmitBtns() {
+        if (justifySubmitBtns.length == 2) {
+            justifySubmitBtns[1].setAttribute('disabled', 'disabled');
+        } else if (justifySubmitBtns.length == 1) {
+            justifySubmitBtns[0].setAttribute('disabled', 'disabled');
+        }
+    }
+
+    function enableSubmitBtns() {
+        if (justifySubmitBtns.length == 2) {
+            justifySubmitBtns[1].removeAttribute('disabled');
+        } else if (justifySubmitBtns.length == 1) {
+            justifySubmitBtns[0].removeAttribute('disabled');
+        }
+    }
+
+    function validateForm() {
+        if(params.force_justify == "false")
+            return;
+
+        if (!descriptionFieldBox || !justifySubmitBtns) {
+            return;
+        }
+        if (justification_req == 1 && !descriptionFieldBox.value.length) {
+            disableSubmitBtns();
+        } else {
+            if (justification_req == 1 &&
+                descriptionFieldBox.value.length &&
+                !descriptionFieldBox.value.match(/([^\u0000-\u007F]|\w)+/)) {
+                disableSubmitBtns();
+            } else {
+                enableSubmitBtns();
+            }
+        }
+    }
+
+    function submitModal() {
+        var justifyFields = justifyForm.querySelectorAll('[name]');
+        var url = justifyForm.getAttribute('action');
+
+        var cancel_button = 0;
+        if(this.value == 'cancel')
+            cancel_button = 1;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 2) {
+                if(!cancel_button) {
+                    document.location.reload();
+                } else {
+                    var referrer = "/";
+                    if (referrer != "/")
+                        window.location = "/";
+                }
+            }
+        }
+
+        formData["justification_type"] = "justification";
+        formData["_uj_category_id"] = "600";
+        formData["web_category"] = "600";
+        formData["policy"] = "Blocklisted Category - Design and Marketing";
+        formData["_uj_dest_ip"] = "104.18.13.105";
+        formData["uj_response_file_name"] = "";
+        formData["app"] = "Pollinations AI";
+        formData["appsessiondata"] = "eyJhcHAiOiJQb2xsaW5hdGlvbnMgQUkiLCJjb250ZW50VmVyc2lvbiI6MTc3NTE0NzQ4N30=";
+        formData["from_user"] = "";
+        formData["instance_id"] = "";
+        formData["suppress_interval"] = "60";
+        formData["suppress_data"] = "";
+        formData["no_alert"] = "false";
+        for (var i=0; i<justifyFields.length; i++) {
+            var field = justifyFields[i];
+            var key = field.getAttribute('name');
+            var value = field.value;
+            if ((key == "justification_type") && (!field.checked)) {
+                continue;
+            }
+            formData[key] = value;
+        }
+
+        if (this.value) {
+            formData.submitId = this.value;
+        } else {
+            formData.submitId = 'cancel';
+        }
+        xhr.send(JSON.stringify(formData));
+
+        // Modified logic for ok (cancel) button
+        if(cancel_button) {
+            handleSubmissionComplete();
+        }
+    }
+
+    function handleSubmissionComplete() {
+        // 1. Disable all submit buttons and make them grey
+        for (var j=0; j<justifySubmitBtns.length; j++) {
+            justifySubmitBtns[j].setAttribute('disabled', 'disabled');
+            justifySubmitBtns[j].style.background = '#EEEEEE';
+            justifySubmitBtns[j].style.borderColor = '#E3E3E3';
+            justifySubmitBtns[j].style.color = '#ccc';
+        }
+
+        // 2. Disable the Text Box and make it grey
+        var textBox = doc.querySelector('#ns-justify-description-box');
+        if(textBox) {
+            textBox.setAttribute('disabled', 'disabled');
+            textBox.style.backgroundColor = '#EEEEEE';
+            textBox.style.borderColor = '#E3E3E3';
+            textBox.style.color = '#ccc';
+        }
+
+        // 3. Disable any other submit buttons found
+        var proceedBtn = doc.querySelector('#ns-justify-submit');
+        if(proceedBtn) {
+            proceedBtn.setAttribute('disabled', 'disabled');
+        }
+
+        // 4. Disable radio buttons
+        if(justifyRadio) {
+            justifyRadio.setAttribute('disabled', 'disabled');
+        }
+        if(falsePositiveRadio) {
+            falsePositiveRadio.setAttribute('disabled', 'disabled');
+        }
+
+        // 5. Show the message only if referrer is '/'
+        var referrer = "/";
+        if (referrer == "/") {
+            var btnGroup = doc.querySelector('.ns-btn-group');
+            if (btnGroup) {
+                // Check if message already exists to prevent duplicate insertion
+                if (!doc.querySelector('.ns-success-msg')) {
+                    var msgSpan = doc.createElement('div');
+                    msgSpan.className = 'ns-success-msg';
+
+                    var currentLang = language.indexOf("NS_LANGUAGE") > -1 ? 'en' : language;
+                    var langData = ackMessages[currentLang] || ackMessages['en'];
+
+                    // Visibility detection for UI elements to determine appropriate message
+                    // Check if description box is present and visible in DOM:
+                    // - Element exists (descriptionFieldBox)
+                    // - Element is rendered in layout (offsetParent !== null)
+                    // - Element is not explicitly hidden (computed display !== 'none')
+                    var hasDescriptionBox = Boolean(
+                        descriptionFieldBox &&
+                        descriptionFieldBox.offsetParent !== null &&
+                        window.getComputedStyle(descriptionFieldBox).display !== 'none'
+                    );
+                    
+                    // Check if either justification radio button is present and visible in DOM:
+                    // - justifyRadio exists and is rendered (offsetParent !== null)
+                    // - OR falsePositiveRadio exists and is rendered (offsetParent !== null)
+                    var hasRadioButtons = Boolean((justifyRadio && justifyRadio.offsetParent !== null) ||
+                                                   (falsePositiveRadio && falsePositiveRadio.offsetParent !== null));
+                    
+                    var message = (hasDescriptionBox || hasRadioButtons) ? langData.justification_message : langData.block_message;
+
+                    msgSpan.innerHTML = message;
+                    btnGroup.appendChild(msgSpan);
+                }
+            }
+        }
+    }
+
+    validateForm();
+    // add events
+    if (descriptionField) {
+        descriptionField.addEventListener('input', validateForm);
+    }
+
+    if(justifyRadio) {
+        justifyRadio.addEventListener('click', function() {
+            descriptionField.style.display = 'block';
+            justification_req = 1;
+            validateForm();
+        });
+    }
+
+    if(falsePositiveRadio) {
+        falsePositiveRadio.addEventListener('click', function() {
+            descriptionField.style.display = 'none';
+            descriptionField.value = '';
+            justification_req = 0;
+            validateForm();
+        });
+    }
+
+    for (var i=0; i<justifySubmitBtns.length; i++) {
+        justifySubmitBtns[i].addEventListener('click', submitModal);
+    }
+
+    if (doc.querySelector('#ns-justify-description-box')) {
+        var keydownfunc = function(e) {
+            e.stopPropagation();
+        }
+        doc.querySelector('#ns-justify-description-box').addEventListener("keydown", keydownfunc, false);
+
+        var keypressfunc = function(e) {
+            e.stopPropagation();
+        }
+        doc.querySelector('#ns-justify-description-box').addEventListener("keypress", keypressfunc, false);
+    }
+}
+
+renderMessage({
+    "msg" : "This Site is Blocked",
+    "expire" : 600000,
+    "justify" : "<div class='ns-template-outer-wrap'><div class='ns-template-wrap'><div class='ns-template-inner-wrap'><img class='custom-logo medium' alt='logo' src='data:image/png;base64,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'><h1 id='preview-title-box' class='msg'>This Site is Blocked</h1><h2 id='preview-subtitle-box'></h2><p id='preview-information-box' class='message-max-height'>This site has been blocked by your organization.If you want to unblock it, please raise an IT ticket with a business justification</p><form action=/02ff0e0a0c665eb04ca9eb60a7ff32b11d4086f2eff338e3fd5b7dc978a03300/s><input type='hidden' name='msuid' value='6913940597312326465' /><input type='hidden' name='referer' value='/'/><input type='hidden' name='policy_name' value='Blocklisted Category - Design and Marketing'/><input type='hidden' name='app' value='Pollinations AI'/><input type='hidden' name='activity' value='Browse'/><input type='hidden' name='filename' value=''/><p id='preview-footer-box'></p><div class='ns-btn-group'><button class='ns-btn-cancel ns-submit' type='button' value='cancel' id='ns-justify-cancel'>OK</button></div></form></div></div></div>",
+    "force_justify" : "false"
+});
+}
+</script>
+</html>
+
