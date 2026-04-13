@@ -348,9 +348,9 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  padding: 24px 48px 40px 96px;
-  margin: -24px -48px -40px -96px;
-  scroll-padding-left: 96px;
+  padding: 24px 48px 40px 0;
+  margin: -24px -48px -40px 0;
+  scroll-padding-left: 0;
   gap: 24px;
 }
 
