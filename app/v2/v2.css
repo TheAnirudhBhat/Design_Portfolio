@@ -293,11 +293,15 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 16px;
   margin-bottom: 24px;
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.v2-work-head .v2-section-title {
+  margin-bottom: 0;
 }
 
 .v2-section-title {
@@ -332,6 +336,10 @@
 .v2-carousel-btn:hover {
   background: var(--v2-bg-card-hover);
   border-color: var(--v2-text-tertiary);
+}
+
+.v2-carousel-btn:focus {
+  outline: none;
 }
 
 .v2-carousel-viewport {
@@ -943,8 +951,7 @@
 
 /* Route row */
 .v2-bp-route {
-  display: grid;
-  grid-template-columns: auto auto auto auto;
+  display: flex;
   align-items: start;
   gap: 32px;
   padding-bottom: 28px;
@@ -952,12 +959,19 @@
   border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
 }
 
+/* Passenger takes available space, pushes From/To to the right */
+.v2-bp-route > .v2-bp-field:first-child {
+  flex: 1;
+}
+
+/* From, arrow, To grouped tighter */
 .v2-bp-route-arrow {
   font-size: 20px;
   color: rgba(255, 255, 255, 0.2);
   line-height: 1;
-  /* Vertically center the arrow with the big text */
   margin-top: 20px;
+  margin-left: -16px;
+  margin-right: -16px;
 }
 
 /* Field */
