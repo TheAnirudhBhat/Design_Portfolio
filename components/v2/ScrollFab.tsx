@@ -26,19 +26,12 @@ export default function ScrollFab() {
       if (center >= top) currentIdx = i;
     }
 
-    // Check if near the very bottom of the page
-    const scrollBottom = window.scrollY + vh;
-    const docHeight = document.documentElement.scrollHeight;
-    const nearBottom = scrollBottom >= docHeight - 150;
-
     const nextIdx = currentIdx + 1;
-    if (nearBottom) {
+
+    // If we've scrolled past the contact section — show Back to top
+    if (currentIdx >= sections.length - 1) {
       setIsBackToTop(true);
       setCurrentTarget(topSection);
-    } else if (nextIdx >= sections.length) {
-      // Past last section but not at bottom — hide
-      setIsBackToTop(false);
-      setCurrentTarget(sections[sections.length - 1]);
     } else {
       setIsBackToTop(false);
       setCurrentTarget(sections[nextIdx]);
