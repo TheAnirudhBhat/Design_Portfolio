@@ -119,10 +119,10 @@ export default function Contact() {
       const elapsed = now - start;
 
       if (phase === "out") {
-        // Phase 1: rotate 0 → 90deg
+        // Phase 1: rotate 0 → 90deg, scale down to 0.8 so it doesn't clip
         const t = Math.min(elapsed / halfDuration, 1);
         const angle = dir * easeIn(t) * 90;
-        const scale = 0.96 - 0.05 * t;
+        const scale = 0.96 - 0.16 * t; // 0.96 → 0.80
         el.style.transform = `perspective(800px) rotateY(${angle}deg) scale(${scale})`;
 
         if (t >= 1) {
@@ -159,7 +159,7 @@ export default function Contact() {
             const t2 = Math.min(elapsed2 / halfDuration, 1);
             // Rotate from -90 back to 0 (reverse direction)
             const angle2 = -dir * (1 - easeOut(t2)) * 90;
-            const scale2 = 0.91 + 0.05 * easeOut(t2);
+            const scale2 = 0.80 + 0.16 * easeOut(t2); // 0.80 → 0.96
             el.style.transform = `perspective(800px) rotateY(${angle2}deg) scale(${scale2})`;
 
             // Show card again after first frame
