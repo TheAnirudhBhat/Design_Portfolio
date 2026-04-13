@@ -83,8 +83,6 @@ export default function WorkCarousel() {
       </div>
 
       <div className="v2-carousel-viewport" ref={viewportRef}>
-        {/* Invisible spacer so first card isn't clipped by overflow */}
-        <div className="v2-carousel-spacer" aria-hidden="true" />
         {projects.map((p) => (
           <div className="v2-carousel-slide" key={p.id}>
             <div className="v2-bento-card" style={{ background: p.bg, "--card-bg": p.bg } as React.CSSProperties}>
