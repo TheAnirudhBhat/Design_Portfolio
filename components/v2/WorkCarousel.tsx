@@ -85,7 +85,7 @@ export default function WorkCarousel() {
       <div className="v2-carousel-viewport" ref={viewportRef}>
         {projects.map((p) => (
           <div className="v2-carousel-slide" key={p.id}>
-            <div className="v2-bento-card" style={{ background: p.bg }}>
+            <div className="v2-bento-card" style={{ background: p.bg, "--card-bg": p.bg } as React.CSSProperties}>
               <div className="v2-bento-visual">
                 <img src={p.image} alt={p.title} loading="lazy" />
               </div>
