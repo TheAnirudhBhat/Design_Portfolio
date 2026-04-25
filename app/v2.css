@@ -1646,8 +1646,9 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  /* matches system-aware surface so the loader follows the site theme */
-  background: var(--color-surface-primary);
+  /* uses the SAME tokens as the v2 site so the loader bg/text always
+     match the page beneath — no flash, no mismatch on theme switch */
+  background: var(--v2-bg);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1707,7 +1708,8 @@
 
 .loader-da,
 .loader-line--white {
-  color: var(--color-text-primary);
+  /* same token as the page text so loader and site stay in lockstep */
+  color: var(--v2-text-primary);
 }
 
 .loader-w4ve,
