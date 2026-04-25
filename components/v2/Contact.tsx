@@ -128,7 +128,7 @@ export default function Contact() {
       const t = Math.min(elapsed / halfDuration, 1);
       const angle = dir * easeIn(t) * 90;
       const scale = 0.96 - 0.16 * t;
-      el.style.transform = `perspective(800px) rotateY(${angle}deg) scale(${scale})`;
+      el.style.transform = `perspective(800px) rotateX(${angle}deg) scale(${scale})`;
 
       if (t >= 1) {
         el.style.visibility = "hidden";
@@ -154,7 +154,7 @@ export default function Contact() {
           const t2 = Math.min(elapsed2 / halfDuration, 1);
           const angle2 = -dir * (1 - easeOut(t2)) * 90;
           const scale2 = 0.80 + 0.16 * easeOut(t2);
-          el.style.transform = `perspective(800px) rotateY(${angle2}deg) scale(${scale2})`;
+          el.style.transform = `perspective(800px) rotateX(${angle2}deg) scale(${scale2})`;
           if (elapsed2 > 16) el.style.visibility = "";
 
           if (t2 < 1) {
