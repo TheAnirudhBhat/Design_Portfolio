@@ -27,6 +27,21 @@
   --v2-border: rgba(255, 255, 255, 0.08);
 }
 
+/* System dark mode — applies the same dark tokens automatically when the
+   user's OS is in dark mode (unless an explicit data-theme override is set). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --v2-bg: #0a0a0f;
+    --v2-bg-card: #161618;
+    --v2-bg-card-hover: #1e1e22;
+    --v2-bg-tag: rgba(255, 255, 255, 0.06);
+    --v2-text-primary: #f0f0f0;
+    --v2-text-secondary: #888888;
+    --v2-text-tertiary: #555555;
+    --v2-border: rgba(255, 255, 255, 0.08);
+  }
+}
+
 /* --- Layout Grid --- */
 .v2-layout {
   display: grid;
@@ -1620,5 +1635,111 @@
 
   .v2-bento-stats strong {
     font-size: 18px;
+  }
+}
+
+/* ============================================
+   Loader screen — simple opacity cross-fade
+   DaW4ve → ANIRUDH BHAT, no masks, no per-letter
+   ============================================ */
+.loader-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  /* matches system-aware surface so the loader follows the site theme */
+  background: var(--color-surface-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  will-change: transform;
+  height: 100vh;
+  height: 100dvh;
+}
+
+.loader-stack {
+  --loader-line-size: clamp(56px, 12vw, 132px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px;
+  width: 100%;
+  text-align: center;
+}
+
+/* fixed-height container so the progress bar below never shifts when the
+   text content changes between phases (single-line DaW4ve vs two-line name) */
+.loader-content {
+  position: relative;
+  width: 100%;
+  height: calc(var(--loader-line-size) * 2.1);
+  display: grid;
+  place-items: center;
+}
+
+.loader-content > * {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.loader-text {
+  font-family: "Gasoek One", Impact, sans-serif;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.loader-text--single {
+  font-size: clamp(72px, 14vw, 156px);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+}
+
+.loader-text--stacked {
+  font-size: var(--loader-line-size);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loader-da,
+.loader-line--white {
+  color: var(--color-text-primary);
+}
+
+.loader-w4ve,
+.loader-line--magenta {
+  color: #D30AD7;
+}
+
+.loader-line {
+  display: block;
+}
+
+.loader-progress {
+  margin-top: calc(var(--loader-line-size) * 0.7);
+  width: clamp(160px, 28vw, 320px);
+  height: 8px;
+  background: linear-gradient(90deg, #D30AD7 0%, #FF6EF5 50%, #D30AD7 100%);
+  transform-origin: left center;
+  border-radius: 999px;
+  box-shadow: 0 0 22px rgba(211, 10, 215, 0.6);
+}
+
+@media (max-width: 480px) {
+  .loader-stack {
+    --loader-line-size: clamp(44px, 14vw, 80px);
+  }
+  .loader-text--single {
+    font-size: clamp(56px, 16vw, 96px);
+  }
+  .loader-progress {
+    margin-top: calc(var(--loader-line-size) * 0.9);
+    width: 60vw;
+    height: 5px;
+    box-shadow: 0 0 22px rgba(211, 10, 215, 0.65);
   }
 }

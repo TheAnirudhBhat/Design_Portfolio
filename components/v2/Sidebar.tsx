@@ -40,10 +40,24 @@ export default function Sidebar() {
 
   useEffect(() => {
     const stored = localStorage.getItem("dawave-theme") as "light" | "dark" | null;
+
+    // Manual override wins
     if (stored) {
       setTheme(stored);
       document.documentElement.setAttribute("data-theme", stored);
+      return;
     }
+
+    // No manual override — follow system, in realtime
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const apply = () => {
+      const sys = mq.matches ? "dark" : "light";
+      setTheme(sys);
+      document.documentElement.setAttribute("data-theme", sys);
+    };
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
   }, []);
 
   function toggleTheme() {
