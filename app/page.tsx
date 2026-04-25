@@ -8,11 +8,13 @@ import Experience from "@/components/v2/Experience";
 import Contact from "@/components/v2/Contact";
 import Footer from "@/components/v2/Footer";
 import ScrollFab from "@/components/v2/ScrollFab";
+import LoaderScreen from "@/components/v2/LoaderScreen";
 import "./v2.css";
 
 export default function Home() {
   return (
     <div className="v2-layout">
+      <LoaderScreen />
       <Sidebar />
       <main className="v2-main">
         <div className="v2-hero-wrapper">

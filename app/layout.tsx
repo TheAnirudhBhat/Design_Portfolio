@@ -19,7 +19,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-sans bg-white text-[rgba(0,0,0,0.9)]">
+      <body className="font-sans">
         {children}
       </body>
     </html>

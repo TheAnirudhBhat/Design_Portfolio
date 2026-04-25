@@ -55,7 +55,27 @@
   }
 }
 
+/* System dark mode — overrides the design tokens above so any component
+   using the surface/text variables auto-themes. Brand magenta stays. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-surface-primary: #0A0A0A;
+    --color-surface-secondary: #141414;
+    --color-surface-tertiary: #1F1F1F;
+    --color-text-primary: rgba(255, 255, 255, 0.92);
+    --color-text-secondary: rgba(255, 255, 255, 0.7);
+    --color-text-tertiary: rgba(255, 255, 255, 0.5);
+    --color-text-disabled: rgba(255, 255, 255, 0.3);
+    --color-outline-bold: rgba(255, 255, 255, 0.18);
+    --color-outline-subtle: rgba(255, 255, 255, 0.08);
+    --shadow-card: 0 2px 32px rgba(0, 0, 0, 0.4);
+    --shadow-elevated: 0 4px 12px rgba(0, 0, 0, 0.5);
+    --shadow-high: 0 8px 24px rgba(0, 0, 0, 0.6);
+  }
+}
+
 html {
+  color-scheme: light dark;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

@@ -43,3 +43,5 @@ key
 key.pub
 ssh-key
 ssh-key.pub
+nopass-key
+nopass-key.pub
