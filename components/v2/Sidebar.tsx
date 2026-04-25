@@ -37,6 +37,40 @@ function ThemeIcon({ theme }: { theme: "light" | "dark" }) {
 export default function Sidebar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [nameFlipped, setNameFlipped] = useState(false);
+  const [waves, setWaves] = useState<
+    { id: number; left: number; delay: number; duration: number; drift: number; rot: number; size: number }[]
+  >([]);
+
+  function flipName() {
+    if (nameFlipped) return;
+    setNameFlipped(true);
+
+    // scale particle count + size based on viewport
+    const isDesktop = typeof window !== "undefined" && window.innerWidth >= 769;
+    const count = isDesktop ? 70 : 36;
+    const sizeMin = isDesktop ? 44 : 24;
+    const sizeMax = isDesktop ? 96 : 56;
+
+    const batchId = Date.now();
+    const burst = Array.from({ length: count }, (_, i) => ({
+      id: batchId + i,
+      left: Math.random() * 100,                          // 0–100% horizontal start
+      delay: Math.random() * 900,                         // staggered launch
+      duration: 2200 + Math.random() * 1400,              // 2.2–3.6s — full flight
+      drift: (Math.random() - 0.5) * 280,                 // horizontal sway
+      rot: (Math.random() - 0.5) * 720,                   // ±360° rotation
+      size: sizeMin + Math.random() * (sizeMax - sizeMin),
+    }));
+    setWaves((prev) => [...prev, ...burst]);
+
+    setTimeout(() => setNameFlipped(false), 2400);
+
+    // cleanup after the longest particle has finished
+    setTimeout(() => {
+      setWaves((prev) => prev.filter((w) => !burst.find((b) => b.id === w.id)));
+    }, 5000);
+  }
 
   useEffect(() => {
     const stored = localStorage.getItem("dawave-theme") as "light" | "dark" | null;
@@ -75,6 +109,27 @@ export default function Sidebar() {
 
   return (
     <>
+      {waves.length > 0 && (
+        <div className="v2-emoji-bomb" aria-hidden>
+          {waves.map((w) => (
+            <span
+              key={w.id}
+              className="v2-emoji-wave"
+              style={{
+                left: `${w.left}%`,
+                fontSize: `${w.size}px`,
+                animationDelay: `${w.delay}ms`,
+                animationDuration: `${w.duration}ms`,
+                ["--drift" as string]: `${w.drift}px`,
+                ["--rot" as string]: `${w.rot}deg`,
+              } as React.CSSProperties}
+            >
+              🌊
+            </span>
+          ))}
+        </div>
+      )}
+
       <div className="v2-mobile-controls">
         <button className="v2-theme-toggle v2-mobile-theme" onClick={toggleTheme} aria-label="Toggle theme">
           <ThemeIcon theme={theme} />
@@ -90,9 +145,19 @@ export default function Sidebar() {
 
       <aside className="v2-sidebar">
         <div className="v2-sidebar-top">
-          <h1 className="v2-sidebar-name">
-            <span className="v2-name-first">Anirudh</span>{" "}
-            <span className="v2-name-last">Bhat</span>
+          <h1
+            className={`v2-sidebar-name ${nameFlipped ? "v2-sidebar-name--flipped" : ""}`}
+            onClick={flipName}
+            aria-label="Anirudh Bhat — also known as DaW4ve"
+          >
+            <span className="v2-sidebar-name__face v2-sidebar-name__face--front">
+              <span className="v2-name-first">Anirudh</span>{" "}
+              <span className="v2-name-last">Bhat</span>
+            </span>
+            <span className="v2-sidebar-name__face v2-sidebar-name__face--back">
+              <span className="v2-name-first">Da</span>
+              <span className="v2-name-last">W4ve</span>
+            </span>
           </h1>
           <p className="v2-sidebar-role">Product Designer in Bengaluru 🇮🇳</p>
           <span className="v2-status-pill">

@@ -7,13 +7,41 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const easeIn = (t: number) => t * t;
 const easeOut = (t: number) => 1 - (1 - t) * (1 - t);
 
+/* Realistic barcode rendered as inline SVG so it stretches end-to-end
+   and looks irregular like a real Code-128 — varied bar/gap widths. */
 function Barcode({ className }: { className?: string }) {
+  // pseudo-random but stable bar/gap pattern with widths in 1–4 units
+  const segments: { type: "bar" | "gap"; w: number }[] = [];
+  let isBar = true;
+  // deterministic LCG seed so SSR/CSR match
+  let seed = 7919;
+  for (let i = 0; i < 110; i++) {
+    seed = (seed * 9301 + 49297) % 233280;
+    const r = seed / 233280;
+    const w = isBar
+      ? Math.floor(r * 4) + 1            // 1–4 for bars
+      : Math.max(1, Math.floor(r * 2) + 1); // 1–2 for gaps
+    segments.push({ type: isBar ? "bar" : "gap", w });
+    isBar = !isBar;
+  }
+  const total = segments.reduce((s, x) => s + x.w, 0);
+  let x = 0;
   return (
-    <div className={className}>
-      {BARCODE_WIDTHS.map((w, i) => (
-        <span key={i} style={{ width: `${w}px` }} />
-      ))}
-    </div>
+    <svg
+      className={className}
+      viewBox={`0 0 ${total} 60`}
+      preserveAspectRatio="none"
+      aria-hidden
+    >
+      {segments.map((s, i) => {
+        const node =
+          s.type === "bar" ? (
+            <rect key={i} x={x} y={0} width={s.w} height={60} fill="currentColor" />
+          ) : null;
+        x += s.w;
+        return node;
+      })}
+    </svg>
   );
 }
 
@@ -25,7 +53,7 @@ export default function Contact() {
   useEffect(() => setMounted(true), []);
 
   const now = mounted ? new Date() : new Date("2026-04-13T00:00:00");
-  const dateStr = now.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase();
+  const dateStr = now.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
   // Stable boarding ID — computed once after mount
   const boardingIdRef = useRef<string>("DW-00000");
   useEffect(() => {

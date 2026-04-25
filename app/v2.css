@@ -14,6 +14,18 @@
   --v2-gap: 16px;
   --v2-radius: 20px;
   --v2-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Boarding pass tokens — INVERTED relative to page so it always pops.
+     Light page → dark card. Dark page → light card. */
+  --bp-bg: #0A0A0F;
+  --bp-text: rgba(255, 255, 255, 0.92);
+  --bp-text-secondary: rgba(255, 255, 255, 0.7);
+  --bp-text-tertiary: rgba(255, 255, 255, 0.35);
+  --bp-text-faint: rgba(255, 255, 255, 0.3);
+  --bp-border: rgba(255, 255, 255, 0.1);
+  --bp-stub-bg: rgba(255, 255, 255, 0.03);
+  --bp-stub-border: rgba(255, 255, 255, 0.04);
+  --bp-barcode: rgba(255, 255, 255, 0.85);
 }
 
 [data-theme="dark"] {
@@ -25,6 +37,17 @@
   --v2-text-secondary: #888888;
   --v2-text-tertiary: #555555;
   --v2-border: rgba(255, 255, 255, 0.08);
+
+  /* Boarding pass flips to light when page is dark */
+  --bp-bg: #FAFAFA;
+  --bp-text: rgba(0, 0, 0, 0.92);
+  --bp-text-secondary: rgba(0, 0, 0, 0.7);
+  --bp-text-tertiary: rgba(0, 0, 0, 0.45);
+  --bp-text-faint: rgba(0, 0, 0, 0.35);
+  --bp-border: rgba(0, 0, 0, 0.12);
+  --bp-stub-bg: rgba(0, 0, 0, 0.04);
+  --bp-stub-border: rgba(0, 0, 0, 0.06);
+  --bp-barcode: rgba(0, 0, 0, 0.88);
 }
 
 /* System dark mode — applies the same dark tokens automatically when the
@@ -39,6 +62,16 @@
     --v2-text-secondary: #888888;
     --v2-text-tertiary: #555555;
     --v2-border: rgba(255, 255, 255, 0.08);
+
+    --bp-bg: #FAFAFA;
+    --bp-text: rgba(0, 0, 0, 0.92);
+    --bp-text-secondary: rgba(0, 0, 0, 0.7);
+    --bp-text-tertiary: rgba(0, 0, 0, 0.45);
+    --bp-text-faint: rgba(0, 0, 0, 0.35);
+    --bp-border: rgba(0, 0, 0, 0.12);
+    --bp-stub-bg: rgba(0, 0, 0, 0.04);
+    --bp-stub-border: rgba(0, 0, 0, 0.06);
+    --bp-barcode: rgba(0, 0, 0, 0.88);
   }
 }
 
@@ -74,6 +107,70 @@
   line-height: 0.9;
   letter-spacing: -0.02em;
   text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  display: inline-block;
+  transform-style: preserve-3d;
+  transition: transform 0.75s cubic-bezier(0.7, 0, 0.3, 1);
+  perspective: 1000px;
+}
+
+.v2-sidebar-name--flipped {
+  transform: rotateX(180deg);
+}
+
+.v2-sidebar-name__face {
+  display: inline-block;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.v2-sidebar-name__face--back {
+  position: absolute;
+  inset: 0;
+  transform: rotateX(180deg);
+  white-space: nowrap;
+}
+
+/* === Emoji bomb — wave particles burst from bottom on name flip === */
+.v2-emoji-bomb {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 200;
+}
+
+.v2-emoji-wave {
+  position: absolute;
+  bottom: -120px;
+  display: inline-block;
+  line-height: 1;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
+  animation-name: v2-emoji-float;
+  /* near-linear with a tiny ease-out so motion stays continuous all the way
+     up — no mid-screen deceleration */
+  animation-timing-function: cubic-bezier(0.4, 0.05, 0.6, 1);
+  animation-fill-mode: forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes v2-emoji-float {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(0.5);
+    opacity: 0;
+  }
+  6%   { opacity: 1; }
+  90%  { opacity: 1; }
+  100% {
+    transform: translate3d(var(--drift), -130vh, 0) rotate(var(--rot)) scale(1.1);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-emoji-bomb { display: none; }
 }
 
 .v2-name-first {
@@ -701,19 +798,21 @@
 .v2-bp {
   display: flex;
   border-radius: var(--v2-radius);
-  background: #0A0A0F;
+  background: var(--bp-bg);
+  color: var(--bp-text);
   position: relative;
   transform: scale(0.96);
   animation: v2-bp-drift 12s ease-in-out infinite;
   box-shadow:
-    0 0 50px rgba(255, 255, 255, 0.03),
-    0 8px 24px rgba(0, 0, 0, 0.25);
+    0 0 50px var(--bp-stub-bg),
+    0 8px 24px rgba(0, 0, 0, 0.18);
+  transition: background var(--v2-transition), color var(--v2-transition);
 }
 
 .v2-bp:hover {
   box-shadow:
-    0 0 70px rgba(255, 255, 255, 0.06),
-    0 16px 40px rgba(0, 0, 0, 0.3);
+    0 0 70px var(--bp-stub-bg),
+    0 16px 40px rgba(0, 0, 0, 0.25);
 }
 
 /* When JS controls the transform (hover tilt or flipping) */
@@ -763,11 +862,11 @@
 
 /* Glass border — on inner wrapper to not break backface-visibility */
 .v2-bp-inner {
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--bp-stub-border);
 }
 
 .v2-bp:hover .v2-bp-inner {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--bp-border);
 }
 
 /* --- Contact Form (back of card) --- */
@@ -776,12 +875,16 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 0;
+  border: 1px solid var(--bp-border);
   border-radius: var(--v2-radius);
   box-shadow:
-    0 0 50px rgba(255, 255, 255, 0.03),
-    0 8px 24px rgba(0, 0, 0, 0.25);
+    0 0 50px var(--bp-stub-bg),
+    0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.v2-bp-form-header {
+  margin-bottom: 32px;
 }
 
 .v2-bp-form-header {
@@ -811,7 +914,7 @@
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: -0.01em;
-  color: #ffffff;
+  color: var(--bp-text);
 }
 
 .v2-mobile-br {
@@ -827,7 +930,7 @@
 .v2-bp-form-sub {
   font-family: "Rubik", sans-serif;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--bp-text-tertiary);
   line-height: 1.5;
   white-space: nowrap;
 }
@@ -836,9 +939,9 @@
   font-family: "Rubik", sans-serif;
   font-size: 13px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--bp-text-secondary);
   background: none;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--bp-border);
   cursor: pointer;
   padding: 8px 18px;
   border-radius: 100px;
@@ -847,18 +950,17 @@
 }
 
 .v2-bp-form-back:hover {
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--bp-text);
+  background: var(--bp-stub-bg);
+  border-color: var(--bp-text-tertiary);
 }
 
 .v2-bp-form {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding-top: 20px;
-  border-top: 1px dashed rgba(255, 255, 255, 0.08);
-  margin-top: -4px;
+  padding-top: 28px;
+  border-top: 1px dashed var(--bp-border);
 }
 
 .v2-bp-form-field {
@@ -871,9 +973,9 @@
   font-family: "Rubik", sans-serif;
   font-size: 14px;
   font-weight: 400;
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--bp-text);
+  background: var(--bp-stub-bg);
+  border: 1px solid var(--bp-border);
   border-radius: 12px;
   padding: 12px 16px;
   outline: none;
@@ -882,12 +984,12 @@
 }
 
 .v2-bp-input::placeholder {
-  color: rgba(255, 255, 255, 0.25);
+  color: var(--bp-text-tertiary);
 }
 
 .v2-bp-input:focus {
   border-color: rgba(211, 10, 215, 0.4);
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--bp-stub-bg);
 }
 
 .v2-bp-select {
@@ -956,7 +1058,7 @@
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: -0.02em;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--bp-text);
   flex-shrink: 0;
   white-space: nowrap;
 }
@@ -967,14 +1069,15 @@
 
 .v2-bp-class {
   font-family: "Rubik", sans-serif;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #ffffff;
-  background: #D30AD7;
-  padding: 4px 12px;
-  border-radius: 100px;
+  color: #D30AD7;
+  background: transparent;
+  border: 1px solid currentColor;
+  padding: 4px 9px;
+  border-radius: 4px;
 }
 
 /* Route row */
@@ -984,7 +1087,7 @@
   gap: 32px;
   padding-bottom: 28px;
   margin-bottom: 4px;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+  border-bottom: 1px dashed var(--bp-border);
 }
 
 /* Passenger takes available space, pushes From/To to the right */
@@ -995,7 +1098,7 @@
 /* From, arrow, To grouped tighter */
 .v2-bp-route-arrow {
   font-size: 20px;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--bp-text-faint);
   line-height: 1;
   margin-top: 20px;
   margin-left: -16px;
@@ -1015,14 +1118,14 @@
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--bp-text-tertiary);
 }
 
 .v2-bp-value {
   font-family: "Rubik", sans-serif;
   font-size: 14px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--bp-text);
 }
 
 .v2-bp-value--lg {
@@ -1032,7 +1135,7 @@
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: -0.01em;
-  color: #ffffff;
+  color: var(--bp-text);
 }
 
 .v2-bp-value--green {
@@ -1045,7 +1148,7 @@
 .v2-bp-sub {
   font-family: "Rubik", sans-serif;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--bp-text-faint);
 }
 
 /* Details grid */
@@ -1064,25 +1167,17 @@
   margin-bottom: 2px;
 }
 
-/* Barcode in main card — hidden on desktop (stub has it), shown on mobile */
+/* Mobile barcode — SVG, fills content width (respects card padding) */
 .v2-bp-barcode-mobile {
   display: none;
-  align-items: center;
-  gap: 2px;
-  height: 40px;
-}
-
-.v2-bp-barcode-mobile span {
-  display: block;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 0.5px;
+  width: 100%;
+  height: 56px;
+  color: var(--bp-barcode);
 }
 
 @media (max-width: 768px) {
   .v2-bp-barcode-mobile {
-    display: flex;
-    justify-content: center;
+    display: block;
   }
 }
 
@@ -1140,7 +1235,7 @@
 /* Perforated divider */
 .v2-bp-perf {
   width: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bp-border);
   position: relative;
   flex-shrink: 0;
 }
@@ -1156,8 +1251,8 @@
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  background: rgba(255, 255, 255, 0.03);
-  border-left: 1px solid rgba(255, 255, 255, 0.04);
+  background: var(--bp-stub-bg);
+  border-left: 1px solid var(--bp-stub-border);
 }
 
 .v2-bp-stub-logo {
@@ -1166,7 +1261,7 @@
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: -0.02em;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--bp-text);
 }
 
 .v2-bp-stub-logo span {
@@ -1185,21 +1280,13 @@
   text-align: center;
 }
 
-/* Barcode */
+/* Barcode (desktop stub) — SVG, full width of stub */
 .v2-bp-barcode {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
+  display: block;
+  width: 100%;
   height: 48px;
   margin-top: auto;
-}
-
-.v2-bp-barcode span {
-  display: block;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 0.5px;
+  color: var(--bp-barcode);
 }
 
 /* Mobile: stack boarding pass vertically, hide stub */
@@ -1487,9 +1574,7 @@
   }
 
   .v2-status-pill {
-    font-size: 13px;
-    margin-top: 14px;
-    padding: 8px 16px;
+    display: none;
   }
 
   .v2-sidebar {
