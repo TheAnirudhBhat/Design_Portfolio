@@ -207,7 +207,7 @@ export default function Contact() {
           <div className="v2-bp-main">
             <div className="v2-bp-header">
               <div className="v2-bp-logo">da<span>w4ve</span></div>
-              <span className="v2-bp-class">DESIGN CLASS</span>
+              <span className="v2-bp-class">PRIORITY</span>
             </div>
             <div className="v2-bp-route">
               <div className="v2-bp-field">

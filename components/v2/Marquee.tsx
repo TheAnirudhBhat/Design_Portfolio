@@ -1,8 +1,16 @@
 "use client";
 
 const items = [
-  "slice", "UPI Payments", "Credit Cards", "Savings & FDs",
-  "MobiKwik", "Design Systems", "Young India", "Fintech",
+  "Fintech",
+  "Consumer fintech",
+  "Payments",
+  "UPI",
+  "Credit cards",
+  "Savings & investments",
+  "Banking",
+  "Wallets",
+  "Lending",
+  "Money products",
 ];
 
 // Pre-computed — no allocation per render

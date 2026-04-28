@@ -1,0 +1,219 @@
+/* Case-study page layout — editorial, single-column, generous whitespace.
+   Reuses v2 tokens from v2.css so light/dark mode + brand color stay in sync. */
+
+.v2-case {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 64px 32px 120px;
+  background: var(--v2-bg);
+  color: var(--v2-text-primary);
+  font-family: "Rubik", sans-serif;
+  line-height: 1.6;
+  min-height: 100dvh;
+}
+
+.v2-case-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--v2-text-secondary);
+  text-decoration: none;
+  margin-bottom: 64px;
+  transition: color 0.15s ease;
+}
+
+.v2-case-back:hover {
+  color: var(--v2-text-primary);
+}
+
+.v2-case-back--bottom {
+  margin-top: 80px;
+  margin-bottom: 0;
+}
+
+.v2-case-hero {
+  margin-bottom: 80px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--v2-border);
+}
+
+.v2-case-meta {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--v2-text-secondary);
+  margin: 0 0 16px;
+}
+
+.v2-case-title {
+  font-family: "Gasoek One", Impact, sans-serif;
+  font-size: clamp(56px, 9vw, 96px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+  color: var(--accent, var(--color-brand));
+}
+
+.v2-case-deck {
+  font-size: 20px;
+  line-height: 1.4;
+  color: var(--v2-text-primary);
+  margin: 0 0 40px;
+  max-width: 600px;
+}
+
+.v2-case-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+.v2-case-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.v2-case-stats strong {
+  font-family: "Gasoek One", Impact, sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--accent, var(--color-brand));
+  line-height: 1;
+}
+
+.v2-case-stats span {
+  font-size: 12px;
+  color: var(--v2-text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.v2-case-section {
+  margin-bottom: 56px;
+}
+
+.v2-case-section h2 {
+  font-family: "Rubik", sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 0 0 20px;
+  color: var(--v2-text-primary);
+}
+
+.v2-case-section p {
+  font-size: 16px;
+  color: var(--v2-text-primary);
+  margin: 0 0 16px;
+}
+
+.v2-case-section p strong {
+  color: var(--v2-text-primary);
+  font-weight: 500;
+}
+
+.v2-case-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.v2-case-section li {
+  position: relative;
+  padding-left: 24px;
+  font-size: 16px;
+  color: var(--v2-text-primary);
+  margin-bottom: 12px;
+}
+
+.v2-case-section li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 11px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent, var(--color-brand));
+}
+
+.v2-case-outcomes li::before {
+  background: var(--color-brand);
+}
+
+.v2-case-cta-block {
+  margin-top: 80px;
+  padding: 40px;
+  background: var(--v2-bg-card);
+  border: 1px solid var(--v2-border);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.v2-case-cta-block p {
+  margin: 0 0 20px;
+  font-size: 16px;
+  color: var(--v2-text-secondary);
+}
+
+.v2-case-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 24px;
+  background: var(--color-brand);
+  color: var(--color-brand-on);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.v2-case-cta:hover {
+  background: var(--color-brand-dark);
+}
+
+.v2-case-cta:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+  .v2-case {
+    padding: 32px 24px 80px;
+  }
+
+  .v2-case-hero {
+    margin-bottom: 56px;
+    padding-bottom: 32px;
+  }
+
+  .v2-case-deck {
+    font-size: 17px;
+    margin-bottom: 28px;
+  }
+
+  .v2-case-stats {
+    gap: 24px;
+  }
+
+  .v2-case-stats strong {
+    font-size: 22px;
+  }
+
+  .v2-case-section {
+    margin-bottom: 40px;
+  }
+
+  .v2-case-section h2 {
+    font-size: 20px;
+  }
+
+  .v2-case-cta-block {
+    padding: 28px 20px;
+    margin-top: 56px;
+  }
+}

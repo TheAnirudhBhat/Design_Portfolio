@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const fullText =
-  "I design payments and money products. Most recently for young India at slice. My work lives where complex finance meets first-time users, turning dense systems into experiences that feel effortless.";
+  "I design money products at consumer scale. Currently at slice (bank), previously at MobiKwik. My work lives where complex financial systems meet first-time users, turning dense schemas, regulatory edges, and money anxiety into products 10M+ people actually use.";
 
 export default function Hero() {
   const [displayed, setDisplayed] = useState("");

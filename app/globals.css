@@ -9,9 +9,11 @@
   --breakpoint-desktop: 1280px;
   --breakpoint-wide: 1536px;
 
-  /* DLS Colors */
-  --color-brand: #D30AD7;
-  --color-brand-dark: #A808AB;
+  /* DLS Colors — brand defaults to "Mustard" (works on both light and dark bg);
+     override via BrandPanel for live experimentation. */
+  --color-brand: #D4A300;
+  --color-brand-dark: #A88200;
+  --color-brand-on: #0a0a0f;
   --color-surface-primary: #FFFFFF;
   --color-surface-secondary: #F5F5F5;
   --color-surface-tertiary: #EBEBEB;
@@ -76,13 +78,26 @@
 
 html {
   color-scheme: light dark;
+  background: var(--v2-bg, #ffffff);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Manual theme toggle pins color-scheme so the browser's overscroll bounce zone,
+   form controls, and scrollbars track the chosen theme — not the OS preference. */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  background: #0a0a0f;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  background: #ffffff;
+}
+
 body {
   font-family: var(--font-sans);
-  background: var(--color-surface-primary);
+  background: var(--v2-bg, #ffffff);
   color: var(--color-text-primary);
 }
 

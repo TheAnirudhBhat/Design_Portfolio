@@ -1,10 +1,35 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { projects } from "@/lib/data/projects";
+import CaseStudyModal, { type CaseOrigin } from "./CaseStudyModal";
 
 export default function WorkCarousel() {
   const viewportRef = useRef<HTMLDivElement>(null);
+  const [activeCaseId, setActiveCaseId] = useState<string | null>(null);
+  const [origin, setOrigin] = useState<CaseOrigin | null>(null);
+  const [exitingId, setExitingId] = useState<string | null>(null);
+
+  function openCase(e: React.MouseEvent<HTMLAnchorElement>, p: typeof projects[number]) {
+    e.preventDefault();
+    const rect = e.currentTarget.getBoundingClientRect();
+    setOrigin({
+      x: rect.left,
+      y: rect.top,
+      width: rect.width,
+      height: rect.height,
+      accent: p.accent || "#000000",
+    });
+    setActiveCaseId(p.id);
+  }
+
+  function closeCase() {
+    if (!activeCaseId) return;
+    setExitingId(activeCaseId);
+    setActiveCaseId(null);
+    setTimeout(() => setExitingId(null), 280);
+    setTimeout(() => setOrigin(null), 550);
+  }
 
   function scrollByCard(dir: number) {
     const vp = viewportRef.current;
@@ -31,7 +56,10 @@ export default function WorkCarousel() {
 
       <div className="v2-carousel-viewport" ref={viewportRef}>
         {projects.map((p) => {
-          const cardStyle = { background: p.accent, "--card-bg": p.accent } as React.CSSProperties;
+          // --card-bg is kept (drives the colored hover-shadow glow). The
+          // card itself uses --v2-bg-card from CSS — accent color only
+          // appears in the project image and the hover shadow.
+          const cardStyle = { "--card-bg": p.accent } as React.CSSProperties;
           const inner = (
             <>
               <div className="v2-bento-visual">
@@ -41,27 +69,44 @@ export default function WorkCarousel() {
                 <h3 className="v2-bento-title">{p.title}</h3>
                 <p className="v2-bento-sub">{p.sub}</p>
                 <p className="v2-bento-desc">{p.subtitle}</p>
-                <div className="v2-bento-stats">
-                  {p.stats?.map((s) => (
-                    <span key={s.label}><strong>{s.value}</strong> {s.label}</span>
-                  ))}
-                </div>
-                {p.href && <span className="v2-bento-cta">Read case study →</span>}
+                {p.stats?.[0] && (
+                  <div className="v2-bento-stats">
+                    <div className="v2-bento-stat">
+                      <strong>{p.stats[0].value}</strong>
+                      <span>{p.stats[0].label}</span>
+                    </div>
+                  </div>
+                )}
               </div>
             </>
           );
           return (
             <div className="v2-carousel-slide" key={p.id}>
               {p.href ? (
-                <a
-                  href={p.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="v2-bento-card"
-                  style={cardStyle}
-                >
-                  {inner}
-                </a>
+                (() => {
+                  const isInternal = !p.href.startsWith("http");
+                  const isActive = isInternal && (activeCaseId === p.id || exitingId === p.id);
+                  return (
+                    <a
+                      href={p.href}
+                      {...(!isInternal
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
+                      onClick={(e) => {
+                        if (isInternal) openCase(e, p);
+                      }}
+                      className="v2-bento-card"
+                      style={{
+                        ...cardStyle,
+                        opacity: isActive ? 0 : 1,
+                        pointerEvents: isActive ? "none" : "auto",
+                        transition: "opacity 0.18s ease-out",
+                      }}
+                    >
+                      {inner}
+                    </a>
+                  );
+                })()
               ) : (
                 <div className="v2-bento-card" style={cardStyle}>
                   {inner}
@@ -71,6 +116,8 @@ export default function WorkCarousel() {
           );
         })}
       </div>
+
+      <CaseStudyModal caseId={activeCaseId} origin={origin} onClose={closeCase} />
     </section>
   );
 }

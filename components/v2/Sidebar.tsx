@@ -46,6 +46,18 @@ export default function Sidebar() {
     if (nameFlipped) return;
     setNameFlipped(true);
 
+    // Wave-themed brand takeover: page flips to sky blue while DaW4ve is shown.
+    // Capture any existing inline override so we restore it cleanly afterwards.
+    const root = document.documentElement;
+    const saved = {
+      brand: root.style.getPropertyValue("--color-brand"),
+      dark: root.style.getPropertyValue("--color-brand-dark"),
+      on: root.style.getPropertyValue("--color-brand-on"),
+    };
+    root.style.setProperty("--color-brand", "#0EA5E9");
+    root.style.setProperty("--color-brand-dark", "#0284C7");
+    root.style.setProperty("--color-brand-on", "#ffffff");
+
     // scale particle count + size based on viewport
     const isDesktop = typeof window !== "undefined" && window.innerWidth >= 769;
     const count = isDesktop ? 70 : 36;
@@ -64,7 +76,22 @@ export default function Sidebar() {
     }));
     setWaves((prev) => [...prev, ...burst]);
 
+    // Trigger the flip-back at 2400ms (matches the original hold timing)
     setTimeout(() => setNameFlipped(false), 2400);
+
+    // Restore the brand at the MIDPOINT of the flip-back animation (when the
+    // rotation crosses 90° and the front face — Anirudh Bhat — becomes
+    // visible). 2400 (hold) + 375 (half of 750ms flip transition) = 2775ms.
+    // Earlier reverts pop while DaW4ve is still showing; later reverts leave
+    // the blue on past Anirudh re-appearing.
+    setTimeout(() => {
+      if (saved.brand) root.style.setProperty("--color-brand", saved.brand);
+      else root.style.removeProperty("--color-brand");
+      if (saved.dark) root.style.setProperty("--color-brand-dark", saved.dark);
+      else root.style.removeProperty("--color-brand-dark");
+      if (saved.on) root.style.setProperty("--color-brand-on", saved.on);
+      else root.style.removeProperty("--color-brand-on");
+    }, 2775);
 
     // cleanup after the longest particle has finished
     setTimeout(() => {
@@ -94,11 +121,49 @@ export default function Sidebar() {
     return () => mq.removeEventListener("change", apply);
   }, []);
 
-  function toggleTheme() {
+  function toggleTheme(e?: React.MouseEvent) {
     const next = theme === "light" ? "dark" : "light";
-    setTheme(next);
-    localStorage.setItem("dawave-theme", next);
-    document.documentElement.setAttribute("data-theme", next);
+    const apply = () => {
+      setTheme(next);
+      localStorage.setItem("dawave-theme", next);
+      document.documentElement.setAttribute("data-theme", next);
+    };
+
+    // Fallback: instant swap if View Transitions API unavailable
+    type DocumentWithVT = Document & {
+      startViewTransition?: (cb: () => void) => { ready: Promise<void> };
+    };
+    const doc = document as DocumentWithVT;
+    if (!doc.startViewTransition) {
+      apply();
+      return;
+    }
+
+    // Origin point for the circular reveal — defaults to viewport center
+    // if we can't read a click position
+    const x = e?.clientX ?? window.innerWidth / 2;
+    const y = e?.clientY ?? window.innerHeight / 2;
+    const maxRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    const transition = doc.startViewTransition(apply);
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0 at ${x}px ${y}px)`,
+            `circle(${maxRadius}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: 600,
+          easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+          pseudoElement: "::view-transition-new(root)",
+        }
+      );
+    });
   }
 
   function scrollTo(href: string) {
@@ -131,7 +196,7 @@ export default function Sidebar() {
       )}
 
       <div className="v2-mobile-controls">
-        <button className="v2-theme-toggle v2-mobile-theme" onClick={toggleTheme} aria-label="Toggle theme">
+        <button className="v2-theme-toggle v2-mobile-theme" onClick={(e) => toggleTheme(e)} aria-label="Toggle theme">
           <ThemeIcon theme={theme} />
         </button>
         <button className="v2-burger" aria-expanded={menuOpen} aria-label={menuOpen ? "Close menu" : "Open menu"} onClick={() => setMenuOpen(!menuOpen)}>
@@ -177,7 +242,7 @@ export default function Sidebar() {
               {link.label}<ArrowIcon />
             </a>
           ))}
-          <button className="v2-theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+          <button className="v2-theme-toggle" onClick={(e) => toggleTheme(e)} aria-label="Toggle theme">
             <ThemeIcon theme={theme} />
           </button>
         </nav>
