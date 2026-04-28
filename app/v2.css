@@ -30,13 +30,13 @@
 
 [data-theme="dark"] {
   --v2-bg: #0a0a0f;
-  --v2-bg-card: #161618;
-  --v2-bg-card-hover: #1e1e22;
-  --v2-bg-tag: rgba(255, 255, 255, 0.06);
+  --v2-bg-card: #1d1d22;
+  --v2-bg-card-hover: #26262c;
+  --v2-bg-tag: rgba(255, 255, 255, 0.08);
   --v2-text-primary: #f0f0f0;
   --v2-text-secondary: #888888;
   --v2-text-tertiary: #555555;
-  --v2-border: rgba(255, 255, 255, 0.08);
+  --v2-border: rgba(255, 255, 255, 0.10);
 
   /* Boarding pass flips to light when page is dark */
   --bp-bg: #FAFAFA;
@@ -55,13 +55,13 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --v2-bg: #0a0a0f;
-    --v2-bg-card: #161618;
-    --v2-bg-card-hover: #1e1e22;
-    --v2-bg-tag: rgba(255, 255, 255, 0.06);
+    --v2-bg-card: #1d1d22;
+    --v2-bg-card-hover: #26262c;
+    --v2-bg-tag: rgba(255, 255, 255, 0.08);
     --v2-text-primary: #f0f0f0;
     --v2-text-secondary: #888888;
     --v2-text-tertiary: #555555;
-    --v2-border: rgba(255, 255, 255, 0.08);
+    --v2-border: rgba(255, 255, 255, 0.10);
 
     --bp-bg: #FAFAFA;
     --bp-text: rgba(0, 0, 0, 0.92);
@@ -85,34 +85,76 @@
   transition: background var(--v2-transition), color var(--v2-transition);
 }
 
-/* Scroll fade — content fades into the page bg at top and bottom of viewport */
+/* Scroll fade — content fades into the page bg at top and bottom of viewport.
+   Uses a multi-stop ease-out alpha curve to avoid banding (especially in dark
+   mode, where RGB→perceived brightness is non-linear). */
 .v2-layout::before,
 .v2-layout::after {
   content: "";
   position: fixed;
   left: var(--v2-sidebar-width);
   right: 0;
-  height: 80px;
+  height: 110px;
   pointer-events: none;
   z-index: 50;
 }
 
 .v2-layout::before {
   top: 0;
-  background: linear-gradient(to bottom, var(--v2-bg) 0%, color-mix(in srgb, var(--v2-bg) 60%, transparent) 60%, transparent 100%);
+  background: linear-gradient(
+    to bottom,
+    var(--v2-bg) 0%,
+    color-mix(in srgb, var(--v2-bg) 95%, transparent) 14%,
+    color-mix(in srgb, var(--v2-bg) 84%, transparent) 29%,
+    color-mix(in srgb, var(--v2-bg) 67%, transparent) 43%,
+    color-mix(in srgb, var(--v2-bg) 47%, transparent) 57%,
+    color-mix(in srgb, var(--v2-bg) 27%, transparent) 71%,
+    color-mix(in srgb, var(--v2-bg) 11%, transparent) 86%,
+    transparent 100%
+  );
 }
 
 .v2-layout::after {
   bottom: 0;
-  background: linear-gradient(to top, var(--v2-bg) 0%, color-mix(in srgb, var(--v2-bg) 60%, transparent) 60%, transparent 100%);
+  background: linear-gradient(
+    to top,
+    var(--v2-bg) 0%,
+    color-mix(in srgb, var(--v2-bg) 95%, transparent) 14%,
+    color-mix(in srgb, var(--v2-bg) 84%, transparent) 29%,
+    color-mix(in srgb, var(--v2-bg) 67%, transparent) 43%,
+    color-mix(in srgb, var(--v2-bg) 47%, transparent) 57%,
+    color-mix(in srgb, var(--v2-bg) 27%, transparent) 71%,
+    color-mix(in srgb, var(--v2-bg) 11%, transparent) 86%,
+    transparent 100%
+  );
 }
 
 @media (max-width: 768px) {
   .v2-layout::before,
   .v2-layout::after {
     left: 0;
-    height: 56px;
+    height: 80px;
   }
+
+  /* Sidebar is in flow at the top on mobile — don't fade the header at rest.
+     Modern browsers reveal the fade as the user scrolls (see @supports below). */
+  .v2-layout::before {
+    opacity: 0;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (max-width: 768px) {
+    .v2-layout::before {
+      animation: v2-top-fade-reveal linear both;
+      animation-timeline: scroll();
+      animation-range: 0 160px;
+    }
+  }
+}
+
+@keyframes v2-top-fade-reveal {
+  to { opacity: 1; }
 }
 
 /* --- Sidebar --- */
@@ -487,8 +529,9 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  /* Bleed past .v2-main's 48px padding so cards scroll edge-to-edge of viewport.
-     Inner padding pushes first card to align with section title. */
+  /* Bleed past .v2-main padding on both sides so cards scroll smoothly
+     past the screen edge. Internal padding (and matching scroll-padding)
+     keep the first card aligned with the section title at rest. */
   margin: -12px -48px -24px;
   padding: 12px 48px 24px;
   scroll-padding-left: 48px;
@@ -698,10 +741,11 @@
   flex: 1;
   min-width: 0;
   background: var(--v2-bg-card);
+  border: 1px solid var(--v2-border);
   border-radius: var(--v2-radius);
   padding: 28px;
   margin-bottom: 24px;
-  transition: background var(--v2-transition);
+  transition: background var(--v2-transition), border-color var(--v2-transition);
   overflow: hidden;
 }
 
@@ -1585,7 +1629,6 @@
     margin: -12px -32px -24px;
     padding: 12px 32px 24px;
     scroll-padding-left: 32px;
-    scroll-padding-left: 0;
   }
 
   .v2-carousel-slide {
