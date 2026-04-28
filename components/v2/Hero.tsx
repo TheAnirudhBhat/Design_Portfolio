@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const fullText =
-  "I design payments that make money feel simple, for young India — turning complex fintech into experiences that feel effortless.";
+  "I design payments and money products. Most recently for young India at slice. I work where complex financial systems meet first-time users — turning regulatory edges, dense schemas, and onboarding anxiety into experiences that just work.";
 
 export default function Hero() {
   const [displayed, setDisplayed] = useState("");

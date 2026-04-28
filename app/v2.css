@@ -85,6 +85,36 @@
   transition: background var(--v2-transition), color var(--v2-transition);
 }
 
+/* Scroll fade — content fades into the page bg at top and bottom of viewport */
+.v2-layout::before,
+.v2-layout::after {
+  content: "";
+  position: fixed;
+  left: var(--v2-sidebar-width);
+  right: 0;
+  height: 80px;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.v2-layout::before {
+  top: 0;
+  background: linear-gradient(to bottom, var(--v2-bg) 0%, color-mix(in srgb, var(--v2-bg) 60%, transparent) 60%, transparent 100%);
+}
+
+.v2-layout::after {
+  bottom: 0;
+  background: linear-gradient(to top, var(--v2-bg) 0%, color-mix(in srgb, var(--v2-bg) 60%, transparent) 60%, transparent 100%);
+}
+
+@media (max-width: 768px) {
+  .v2-layout::before,
+  .v2-layout::after {
+    left: 0;
+    height: 56px;
+  }
+}
+
 /* --- Sidebar --- */
 .v2-sidebar {
   position: sticky;
@@ -457,9 +487,11 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  /* Only bleed right — left stays flush with content */
-  padding: 24px 48px 40px 0;
-  margin: -24px -48px -40px 0;
+  /* Bleed past .v2-main's 48px padding so cards scroll edge-to-edge of viewport.
+     Inner padding pushes first card to align with section title. */
+  margin: -12px -48px -24px;
+  padding: 12px 48px 24px;
+  scroll-padding-left: 48px;
 }
 
 
@@ -468,14 +500,9 @@
 }
 
 .v2-carousel-slide {
-  flex: 0 0 calc(40% - 8px);
-  min-width: 300px;
+  flex: 0 0 calc((100% - 48px) / 3);
   scroll-snap-align: start;
   scroll-snap-stop: always;
-}
-
-.v2-carousel-slide:first-child {
-  margin-left: 2px;
 }
 
 .v2-bento-card {
@@ -513,6 +540,23 @@
 
 .v2-bento-card:hover .v2-bento-visual img {
   transform: scale(1.05);
+}
+
+.v2-bento-cta {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.92);
+  opacity: 0.9;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.v2-bento-card:hover .v2-bento-cta {
+  opacity: 1;
+  transform: translateX(2px);
 }
 
 .v2-bento-body {
@@ -1538,13 +1582,14 @@
   }
 
   .v2-carousel-viewport {
-    margin: -24px -32px -40px 0;
-    padding: 24px 32px 40px 0;
+    margin: -12px -32px -24px;
+    padding: 12px 32px 24px;
+    scroll-padding-left: 32px;
     scroll-padding-left: 0;
   }
 
   .v2-carousel-slide {
-    flex: 0 0 min(300px, calc(100vw - 80px));
+    flex: 0 0 100%;
   }
 
   .v2-blurb {

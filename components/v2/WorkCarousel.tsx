@@ -30,9 +30,10 @@ export default function WorkCarousel() {
       </div>
 
       <div className="v2-carousel-viewport" ref={viewportRef}>
-        {projects.map((p) => (
-          <div className="v2-carousel-slide" key={p.id}>
-            <div className="v2-bento-card" style={{ background: p.accent, "--card-bg": p.accent } as React.CSSProperties}>
+        {projects.map((p) => {
+          const cardStyle = { background: p.accent, "--card-bg": p.accent } as React.CSSProperties;
+          const inner = (
+            <>
               <div className="v2-bento-visual">
                 <img src={p.image} alt={p.title} loading="lazy" />
               </div>
@@ -45,10 +46,30 @@ export default function WorkCarousel() {
                     <span key={s.label}><strong>{s.value}</strong> {s.label}</span>
                   ))}
                 </div>
+                {p.href && <span className="v2-bento-cta">Read case study →</span>}
               </div>
+            </>
+          );
+          return (
+            <div className="v2-carousel-slide" key={p.id}>
+              {p.href ? (
+                <a
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="v2-bento-card"
+                  style={cardStyle}
+                >
+                  {inner}
+                </a>
+              ) : (
+                <div className="v2-bento-card" style={cardStyle}>
+                  {inner}
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

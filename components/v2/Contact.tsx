@@ -1,46 +1,29 @@
 "use client";
 
 import { useRef, useCallback, useState, useEffect } from "react";
-import { BARCODE_WIDTHS } from "@/lib/data/projects";
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const easeIn = (t: number) => t * t;
 const easeOut = (t: number) => 1 - (1 - t) * (1 - t);
 
-/* Realistic barcode rendered as inline SVG so it stretches end-to-end
-   and looks irregular like a real Code-128 — varied bar/gap widths. */
+/* Realistic barcode as inline SVG — irregular bar/gap widths,
+   stretches end-to-end via preserveAspectRatio="none". */
 function Barcode({ className }: { className?: string }) {
-  // pseudo-random but stable bar/gap pattern with widths in 1–4 units
-  const segments: { type: "bar" | "gap"; w: number }[] = [];
-  let isBar = true;
-  // deterministic LCG seed so SSR/CSR match
+  // deterministic LCG so SSR/CSR match
   let seed = 7919;
-  for (let i = 0; i < 110; i++) {
-    seed = (seed * 9301 + 49297) % 233280;
-    const r = seed / 233280;
-    const w = isBar
-      ? Math.floor(r * 4) + 1            // 1–4 for bars
-      : Math.max(1, Math.floor(r * 2) + 1); // 1–2 for gaps
-    segments.push({ type: isBar ? "bar" : "gap", w });
-    isBar = !isBar;
-  }
-  const total = segments.reduce((s, x) => s + x.w, 0);
+  const rand = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const bars: { x: number; w: number }[] = [];
   let x = 0;
+  for (let i = 0; i < 110; i++) {
+    const w = (i % 2 === 0 ? Math.floor(rand() * 4) : Math.floor(rand() * 2)) + 1;
+    if (i % 2 === 0) bars.push({ x, w });
+    x += w;
+  }
   return (
-    <svg
-      className={className}
-      viewBox={`0 0 ${total} 60`}
-      preserveAspectRatio="none"
-      aria-hidden
-    >
-      {segments.map((s, i) => {
-        const node =
-          s.type === "bar" ? (
-            <rect key={i} x={x} y={0} width={s.w} height={60} fill="currentColor" />
-          ) : null;
-        x += s.w;
-        return node;
-      })}
+    <svg className={className} viewBox={`0 0 ${x} 60`} preserveAspectRatio="none" aria-hidden>
+      {bars.map((b, i) => (
+        <rect key={i} x={b.x} y={0} width={b.w} height={60} fill="currentColor" />
+      ))}
     </svg>
   );
 }

@@ -162,7 +162,7 @@ export default function Sidebar() {
           <p className="v2-sidebar-role">Product Designer in Bengaluru 🇮🇳</p>
           <span className="v2-status-pill">
             <span className="v2-status-dot" />
-            Open to projects
+            Currently at slice — open to chats
           </span>
         </div>
 

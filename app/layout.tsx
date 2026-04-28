@@ -2,8 +2,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "dawave — Product Designer",
-  description: "Senior Product Designer at slice. Designing UPI payments and banking products for young India.",
+  title: "Anirudh Bhat — Senior Product Designer",
+  description: "Senior Product Designer at slice, designing payments and money products. Also known as DaW4ve.",
+  authors: [{ name: "Anirudh Bhat" }],
+  openGraph: {
+    title: "Anirudh Bhat — Senior Product Designer",
+    description: "Senior Product Designer at slice, designing payments and money products.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

@@ -26,6 +26,7 @@ const experience = [
       { title: "Product Designer", period: "2022 – 2024" },
     ],
     projects: [
+      { name: "LENS", desc: "Schema-driven detail page framework for credit cards. 10M+ users impacted, ↓40% support queries." },
       { name: "Xtra 2.0", desc: "Savings & FD vertical. ₹150Cr+ AUM, +30% retention." },
       { name: "EPFO Dashboard", desc: "Simplified PF withdrawal. 27% fewer support tickets." },
       { name: "UPI Onboarding", desc: "First-time setup flow. 4.5x faster onboarding, +18% first txn." },
