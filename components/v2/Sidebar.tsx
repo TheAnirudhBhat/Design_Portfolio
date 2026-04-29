@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { socialLinks } from "@/lib/data/projects";
+
+const BRAND_VARS = ["--color-brand", "--color-brand-dark", "--color-brand-on"] as const;
 
 const navLinks = [
   { label: "Work", href: "#work" },
@@ -41,24 +43,24 @@ export default function Sidebar() {
   const [waves, setWaves] = useState<
     { id: number; left: number; delay: number; duration: number; drift: number; rot: number; size: number }[]
   >([]);
+  const flipTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => {
+    return () => flipTimers.current.forEach(clearTimeout);
+  }, []);
 
   function flipName() {
     if (nameFlipped) return;
     setNameFlipped(true);
 
-    // Wave-themed brand takeover: page flips to sky blue while DaW4ve is shown.
-    // Capture any existing inline override so we restore it cleanly afterwards.
     const root = document.documentElement;
-    const saved = {
-      brand: root.style.getPropertyValue("--color-brand"),
-      dark: root.style.getPropertyValue("--color-brand-dark"),
-      on: root.style.getPropertyValue("--color-brand-on"),
-    };
+    const saved = Object.fromEntries(
+      BRAND_VARS.map((v) => [v, root.style.getPropertyValue(v)])
+    ) as Record<(typeof BRAND_VARS)[number], string>;
     root.style.setProperty("--color-brand", "#0EA5E9");
     root.style.setProperty("--color-brand-dark", "#0284C7");
     root.style.setProperty("--color-brand-on", "#ffffff");
 
-    // scale particle count + size based on viewport
     const isDesktop = typeof window !== "undefined" && window.innerWidth >= 769;
     const count = isDesktop ? 70 : 36;
     const sizeMin = isDesktop ? 44 : 24;
@@ -67,36 +69,28 @@ export default function Sidebar() {
     const batchId = Date.now();
     const burst = Array.from({ length: count }, (_, i) => ({
       id: batchId + i,
-      left: Math.random() * 100,                          // 0–100% horizontal start
-      delay: Math.random() * 900,                         // staggered launch
-      duration: 2200 + Math.random() * 1400,              // 2.2–3.6s — full flight
-      drift: (Math.random() - 0.5) * 280,                 // horizontal sway
-      rot: (Math.random() - 0.5) * 720,                   // ±360° rotation
+      left: Math.random() * 100,
+      delay: Math.random() * 900,
+      duration: 2200 + Math.random() * 1400,
+      drift: (Math.random() - 0.5) * 280,
+      rot: (Math.random() - 0.5) * 720,
       size: sizeMin + Math.random() * (sizeMax - sizeMin),
     }));
     setWaves((prev) => [...prev, ...burst]);
 
-    // Trigger the flip-back at 2400ms (matches the original hold timing)
-    setTimeout(() => setNameFlipped(false), 2400);
-
-    // Restore the brand at the MIDPOINT of the flip-back animation (when the
-    // rotation crosses 90° and the front face — Anirudh Bhat — becomes
-    // visible). 2400 (hold) + 375 (half of 750ms flip transition) = 2775ms.
-    // Earlier reverts pop while DaW4ve is still showing; later reverts leave
-    // the blue on past Anirudh re-appearing.
-    setTimeout(() => {
-      if (saved.brand) root.style.setProperty("--color-brand", saved.brand);
-      else root.style.removeProperty("--color-brand");
-      if (saved.dark) root.style.setProperty("--color-brand-dark", saved.dark);
-      else root.style.removeProperty("--color-brand-dark");
-      if (saved.on) root.style.setProperty("--color-brand-on", saved.on);
-      else root.style.removeProperty("--color-brand-on");
-    }, 2775);
-
-    // cleanup after the longest particle has finished
-    setTimeout(() => {
-      setWaves((prev) => prev.filter((w) => !burst.find((b) => b.id === w.id)));
-    }, 5000);
+    flipTimers.current.push(
+      setTimeout(() => setNameFlipped(false), 2400),
+      // Restore at flip-back midpoint (2400ms hold + 375ms = 750ms/2 flip).
+      setTimeout(() => {
+        for (const v of BRAND_VARS) {
+          if (saved[v]) root.style.setProperty(v, saved[v]);
+          else root.style.removeProperty(v);
+        }
+      }, 2775),
+      setTimeout(() => {
+        setWaves((prev) => prev.filter((w) => !burst.some((b) => b.id === w.id)));
+      }, 5000)
+    );
   }
 
   useEffect(() => {
@@ -196,7 +190,7 @@ export default function Sidebar() {
       )}
 
       <div className="v2-mobile-controls">
-        <button className="v2-theme-toggle v2-mobile-theme" onClick={(e) => toggleTheme(e)} aria-label="Toggle theme">
+        <button className="v2-theme-toggle v2-mobile-theme" onClick={toggleTheme} aria-label="Toggle theme">
           <ThemeIcon theme={theme} />
         </button>
         <button className="v2-burger" aria-expanded={menuOpen} aria-label={menuOpen ? "Close menu" : "Open menu"} onClick={() => setMenuOpen(!menuOpen)}>
@@ -242,7 +236,7 @@ export default function Sidebar() {
               {link.label}<ArrowIcon />
             </a>
           ))}
-          <button className="v2-theme-toggle" onClick={(e) => toggleTheme(e)} aria-label="Toggle theme">
+          <button className="v2-theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
             <ThemeIcon theme={theme} />
           </button>
         </nav>

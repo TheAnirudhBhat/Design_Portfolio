@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Variant = "blur-fade" | "slide-up" | "scale" | "fade" | "skip";
 type Position = "center" | "top-left" | "top-right" | "bottom-left" | "bottom-right";
@@ -38,6 +38,13 @@ export default function LoaderPanel() {
   const [position, setPosition] = useState<Position>("center");
   const [paused, setPaused] = useState(false);
   const [saved, setSaved] = useState(false);
+  const savedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (savedTimer.current) clearTimeout(savedTimer.current);
+    };
+  }, []);
 
   useEffect(() => {
     try {
@@ -57,18 +64,13 @@ export default function LoaderPanel() {
     localStorage.setItem(PANEL_OPEN_KEY, next ? "1" : "0");
   }
 
-  // Live state changes (not persisted) — keeps LoaderScreen in sync via replay,
-  // but the user must click "Save preferences" to make these the new default
-  // for future page loads.
   function update(next: Partial<{ variant: Variant; speed: number; position: Position }>) {
     if (next.variant !== undefined) setVariant(next.variant);
     if (next.speed !== undefined) setSpeed(next.speed);
     if (next.position !== undefined) setPosition(next.position);
-    // Write to localStorage so a fresh replay picks up the change immediately,
-    // but the saved-flash only fires on explicit Save.
     const merged = {
       variant: next.variant ?? variant,
-      speed:   next.speed   ?? speed,
+      speed: next.speed ?? speed,
       position: next.position ?? position,
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
@@ -89,7 +91,8 @@ export default function LoaderPanel() {
     const merged = { variant, speed, position };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
     setSaved(true);
-    setTimeout(() => setSaved(false), 1500);
+    if (savedTimer.current) clearTimeout(savedTimer.current);
+    savedTimer.current = setTimeout(() => setSaved(false), 1500);
   }
 
   return (

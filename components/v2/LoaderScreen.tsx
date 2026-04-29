@@ -68,18 +68,12 @@ function variantMotion(variant: Variant) {
 }
 
 export default function LoaderScreen() {
-  const [config, setConfig] = useState<LoaderConfig>(DEFAULT_CONFIG);
+  const [config, setConfig] = useState<LoaderConfig>(readConfig);
   const [show, setShow] = useState(true);
   const [phase, setPhase] = useState<"intro" | "resolved">("intro");
   const [runId, setRunId] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  // Load config on mount
-  useEffect(() => {
-    setConfig(readConfig());
-  }, []);
-
-  // Listen for replay + pause events from LoaderPanel
   useEffect(() => {
     function handleReplay() {
       setConfig(readConfig());
@@ -91,7 +85,6 @@ export default function LoaderScreen() {
     function handlePause(e: Event) {
       const detail = (e as CustomEvent).detail as { paused: boolean };
       setPaused(detail.paused);
-      // When pausing, ensure loader is visible so user can inspect.
       if (detail.paused) setShow(true);
     }
     window.addEventListener("loader-replay", handleReplay);
@@ -102,13 +95,12 @@ export default function LoaderScreen() {
     };
   }, []);
 
-  // Run the loader sequence whenever config or runId changes (skips while paused)
   useEffect(() => {
     if (config.variant === "skip") {
       setShow(false);
       return;
     }
-    if (paused) return; // hold on current frame
+    if (paused) return;
     const speed = config.speed || 1;
     const intro = BASE_TIMING.intro / speed;
     const total = (BASE_TIMING.intro + BASE_TIMING.morph + BASE_TIMING.resolved) / speed;

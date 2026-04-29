@@ -1,16 +1,23 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { projects } from "@/lib/data/projects";
 import CaseStudyModal, { type CaseOrigin } from "./CaseStudyModal";
 
 export default function WorkCarousel() {
   const viewportRef = useRef<HTMLDivElement>(null);
+  const closeTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const [activeCaseId, setActiveCaseId] = useState<string | null>(null);
   const [origin, setOrigin] = useState<CaseOrigin | null>(null);
   const [exitingId, setExitingId] = useState<string | null>(null);
 
-  function openCase(e: React.MouseEvent<HTMLAnchorElement>, p: typeof projects[number]) {
+  useEffect(() => {
+    return () => {
+      closeTimers.current.forEach(clearTimeout);
+    };
+  }, []);
+
+  function openCase(e: React.MouseEvent<HTMLAnchorElement>, id: string) {
     e.preventDefault();
     const rect = e.currentTarget.getBoundingClientRect();
     setOrigin({
@@ -18,17 +25,19 @@ export default function WorkCarousel() {
       y: rect.top,
       width: rect.width,
       height: rect.height,
-      accent: p.accent || "#000000",
     });
-    setActiveCaseId(p.id);
+    setActiveCaseId(id);
   }
 
   function closeCase() {
     if (!activeCaseId) return;
     setExitingId(activeCaseId);
     setActiveCaseId(null);
-    setTimeout(() => setExitingId(null), 280);
-    setTimeout(() => setOrigin(null), 550);
+    closeTimers.current.forEach(clearTimeout);
+    closeTimers.current = [
+      setTimeout(() => setExitingId(null), 280),
+      setTimeout(() => setOrigin(null), 550),
+    ];
   }
 
   function scrollByCard(dir: number) {
@@ -56,10 +65,14 @@ export default function WorkCarousel() {
 
       <div className="v2-carousel-viewport" ref={viewportRef}>
         {projects.map((p) => {
-          // --card-bg is kept (drives the colored hover-shadow glow). The
-          // card itself uses --v2-bg-card from CSS — accent color only
-          // appears in the project image and the hover shadow.
-          const cardStyle = { "--card-bg": p.accent } as React.CSSProperties;
+          const isInternal = p.href ? !p.href.startsWith("http") : false;
+          const isActive = isInternal && (activeCaseId === p.id || exitingId === p.id);
+          const cardStyle = {
+            "--card-bg": p.accent,
+            opacity: isActive ? 0 : 1,
+            pointerEvents: isActive ? "none" : "auto",
+            transition: "opacity 0.18s ease-out",
+          } as React.CSSProperties;
           const inner = (
             <>
               <div className="v2-bento-visual">
@@ -83,30 +96,15 @@ export default function WorkCarousel() {
           return (
             <div className="v2-carousel-slide" key={p.id}>
               {p.href ? (
-                (() => {
-                  const isInternal = !p.href.startsWith("http");
-                  const isActive = isInternal && (activeCaseId === p.id || exitingId === p.id);
-                  return (
-                    <a
-                      href={p.href}
-                      {...(!isInternal
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : {})}
-                      onClick={(e) => {
-                        if (isInternal) openCase(e, p);
-                      }}
-                      className="v2-bento-card"
-                      style={{
-                        ...cardStyle,
-                        opacity: isActive ? 0 : 1,
-                        pointerEvents: isActive ? "none" : "auto",
-                        transition: "opacity 0.18s ease-out",
-                      }}
-                    >
-                      {inner}
-                    </a>
-                  );
-                })()
+                <a
+                  href={p.href}
+                  {...(!isInternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  onClick={(e) => { if (isInternal) openCase(e, p.id); }}
+                  className="v2-bento-card"
+                  style={cardStyle}
+                >
+                  {inner}
+                </a>
               ) : (
                 <div className="v2-bento-card" style={cardStyle}>
                   {inner}
